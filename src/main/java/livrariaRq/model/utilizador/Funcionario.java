@@ -27,7 +27,7 @@ public class Funcionario {
 	private String palavraPasse;
 	private String nickName;
 
-	private List<Compra> compras = new ArrayList<Compra>();
+	//private List<Compra> compras = new ArrayList<Compra>();
 
 	public String getNome() {
 		return nome;
@@ -50,9 +50,9 @@ public class Funcionario {
 		return nickName;
 	}
 
-	public List<Compra> getCompras() {
+	/*public List<Compra> getCompras() {
 		return compras;
-	}
+	}*/
 
 	public void setNome(String aNome) {
 		nome = aNome;
@@ -70,8 +70,8 @@ public class Funcionario {
 		nickName = aNickName;
 	}
 
-	public void setCompras(List<Compra> aCompras) {
+	/*public void setCompras(List<Compra> aCompras) {
 		compras = aCompras;
-	}
+	}*/
 
 }

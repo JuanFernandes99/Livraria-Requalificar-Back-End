@@ -25,8 +25,8 @@ public class Cliente {
 	private Date dataNascimento;
 	private String palavraPasse;
 	private String email;
-	private List<Compra> compras;
-	private List<Voucher> vouchers;
+//	private List<Compra> compras;
+	//private List<Voucher> vouchers;
 
 	public String getNome() {
 		return nome;
@@ -44,14 +44,14 @@ public class Cliente {
 		return email;
 	}
 
-	public List<Compra> getCompras() {
+	/*public List<Compra> getCompras() {
 		return compras;
 	}
 
 	public List<Voucher> getVouchers() {
 		return vouchers;
 	}
-
+*/
 	public void setNome(String aNome) {
 		nome = aNome;
 	}
@@ -67,7 +67,7 @@ public class Cliente {
 	public void setEmail(String aEmail) {
 		email = aEmail;
 	}
-
+/*
 	public void setCompras(List<Compra> aCompras) {
 		compras = aCompras;
 	}
@@ -75,7 +75,7 @@ public class Cliente {
 	public void setVouchers(List<Voucher> aVouchers) {
 		vouchers = aVouchers;
 	}
-
+*/
 	public Long getId() {
 		return id;
 	}
