@@ -1,6 +1,7 @@
 # Livraria-Requalificar
-Projeto Final - Laboratório de Programação - Juan Fernandes, Jéssica Barros
 
+Projeto final onde é pretendido desenvolver um sistema da livraria Requalificar.
+*Juan Fernandes, Jéssica Barros*
 
 
 - [x] [Use Cases](https://github.com/JuanFernandes99/Livraria-Requalificar/blob/main/UseCases.md)
