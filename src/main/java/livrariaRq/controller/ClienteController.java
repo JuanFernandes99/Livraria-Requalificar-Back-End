@@ -48,10 +48,9 @@ public class ClienteController {
 		}
 
 		else {
-			src.setMessage(" Ocorreu um erro ");
+			src.setMessage("Ocorreu um erro");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
-
 	}
 
 }
