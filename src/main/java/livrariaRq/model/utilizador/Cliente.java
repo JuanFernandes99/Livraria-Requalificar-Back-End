@@ -8,6 +8,8 @@ import livrariaRq.model.Voucher;
 
 public class Cliente {
 
+	private Long id;
+
 	private String nome;
 	private Date dataNascimento;
 	private String palavraPasse;
@@ -61,6 +63,10 @@ public class Cliente {
 
 	public void setVouchers(List<Voucher> aVouchers) {
 		vouchers = aVouchers;
+	}
+
+	public Long getId() {
+		return id;
 	}
 
 }
