@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 import livrariaRq.model.Compra;
 import livrariaRq.model.Voucher;
+
 @Entity
 @Table(name = "Cliente")
 public class Cliente {

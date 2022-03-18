@@ -3,7 +3,9 @@ package livrariaRq.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.repository.FuncionarioRepository;
 
@@ -15,6 +17,7 @@ public class FuncionarioService {
 		funcionarioRepo = aFuncionarioRepo;
 	}
 
+	@Autowired
 	public boolean addFuncionario(Funcionario aFuncionario) {
 
 		if (aFuncionario.getId() == null || aFuncionario.getNickName() == null
