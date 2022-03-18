@@ -30,8 +30,4 @@ public class SimpleResponse {
 		message = aMessage;
 	}
 
-	public void setAsError(String aMessage) {
-		statusOk = false;
-		message = aMessage;
-	}
 }

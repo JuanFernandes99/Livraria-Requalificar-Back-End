@@ -1,5 +1,8 @@
 package livrariaRq.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,14 @@ public class ClienteService {
 			return true;
 		}
 		return false;
+	}
+
+	public List<Cliente> getClientes() {
+		List<Cliente> clientes = new ArrayList<>();
+
+		clienteRepository.findAll().forEach(clientes::add);
+
+		return clientes;
 	}
 
 }
