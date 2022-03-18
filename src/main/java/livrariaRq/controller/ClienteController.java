@@ -1,15 +1,12 @@
 package livrariaRq.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import java.util.List;
 import livrariaRq.dto.SimpleResponseCliente;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.service.ClienteService;
@@ -28,19 +25,19 @@ public class ClienteController {
 	public ResponseEntity<SimpleResponseCliente> addCliente(@RequestBody Cliente aCliente) {
 		SimpleResponseCliente src = new SimpleResponseCliente();
 		if (aCliente.getNome() == null || aCliente.getNome().isBlank()) {
-			src.setMessage("Nome inválido");
+			src.setMessage("Nome invÃ¡lido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 		if (aCliente.getEmail() == null || aCliente.getEmail().isBlank()) {
-			src.setMessage("Email inválido");
+			src.setMessage("Email invÃ¡lido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 		if (aCliente.getPalavraPasse() == null || aCliente.getPalavraPasse().isBlank()) {
-			src.setMessage("Palavra-Passe inválida");
+			src.setMessage("Palavra-Passe invÃ¡lida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 		if (aCliente.getDataNascimento() == null) {
-			src.setMessage("Data de nascimento inválido");
+			src.setMessage("Data de nascimento invÃ¡lido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 
 		}
@@ -51,14 +48,10 @@ public class ClienteController {
 		}
 
 		else {
-			src.setMessage("Ocorreu um erro");
+			src.setMessage(" Ocorreu um erro ");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
-	}
 
-	@GetMapping("/getClientes")
-	public List<Cliente> getClientes() {
-		return clienteService.getClientes();
 	}
 
 }

@@ -12,14 +12,12 @@ import javax.persistence.Table;
 
 import livrariaRq.model.Compra;
 import livrariaRq.model.Voucher;
-
 @Entity
 @Table(name = "Cliente")
 public class Cliente {
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String nome;
