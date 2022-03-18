@@ -4,9 +4,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import livrariaRq.model.Compra;
 
+@Entity
+@Table(name = "Funcionario")
 public class Funcionario {
+
+	@Id
+	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
 	private String nome;
 	private Date dataNascimento;
 	private String palavraPasse;
@@ -17,6 +32,11 @@ public class Funcionario {
 	public String getNome() {
 		return nome;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
 
 	public Date getDataNascimento() {
 		return dataNascimento;
