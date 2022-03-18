@@ -1,7 +1,9 @@
 package livrariaRq.service;
 
-import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.stereotype.Service;
 import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.repository.FuncionarioRepository;
 
@@ -15,12 +17,21 @@ public class FuncionarioService {
 
 	public boolean addFuncionario(Funcionario aFuncionario) {
 
-		if (aFuncionario.getId() == null) {
+		if (aFuncionario.getId() == null || aFuncionario.getNickName() == null
+				|| aFuncionario.getNickName().isBlank()) {
 
 			funcionarioRepo.save(aFuncionario);
 
 			return true;
 		}
 		return false;
+	}
+
+	public List<Funcionario> getAllFuncionarios() {
+		List<Funcionario> listaFuncionarios = new ArrayList<>();
+
+		funcionarioRepo.findAll().forEach(listaFuncionarios::add);
+		return listaFuncionarios;
+
 	}
 }
