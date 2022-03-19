@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
 @Table(name = "Cliente")
@@ -22,7 +23,8 @@ public class Cliente {
 	private String nome;
 	private String morada;
 
-	@JsonFormat(pattern = "dd-mm-yyyy")
+	@JsonFormat(pattern = "dd-mm-yyyy", shape = Shape.STRING)
+	@Column(name = "data_nascimento")
 	private Date dataNascimento;
 
 	private String palavraPasse;

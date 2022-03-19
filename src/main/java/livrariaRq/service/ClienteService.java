@@ -14,8 +14,6 @@ import livrariaRq.repository.ClienteRepository;
 public class ClienteService {
 
 	private final ClienteRepository clienteRepository;
-	final String OLD_FORMAT = "dd/MM/yyyy";
-	final String NEW_FORMAT = "yyyy/MM/dd";
 
 	@Autowired
 	public ClienteService(ClienteRepository aClienteRepository) {
