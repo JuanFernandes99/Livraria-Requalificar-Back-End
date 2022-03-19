@@ -1,7 +1,6 @@
 package livrariaRq.model.utilizador;
 
-import java.sql.Date;
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import livrariaRq.model.Compra;
-import livrariaRq.model.Voucher;
 
 @Entity
 @Table(name = "Cliente")
@@ -22,11 +18,12 @@ public class Cliente {
 	private Long id;
 
 	private String nome;
+	private String morada;
 	private Date dataNascimento;
 	private String palavraPasse;
 	private String email;
 //	private List<Compra> compras;
-	//private List<Voucher> vouchers;
+	// private List<Voucher> vouchers;
 
 	public String getNome() {
 		return nome;
@@ -44,14 +41,15 @@ public class Cliente {
 		return email;
 	}
 
-	/*public List<Compra> getCompras() {
-		return compras;
+	public String getMorada() {
+		return morada;
 	}
 
-	public List<Voucher> getVouchers() {
-		return vouchers;
-	}
-*/
+	/*
+	 * public List<Compra> getCompras() { return compras; }
+	 * 
+	 * public List<Voucher> getVouchers() { return vouchers; }
+	 */
 	public void setNome(String aNome) {
 		nome = aNome;
 	}
@@ -67,15 +65,16 @@ public class Cliente {
 	public void setEmail(String aEmail) {
 		email = aEmail;
 	}
-/*
-	public void setCompras(List<Compra> aCompras) {
-		compras = aCompras;
+
+	public void setMorada(String aMorada) {
+		morada = aMorada;
 	}
 
-	public void setVouchers(List<Voucher> aVouchers) {
-		vouchers = aVouchers;
-	}
-*/
+	/*
+	 * public void setCompras(List<Compra> aCompras) { compras = aCompras; }
+	 * 
+	 * public void setVouchers(List<Voucher> aVouchers) { vouchers = aVouchers; }
+	 */
 	public Long getId() {
 		return id;
 	}

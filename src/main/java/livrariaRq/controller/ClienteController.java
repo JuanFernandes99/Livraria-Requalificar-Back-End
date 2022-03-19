@@ -1,9 +1,13 @@
 package livrariaRq.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +29,7 @@ public class ClienteController {
 	public ResponseEntity<SimpleResponseCliente> addCliente(@RequestBody Cliente aCliente) {
 		SimpleResponseCliente src = new SimpleResponseCliente();
 		if (aCliente.getNome() == null || aCliente.getNome().isBlank()) {
-			src.setMessage("Nome invÃ¡lido");
+			src.setMessage("Nome inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 		if (aCliente.getEmail() == null || aCliente.getEmail().isBlank()) {
@@ -33,11 +37,11 @@ public class ClienteController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 		if (aCliente.getPalavraPasse() == null || aCliente.getPalavraPasse().isBlank()) {
-			src.setMessage("Palavra-Passe invÃ¡lida");
+			src.setMessage("Palavra-Passe inválida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 		if (aCliente.getDataNascimento() == null) {
-			src.setMessage("Data de nascimento invÃ¡lido");
+			src.setMessage("Data de nascimento inválida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 
 		}
@@ -54,4 +58,23 @@ public class ClienteController {
 
 	}
 
+	@GetMapping("/getClientes")
+	public List<Cliente> getClientes() {
+		return clienteService.getClientes();
+	}
+
+	@PutMapping("/updateCliente")
+	public ResponseEntity<SimpleResponseCliente> updateCliente(@RequestBody Cliente aCliente) {
+		SimpleResponseCliente src = new SimpleResponseCliente();
+
+		if (clienteService.updateCliente(aCliente)) {
+
+			src.setAsSuccess("Cliente atualizado com sucesso");
+			src.setClientes(clienteService.getClientes());
+			return ResponseEntity.status(HttpStatus.OK).body(src);
+		}
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+
+	}
 }
