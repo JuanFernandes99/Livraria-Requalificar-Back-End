@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "Cliente")
 public class Cliente {
@@ -19,8 +21,12 @@ public class Cliente {
 
 	private String nome;
 	private String morada;
+
+	@JsonFormat(pattern = "dd-mm-yyyy")
 	private Date dataNascimento;
+
 	private String palavraPasse;
+
 	private String email;
 //	private List<Compra> compras;
 	// private List<Voucher> vouchers;
@@ -30,6 +36,7 @@ public class Cliente {
 	}
 
 	public Date getDataNascimento() {
+
 		return dataNascimento;
 	}
 

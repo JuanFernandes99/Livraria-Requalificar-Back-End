@@ -14,6 +14,8 @@ import livrariaRq.repository.ClienteRepository;
 public class ClienteService {
 
 	private final ClienteRepository clienteRepository;
+	final String OLD_FORMAT = "dd/MM/yyyy";
+	final String NEW_FORMAT = "yyyy/MM/dd";
 
 	@Autowired
 	public ClienteService(ClienteRepository aClienteRepository) {
@@ -39,9 +41,12 @@ public class ClienteService {
 
 	public boolean updateCliente(Cliente aCliente) {
 		Optional<Cliente> clienteOptional = getClienteOptional(aCliente);
+
 		if (clienteOptional.isEmpty()) {
+
 			return false;
 		}
+
 		Cliente clienteUpdate = clienteOptional.get();
 
 		if (aCliente.getMorada() != null && !aCliente.getMorada().isBlank()) {
