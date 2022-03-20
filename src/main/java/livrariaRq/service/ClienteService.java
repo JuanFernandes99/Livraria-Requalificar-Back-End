@@ -38,6 +38,7 @@ public class ClienteService {
 	}
 
 	public boolean updateCliente(Cliente aCliente) {
+
 		Optional<Cliente> clienteOptional = getClienteOptional(aCliente);
 
 		if (clienteOptional.isEmpty()) {

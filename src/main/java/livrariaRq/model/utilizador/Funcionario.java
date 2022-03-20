@@ -1,8 +1,6 @@
 package livrariaRq.model.utilizador;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import livrariaRq.model.Compra;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "Funcionario")
@@ -23,11 +23,15 @@ public class Funcionario {
 	private Long id;
 
 	private String nome;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@Temporal(TemporalType.DATE) // default (yyyy-MM-dd)
 	private Date dataNascimento;
+
 	private String palavraPasse;
 	private String nickName;
 
-	//private List<Compra> compras = new ArrayList<Compra>();
+	// private List<Compra> compras = new ArrayList<Compra>();
 
 	public String getNome() {
 		return nome;
@@ -36,7 +40,6 @@ public class Funcionario {
 	public Long getId() {
 		return id;
 	}
-
 
 	public Date getDataNascimento() {
 		return dataNascimento;
@@ -50,9 +53,9 @@ public class Funcionario {
 		return nickName;
 	}
 
-	/*public List<Compra> getCompras() {
-		return compras;
-	}*/
+	/*
+	 * public List<Compra> getCompras() { return compras; }
+	 */
 
 	public void setNome(String aNome) {
 		nome = aNome;
@@ -70,8 +73,8 @@ public class Funcionario {
 		nickName = aNickName;
 	}
 
-	/*public void setCompras(List<Compra> aCompras) {
-		compras = aCompras;
-	}*/
+	/*
+	 * public void setCompras(List<Compra> aCompras) { compras = aCompras; }
+	 */
 
 }
