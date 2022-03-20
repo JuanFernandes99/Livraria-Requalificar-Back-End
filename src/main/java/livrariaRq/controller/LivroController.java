@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseLivro;
 import livrariaRq.model.livro.Livro;
-import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.service.FuncionarioLivroService;
 import livrariaRq.service.LivroService;
 import livrariaRq.utils.WrapperFuncionarioLivro;
@@ -43,10 +42,21 @@ public class LivroController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (aWrapper.getLivro().getPreco() <= 0) {
-			srl.setMessage("Preço inválido");
+		for (Livro livros : getLivros()) {
+			if (aWrapper.getLivro().getiSBN() == livros.getiSBN()) {
+				srl.setMessage("ISBN em uso");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+			}
+		}
+		if (!livroService.checkIsbnLength(aWrapper.getLivro())) {
+			srl.setMessage("ISBN nao pode ser inferior a 10 caracteres");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
+		if (!livroService.checkIsbnValidator(aWrapper.getLivro())) {
+			srl.setMessage("ISBN nao valido");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
 		if (aWrapper.getLivro().getPreco() <= 0) {
 			srl.setMessage("Preço inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);

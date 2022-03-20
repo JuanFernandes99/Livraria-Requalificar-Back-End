@@ -25,7 +25,7 @@ public class Livro {
 
 	// ver se é possivel através de anotações
 
-	private Long iSBN;
+	private String ISBN;  //String pq pode começar em 0
 	private double preco;
 	private int quantidadeStock;
 	private String editora;
@@ -53,8 +53,8 @@ public class Livro {
 		return titulo;
 	}
 
-	public Long getiSBN() {
-		return iSBN;
+	public String getiSBN() {
+		return ISBN;
 	}
 
 	public double getPreco() {
@@ -101,8 +101,8 @@ public class Livro {
 		titulo = aTitulo;
 	}
 
-	public void setiSBN(Long aISBN) {
-		iSBN = aISBN;
+	public void setiSBN(String aISBN) {
+		ISBN = aISBN;
 	}
 
 	public void setPreco(double aPreco) {

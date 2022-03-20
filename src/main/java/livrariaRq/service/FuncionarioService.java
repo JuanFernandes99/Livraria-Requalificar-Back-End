@@ -14,6 +14,7 @@ import livrariaRq.repository.FuncionarioRepository;
 @Service
 public class FuncionarioService {
 	private final FuncionarioRepository funcionarioRepo;
+	private static int counter = 1;
 
 	@Autowired
 	public FuncionarioService(FuncionarioRepository aFuncionarioRepo) {
@@ -25,13 +26,15 @@ public class FuncionarioService {
 		if (aFuncionario.getId() == null || aFuncionario.getNickName() == null
 				|| aFuncionario.getNickName().isBlank()) {
 
+			aFuncionario.setNickName(aFuncionario.getNome() + String.valueOf(counter));
 			funcionarioRepo.save(aFuncionario);
+			counter++;
 			return true;
 		}
 		return false;
 	}
 
-	//ver se é preciso
+	// ver se é preciso
 	public List<Funcionario> getAllFuncionarios() {
 		List<Funcionario> listaFuncionarios = new ArrayList<>();
 
