@@ -97,4 +97,10 @@ public class Cliente {
 		ativo = aAtivo;
 	}
 
+	@Override
+	public String toString() {
+		return "Cliente [id=" + id + ", nome=" + nome + ", morada=" + morada + ", dataNascimento=" + dataNascimento
+				+ ", palavraPasse=" + palavraPasse + ", email=" + email + ", ativo=" + ativo + "]";
+	}
+
 }

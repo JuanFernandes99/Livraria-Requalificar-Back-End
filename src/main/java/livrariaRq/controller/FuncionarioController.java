@@ -62,7 +62,7 @@ public class FuncionarioController {
 
 	}
 
-	@PostMapping(path = "/autenticacao")
+	@PostMapping(path = "/autenticacaoFuncionario")
 	public ResponseEntity<SimpleResponse> autenticacaoFuncionario(@RequestBody Funcionario aFuncionario) {
 		SimpleResponseFuncionario sr = new SimpleResponseFuncionario();
 

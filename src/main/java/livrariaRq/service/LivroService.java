@@ -72,7 +72,7 @@ public class LivroService {
 
 	}
 
-	public boolean uptadeLivro(Livro aLivro) {
+	public boolean updateLivro(Livro aLivro) {
 		if (aLivro.getId() == null || livroRepository.findById(aLivro.getId()).isEmpty()) {
 			return false;
 		}

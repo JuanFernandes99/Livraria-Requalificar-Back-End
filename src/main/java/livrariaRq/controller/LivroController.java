@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import livrariaRq.dto.SimpleResponse;
+import livrariaRq.dto.SimpleResponseCliente;
 import livrariaRq.dto.SimpleResponseLivro;
 import livrariaRq.model.livro.Livro;
+import livrariaRq.model.utilizador.Cliente;
+import livrariaRq.service.ClienteLivroService;
 import livrariaRq.service.FuncionarioLivroService;
 import livrariaRq.service.LivroService;
 import livrariaRq.utils.WrapperFuncionarioLivro;
@@ -22,11 +26,14 @@ public class LivroController {
 
 	private final LivroService livroService;
 	private final FuncionarioLivroService funcionarioLivroService;
+	private final ClienteLivroService clienteLivroService;
 
 	@Autowired
-	public LivroController(LivroService aLivroService, FuncionarioLivroService aFuncionarioLivroService) {
+	public LivroController(LivroService aLivroService, FuncionarioLivroService aFuncionarioLivroService,
+			ClienteLivroService aClienteLivroService) {
 		livroService = aLivroService;
 		funcionarioLivroService = aFuncionarioLivroService;
+		clienteLivroService = aClienteLivroService;
 	}
 
 	@PostMapping("/addLivro")
@@ -42,13 +49,6 @@ public class LivroController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		for (Livro livros : getLivros()) {
-			if (aWrapper.getLivro().getiSBN() == livros.getiSBN()) {
-				srl.setMessage("ISBN em uso");
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
-			}
-		}
-		
 		if (!livroService.checkIsbnExist(aWrapper.getLivro())) {
 			srl.setMessage("ISBN existe na base de dados");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
@@ -100,15 +100,33 @@ public class LivroController {
 	}
 
 	@GetMapping("/getLivros")
-	public List<Livro> getLivros() {
-		return livroService.getLivros();
+	public ResponseEntity<SimpleResponseLivro> getLivros(@RequestBody Cliente aCliente) {
+		SimpleResponseLivro srl = new SimpleResponseLivro();
+
+		if (!clienteLivroService.autenticacaoLivros(aCliente)) {
+			srl.setMessage("Tem de fazer login primeiro");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if(livroService.getLivros().isEmpty()) {
+			srl.setMessage("nao tem livros registados na livraria");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		if (clienteLivroService.autenticacaoLivros(aCliente)) {
+			srl.setLivros(livroService.getLivros());
+			srl.setAsSuccess("Lista de Livros:");
+			return ResponseEntity.status(HttpStatus.OK).body(srl);
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+
+
 	}
 
 	@PutMapping("/updateLivro")
 	public ResponseEntity<SimpleResponseLivro> updateLivro(@RequestBody Livro aLivro) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
 
-		if (livroService.uptadeLivro(aLivro)) {
+		if (livroService.updateLivro(aLivro)) {
 			srl.setAsSuccess("Livro atualizado com sucesso");
 			srl.setLivros(livroService.getLivros());
 			return ResponseEntity.status(HttpStatus.OK).body(srl);

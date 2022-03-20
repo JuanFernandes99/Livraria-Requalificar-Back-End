@@ -11,24 +11,30 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import livrariaRq.AutenticacaoService;
+import livrariaRq.dto.SimpleResponse;
 import livrariaRq.dto.SimpleResponseCliente;
+import livrariaRq.dto.SimpleResponseFuncionario;
 import livrariaRq.model.utilizador.Cliente;
+import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.service.ClienteService;
 
 @RestController
 public class ClienteController {
 
 	private final ClienteService clienteService;
+	private final AutenticacaoService autenticacaoService;
 
 	@Autowired
-	public ClienteController(ClienteService aClienteService) {
+	public ClienteController(ClienteService aClienteService, AutenticacaoService aAutenticacaoService) {
 		clienteService = aClienteService;
+		autenticacaoService = aAutenticacaoService;
 	}
 
 	@PostMapping("/addCliente")
 	public ResponseEntity<SimpleResponseCliente> addCliente(@RequestBody Cliente aCliente) {
 		SimpleResponseCliente src = new SimpleResponseCliente();
-		
+
 		if (aCliente.getNome() == null || aCliente.getNome().isBlank()) {
 			src.setMessage("Nome inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
@@ -60,8 +66,17 @@ public class ClienteController {
 	}
 
 	@GetMapping("/getClientes")
-	public List<Cliente> getClientes() {
-		return clienteService.getClientes();
+	public ResponseEntity<SimpleResponseCliente> getClientes() {
+		SimpleResponseCliente src = new SimpleResponseCliente();
+
+		if (clienteService.getClientes().isEmpty()) {
+			src.setMessage(" sem clientes ");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+		}
+		src.setClientes(clienteService.getClientes());
+		src.setAsSuccess("Lista de Clientes:");
+		return ResponseEntity.status(HttpStatus.OK).body(src);
+
 	}
 
 	@PutMapping("/updateCliente")
@@ -77,5 +92,18 @@ public class ClienteController {
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 
+	}
+
+	@PostMapping(path = "/autenticacaoCliente")
+	public ResponseEntity<SimpleResponse> autenticacaoCliente(@RequestBody Cliente aCliente) {
+		SimpleResponseCliente sr = new SimpleResponseCliente();
+
+		if (autenticacaoService.autenticacaoCliente(aCliente)) {
+			sr.setAsSuccess("Cliente autenticado Com Sucesso");
+			sr.setClientes(clienteService.getClientes());
+			return ResponseEntity.status(HttpStatus.OK).body(sr);
+		}
+		sr.setMessage("Erro ao autenticar");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sr);
 	}
 }

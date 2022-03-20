@@ -27,10 +27,27 @@ public class AutenticacaoService {
 
 		funcionarioRepository.findAll().forEach(listaFuncionario::add);
 		for (Funcionario funcionario : listaFuncionario) {
-			if (funcionario.getPalavraPasse().equals(aFuncionario.getPalavraPasse())) {
+			if (funcionario.getPalavraPasse().equals(aFuncionario.getPalavraPasse())
+					&& funcionario.getNickName().equals(aFuncionario.getNickName())) {
 				// enviar mensagem
 				funcionario.setAtivo(true);
 				funcionarioRepository.save(funcionario);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean autenticacaoCliente(Cliente aCliente) {
+		List<Cliente> listaCliente = new ArrayList<>();
+
+		clienteRepository.findAll().forEach(listaCliente::add);
+		for (Cliente cliente : listaCliente) {
+			if (cliente.getPalavraPasse().equals(aCliente.getPalavraPasse())
+					&& cliente.getEmail().equals(aCliente.getEmail())) {
+				// enviar mensagem
+				cliente.setAtivo(true);
+				clienteRepository.save(cliente);
 				return true;
 			}
 		}
