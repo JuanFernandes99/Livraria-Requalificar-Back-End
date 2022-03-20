@@ -8,9 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
 @Table(name = "Cliente")
@@ -23,8 +24,8 @@ public class Cliente {
 	private String nome;
 	private String morada;
 
-	@JsonFormat(pattern = "dd-mm-yyyy", shape = Shape.STRING)
-	@Column(name = "data_nascimento")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@Temporal(TemporalType.DATE) // default (yyyy-MM-dd)
 	private Date dataNascimento;
 
 	private String palavraPasse;
@@ -35,6 +36,7 @@ public class Cliente {
 
 	public String getNome() {
 		return nome;
+
 	}
 
 	public Date getDataNascimento() {
