@@ -8,11 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "Cliente")
+
 public class Cliente {
 	@Id
 	@Column(name = "id", nullable = false)
@@ -28,6 +28,7 @@ public class Cliente {
 	private String palavraPasse;
 
 	private String email;
+
 //	private List<Compra> compras;
 	// private List<Voucher> vouchers;
 
