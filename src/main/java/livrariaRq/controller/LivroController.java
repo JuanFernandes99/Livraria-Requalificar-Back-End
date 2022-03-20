@@ -36,11 +36,11 @@ public class LivroController {
 			srl.setMessage("Título inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (aLivro.getPreco() >= 0) {
+		if (aLivro.getPreco() <= 0) {
 			srl.setMessage("Preço inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (aLivro.getQuantidadeStock() >= 0) {
+		if (aLivro.getQuantidadeStock() <= 0) {
 			srl.setMessage("Quantidade em Stock inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
@@ -48,7 +48,7 @@ public class LivroController {
 			srl.setMessage("Editora inválida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (aLivro.getNumeroPaginas() >= 0) {
+		if (aLivro.getNumeroPaginas() <= 0) {
 			srl.setMessage("Número de páginas inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
@@ -69,7 +69,6 @@ public class LivroController {
 			srl.setMessage("Ocorreu um erro");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-
 	}
 
 	@GetMapping("/getLivros")
