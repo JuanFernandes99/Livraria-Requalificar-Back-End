@@ -3,10 +3,8 @@ package livrariaRq.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.ClienteRepository;
 
@@ -38,15 +36,12 @@ public class ClienteService {
 	}
 
 	public boolean updateCliente(Cliente aCliente) {
-
-		Optional<Cliente> clienteOptional = getClienteOptional(aCliente);
-
-		if (clienteOptional.isEmpty()) {
+		if (aCliente.getId() == null || clienteRepository.findById(aCliente.getId()).isEmpty()
+				|| aCliente.getNome() != null || aCliente.getDataNascimento() != null) {
 
 			return false;
 		}
-
-		Cliente clienteUpdate = clienteOptional.get();
+		Cliente clienteUpdate = clienteRepository.findById(aCliente.getId()).get();
 
 		if (aCliente.getMorada() != null && !aCliente.getMorada().isBlank()) {
 			clienteUpdate.setMorada(aCliente.getMorada());
@@ -59,7 +54,7 @@ public class ClienteService {
 			clienteUpdate.setPalavraPasse(aCliente.getPalavraPasse());
 		}
 
-		clienteRepository.save(aCliente);
+		clienteRepository.save(clienteUpdate);
 
 		return true;
 	}

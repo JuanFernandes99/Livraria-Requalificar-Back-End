@@ -28,6 +28,7 @@ public class ClienteController {
 	@PostMapping("/addCliente")
 	public ResponseEntity<SimpleResponseCliente> addCliente(@RequestBody Cliente aCliente) {
 		SimpleResponseCliente src = new SimpleResponseCliente();
+		
 		if (aCliente.getNome() == null || aCliente.getNome().isBlank()) {
 			src.setMessage("Nome inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
