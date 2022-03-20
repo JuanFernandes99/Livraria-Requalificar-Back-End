@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "Livro")
 public class Livro {
@@ -20,15 +22,23 @@ public class Livro {
 
 	private String autor;
 	private String titulo;
+
+	// ver se é possivel através de anotações
+
 	private Long iSBN;
 	private double preco;
 	private int quantidadeStock;
 	private String editora;
 	private int numeroPaginas;
-	private Date dataLancamento;
+
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private Date dataLancamento = new Date();
 	private String sinopse;
 	private String edicao;
+
+	// ainda nao está feito a imagem
 	private String imagem;
+
 	// private List<Autor> autores;
 
 	public Long getId() {

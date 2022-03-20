@@ -22,7 +22,7 @@ public class Funcionario {
 
 	private String nome;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
 
 	private String palavraPasse;
