@@ -27,7 +27,7 @@ public class Funcionario {
 
 	private String palavraPasse;
 	private String nickName;
-
+	private boolean ativo;
 	// private List<Compra> compras = new ArrayList<Compra>();
 
 	public String getNome() {
@@ -68,6 +68,14 @@ public class Funcionario {
 
 	public void setNickName(String aNickName) {
 		nickName = aNickName;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean aAtivo) {
+		ativo = aAtivo;
 	}
 
 	/*

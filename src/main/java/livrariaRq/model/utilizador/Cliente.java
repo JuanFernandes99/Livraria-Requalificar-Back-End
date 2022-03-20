@@ -28,6 +28,7 @@ public class Cliente {
 	private String palavraPasse;
 
 	private String email;
+	private boolean ativo;
 
 //	private List<Compra> compras;
 	// private List<Voucher> vouchers;
@@ -86,6 +87,14 @@ public class Cliente {
 	 */
 	public Long getId() {
 		return id;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean aAtivo) {
+		ativo = aAtivo;
 	}
 
 }

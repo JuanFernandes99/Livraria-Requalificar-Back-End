@@ -12,56 +12,68 @@ import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseLivro;
 import livrariaRq.model.livro.Livro;
+import livrariaRq.model.utilizador.Funcionario;
+import livrariaRq.service.FuncionarioLivroService;
 import livrariaRq.service.LivroService;
+import livrariaRq.utils.WrapperFuncionarioLivro;
 
 @RestController
 public class LivroController {
 
 	private final LivroService livroService;
+	private final FuncionarioLivroService funcionarioLivroService;
 
 	@Autowired
-	public LivroController(LivroService aLivroService) {
+	public LivroController(LivroService aLivroService, FuncionarioLivroService aFuncionarioLivroService) {
 		livroService = aLivroService;
+		funcionarioLivroService = aFuncionarioLivroService;
 	}
 
 	@PostMapping("/addLivro")
-	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro) {
+	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody WrapperFuncionarioLivro aWrapper) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
 
-		if (aLivro.getAutor() == null || aLivro.getAutor().isBlank()) {
+		if (aWrapper.getLivro().getAutor() == null || aWrapper.getLivro().getAutor().isBlank()) {
 			srl.setMessage("Autor inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (aLivro.getTitulo() == null || aLivro.getTitulo().isBlank()) {
+		if (aWrapper.getLivro().getTitulo() == null || aWrapper.getLivro().getTitulo().isBlank()) {
 			srl.setMessage("Título inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (aLivro.getPreco() <= 0) {
+
+		if (aWrapper.getLivro().getPreco() <= 0) {
 			srl.setMessage("Preço inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (aLivro.getQuantidadeStock() <= 0) {
+		if (aWrapper.getLivro().getPreco() <= 0) {
+			srl.setMessage("Preço inválido");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		if (aWrapper.getLivro().getQuantidadeStock() <= 0) {
+
 			srl.setMessage("Quantidade em Stock inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (aLivro.getEditora() == null || aLivro.getEditora().isBlank()) {
+		if (aWrapper.getLivro().getEditora() == null || aWrapper.getLivro().getEditora().isBlank()) {
 			srl.setMessage("Editora inválida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (aLivro.getNumeroPaginas() <= 0) {
+		if (aWrapper.getLivro().getNumeroPaginas() <= 0) {
+
 			srl.setMessage("Número de páginas inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (aLivro.getSinopse() == null || aLivro.getSinopse().isBlank()) {
+		if (aWrapper.getLivro().getSinopse() == null || aWrapper.getLivro().getSinopse().isBlank()) {
 			srl.setMessage("Editora do livro inválida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (aLivro.getEdicao() == null || aLivro.getEdicao().isBlank()) {
+		if (aWrapper.getLivro().getEdicao() == null || aWrapper.getLivro().getEdicao().isBlank()) {
 			srl.setMessage("Edição do livro inválida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (livroService.addLivro(aLivro)) {
+		if (funcionarioLivroService.addLivro(aWrapper.getFuncionario(), aWrapper.getLivro())) {
 			srl.setAsSuccess("Livro adicionado com sucesso");
 			srl.setLivros(livroService.getLivros());
 			return ResponseEntity.status(HttpStatus.OK).body(srl);

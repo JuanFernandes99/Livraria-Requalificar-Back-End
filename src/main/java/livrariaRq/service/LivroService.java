@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import livrariaRq.model.livro.Livro;
+import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.repository.LivroRepository;
 
 @Service
@@ -19,9 +20,9 @@ public class LivroService {
 		livroRepository = aLivroRepository;
 	}
 
-	public boolean addLivro(Livro aLivro) {
+	public boolean addLivro(Livro aLivro , Funcionario aFuncionario) {
 
-		if (aLivro.getId() == null) {
+		if (aLivro.getId() == null && aFuncionario.isAtivo()) {
 			livroRepository.save(aLivro);
 			return true;
 		}
