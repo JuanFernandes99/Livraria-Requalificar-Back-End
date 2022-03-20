@@ -1,6 +1,6 @@
 package livrariaRq.model.utilizador;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,8 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -25,7 +23,6 @@ public class Funcionario {
 	private String nome;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-	@Temporal(TemporalType.DATE) // default (yyyy-MM-dd)
 	private Date dataNascimento;
 
 	private String palavraPasse;
