@@ -48,6 +48,11 @@ public class LivroController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 			}
 		}
+		
+		if (!livroService.checkIsbnExist(aWrapper.getLivro())) {
+			srl.setMessage("ISBN existe na base de dados");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
 		if (!livroService.checkIsbnLength(aWrapper.getLivro())) {
 			srl.setMessage("ISBN nao pode ser inferior a 10 caracteres");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
