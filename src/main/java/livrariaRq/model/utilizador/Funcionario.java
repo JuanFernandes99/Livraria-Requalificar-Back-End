@@ -22,6 +22,7 @@ public class Funcionario {
 	private String nome;
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
+
 	private String palavraPasse;
 	private String nickName;
 
