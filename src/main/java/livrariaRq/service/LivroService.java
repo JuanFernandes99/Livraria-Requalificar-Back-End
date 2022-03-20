@@ -35,7 +35,7 @@ public class LivroService {
 		return livros;
 	}
 
-	public boolean checkIsbnLength(Livro aLivro) {
+	public boolean verificarTamanhoIsbn(Livro aLivro) {
 
 		if (aLivro.getiSBN().length() != 10) {
 			return false;
@@ -44,7 +44,7 @@ public class LivroService {
 		return true;
 	}
 
-	public boolean checkIsbnExist(Livro aLivro) {
+	public boolean verificarIsbnExistente(Livro aLivro) {
 
 		for (Livro livros : getLivros()) {
 			if (aLivro.getiSBN().equals(livros.getiSBN())) {
@@ -55,7 +55,7 @@ public class LivroService {
 		return true;
 	}
 
-	public boolean checkIsbnValidator(Livro aLivro) {
+	public boolean verificarValidacaoIsbn(Livro aLivro) {
 		// 0201530821 ISBN valido para testar
 
 		int sum = 0;

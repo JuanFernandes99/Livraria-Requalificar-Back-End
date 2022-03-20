@@ -25,7 +25,7 @@ public class Livro {
 
 	// ver se é possivel através de anotações
 
-	private String ISBN;  //String pq pode começar em 0
+	private String ISBN; // String pq pode começar em 0
 	private double preco;
 	private int quantidadeStock;
 	private String editora;
@@ -39,6 +39,7 @@ public class Livro {
 	// ainda nao está feito a imagem
 	private String imagem;
 
+//	aqui ficará a ligação ManyToMany com a classe Autor
 	// private List<Autor> autores;
 
 	public Long getId() {

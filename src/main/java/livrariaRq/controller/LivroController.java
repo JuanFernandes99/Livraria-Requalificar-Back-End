@@ -1,7 +1,5 @@
 package livrariaRq.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +9,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import livrariaRq.dto.SimpleResponse;
-import livrariaRq.dto.SimpleResponseCliente;
 import livrariaRq.dto.SimpleResponseLivro;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
@@ -49,15 +45,15 @@ public class LivroController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (!livroService.checkIsbnExist(aWrapper.getLivro())) {
+		if (!livroService.verificarIsbnExistente(aWrapper.getLivro())) {
 			srl.setMessage("ISBN existe na base de dados");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (!livroService.checkIsbnLength(aWrapper.getLivro())) {
+		if (!livroService.verificarTamanhoIsbn(aWrapper.getLivro())) {
 			srl.setMessage("ISBN nao pode ser inferior a 10 caracteres");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (!livroService.checkIsbnValidator(aWrapper.getLivro())) {
+		if (!livroService.verificarValidacaoIsbn(aWrapper.getLivro())) {
 			srl.setMessage("ISBN nao valido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
@@ -108,7 +104,7 @@ public class LivroController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if(livroService.getLivros().isEmpty()) {
+		if (livroService.getLivros().isEmpty()) {
 			srl.setMessage("nao tem livros registados na livraria");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
@@ -118,7 +114,6 @@ public class LivroController {
 			return ResponseEntity.status(HttpStatus.OK).body(srl);
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
-
 
 	}
 

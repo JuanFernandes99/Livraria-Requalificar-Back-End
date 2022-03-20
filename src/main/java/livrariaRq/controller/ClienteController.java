@@ -1,7 +1,5 @@
 package livrariaRq.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import livrariaRq.AutenticacaoService;
 import livrariaRq.dto.SimpleResponse;
 import livrariaRq.dto.SimpleResponseCliente;
-import livrariaRq.dto.SimpleResponseFuncionario;
 import livrariaRq.model.utilizador.Cliente;
-import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.service.ClienteService;
 
 @RestController
