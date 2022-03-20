@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -88,4 +89,15 @@ public class LivroController {
 		return livroService.getLivros();
 	}
 
+	@PutMapping("/updateLivro")
+	public ResponseEntity<SimpleResponseLivro> updateLivro(@RequestBody Livro aLivro) {
+		SimpleResponseLivro srl = new SimpleResponseLivro();
+
+		if (livroService.uptadeLivro(aLivro)) {
+			srl.setAsSuccess("Livro atualizado com sucesso");
+			srl.setLivros(livroService.getLivros());
+			return ResponseEntity.status(HttpStatus.OK).body(srl);
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+	}
 }
