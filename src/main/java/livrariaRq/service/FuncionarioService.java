@@ -2,9 +2,9 @@ package livrariaRq.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.repository.FuncionarioRepository;
@@ -24,7 +24,6 @@ public class FuncionarioService {
 				|| aFuncionario.getNickName().isBlank()) {
 
 			funcionarioRepo.save(aFuncionario);
-
 			return true;
 		}
 		return false;

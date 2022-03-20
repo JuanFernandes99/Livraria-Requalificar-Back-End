@@ -1,5 +1,6 @@
 package livrariaRq.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import livrariaRq.dto.SimpleResponse;
 import livrariaRq.dto.SimpleResponseFuncionario;
@@ -26,9 +29,9 @@ public class FuncionarioController {
 	}
 
 	@PostMapping(path = "/addFuncionario")
-	public ResponseEntity<SimpleResponse> addAndar(@RequestBody Funcionario aFuncionario) {
+	@JsonFormat(pattern="dd/MM/yyyy")
+	public ResponseEntity<SimpleResponse> addFuncionario(@RequestBody Funcionario aFuncionario) throws ParseException {
 		SimpleResponseFuncionario sr = new SimpleResponseFuncionario();
-
 		if (aFuncionario.getNome() == null || aFuncionario.getNome().isBlank()) {
 			sr.setMessage("Nome Invalido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sr);
@@ -43,6 +46,8 @@ public class FuncionarioController {
 			sr.setMessage("PalavraPasse invalida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sr);
 		}
+		
+		
 		if (funcionarioService.addFuncionario(aFuncionario)) {
 			sr.setAsSuccess("Funcionario Inserido Com Sucesso");
 			sr.setFuncionarios(funcionarioService.getAllFuncionarios());
