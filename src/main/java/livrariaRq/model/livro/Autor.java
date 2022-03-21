@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -25,10 +26,12 @@ public class Autor {
 
 	private String nome;
 	private String email;
+	
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
 
 	@ManyToOne
-	@JoinColumn(name = "Editora_id")
+	@JoinColumn(name = "Editora_id") // vai criar na tabela do autor , uma coluna com editora_id
 	@JsonIgnore
 	private Editora autoresEditora; // ligação com a Editora
 
