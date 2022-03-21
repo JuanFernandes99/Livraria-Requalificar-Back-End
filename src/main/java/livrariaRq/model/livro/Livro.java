@@ -41,9 +41,6 @@ public class Livro {
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataLancamento = new Date();
 
-	// Aqui ficará a ligação ManyToMany com a classe Autor
-	// private List<Autor> autores;
-
 //	ligação entre autor e livro
 	@ManyToMany
 	@JoinTable(name = "Livro_Autor", joinColumns = { @JoinColumn(name = "livro_id") }, inverseJoinColumns = {

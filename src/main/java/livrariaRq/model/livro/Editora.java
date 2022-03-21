@@ -59,4 +59,8 @@ public class Editora {
 		livros = aLivros;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
 }
