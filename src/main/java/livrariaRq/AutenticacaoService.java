@@ -13,25 +13,26 @@ import livrariaRq.repository.FuncionarioRepository;
 
 @Service
 public class AutenticacaoService {
-	private final ClienteRepository clienteRepository;
-	private final FuncionarioRepository funcionarioRepository;
+	private final ClienteRepository clienteRepo;
+	private final FuncionarioRepository funcionarioRepo;
 
 	@Autowired
-	public AutenticacaoService(ClienteRepository aClienteRepository, FuncionarioRepository aFuncionarioRepository) {
-		clienteRepository = aClienteRepository;
-		funcionarioRepository = aFuncionarioRepository;
+	public AutenticacaoService(ClienteRepository aClienteRepo, FuncionarioRepository aFuncionarioRepo) {
+		clienteRepo = aClienteRepo;
+		funcionarioRepo = aFuncionarioRepo;
 	}
 
 	public boolean autenticacaoFuncionario(Funcionario aFuncionario) {
 		List<Funcionario> listaFuncionario = new ArrayList<>();
 
-		funcionarioRepository.findAll().forEach(listaFuncionario::add);
+		funcionarioRepo.findAll().forEach(listaFuncionario::add);
+
 		for (Funcionario funcionario : listaFuncionario) {
+
 			if (funcionario.getPalavraPasse().equals(aFuncionario.getPalavraPasse())
 					&& funcionario.getNickName().equals(aFuncionario.getNickName())) {
-				// enviar mensagem
-				funcionario.setAtivo(true);
-				funcionarioRepository.save(funcionario);
+				funcionario.setLoginAtivo(true);
+				funcionarioRepo.save(funcionario);
 				return true;
 			}
 		}
@@ -41,13 +42,14 @@ public class AutenticacaoService {
 	public boolean autenticacaoCliente(Cliente aCliente) {
 		List<Cliente> listaCliente = new ArrayList<>();
 
-		clienteRepository.findAll().forEach(listaCliente::add);
+		clienteRepo.findAll().forEach(listaCliente::add);
+
 		for (Cliente cliente : listaCliente) {
 			if (cliente.getPalavraPasse().equals(aCliente.getPalavraPasse())
 					&& cliente.getEmail().equals(aCliente.getEmail())) {
-				// enviar mensagem
-				cliente.setAtivo(true);
-				clienteRepository.save(cliente);
+
+				cliente.setLoginAtivo(true);
+				clienteRepo.save(cliente);
 				return true;
 			}
 		}

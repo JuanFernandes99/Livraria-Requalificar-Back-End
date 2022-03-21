@@ -22,24 +22,19 @@ public class Livro {
 
 	private String autor;
 	private String titulo;
-
-	// ver se é possivel através de anotações
-
-	private String ISBN; // String pq pode começar em 0
-	private double preco;
-	private int quantidadeStock;
+	private String ISBN; // String porque o valor pode começar em 0
 	private String editora;
-	private int numeroPaginas;
-
-	@JsonFormat(pattern = "dd-MM-yyyy")
-	private Date dataLancamento = new Date();
 	private String sinopse;
 	private String edicao;
+	private String imagem; // Ainda não está feita a imagem
+	private double preco;
+	private int quantidadeStock;
+	private int numeroPaginas;
+	
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private Date dataLancamento = new Date();
 
-	// ainda nao está feito a imagem
-	private String imagem;
-
-//	aqui ficará a ligação ManyToMany com a classe Autor
+	//	Aqui ficará a ligação ManyToMany com a classe Autor
 	// private List<Autor> autores;
 
 	public Long getId() {

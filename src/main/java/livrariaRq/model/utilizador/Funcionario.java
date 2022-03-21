@@ -21,13 +21,13 @@ public class Funcionario {
 	private Long id;
 
 	private String nome;
+	private String palavraPasse;
+	private String nickName;
+	private boolean loginAtivo;
 
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
 
-	private String palavraPasse;
-	private String nickName;
-	private boolean ativo;
 	// private List<Compra> compras = new ArrayList<Compra>();
 
 	public String getNome() {
@@ -50,6 +50,10 @@ public class Funcionario {
 		return nickName;
 	}
 
+	public boolean isLoginAtivo() {
+		return loginAtivo;
+	}
+
 	/*
 	 * public List<Compra> getCompras() { return compras; }
 	 */
@@ -70,12 +74,8 @@ public class Funcionario {
 		nickName = aNickName;
 	}
 
-	public boolean isAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(boolean aAtivo) {
-		ativo = aAtivo;
+	public void setLoginAtivo(boolean aLoginAtivo) {
+		loginAtivo = aLoginAtivo;
 	}
 
 	/*

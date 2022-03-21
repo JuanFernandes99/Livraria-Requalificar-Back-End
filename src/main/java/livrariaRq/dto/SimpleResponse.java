@@ -6,7 +6,7 @@ public class SimpleResponse {
 
 	public SimpleResponse() {
 		statusOk = false;
-		message = "An error has occurred.";
+		message = "Ocorreu um erro.";
 	}
 
 	public boolean isStatus() {

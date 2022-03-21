@@ -13,25 +13,25 @@ import livrariaRq.repository.LivroRepository;
 @Service
 public class LivroService {
 
-	private final LivroRepository livroRepository;
+	private final LivroRepository livroRepo;
 
 	@Autowired
-	public LivroService(LivroRepository aLivroRepository) {
-		livroRepository = aLivroRepository;
+	public LivroService(LivroRepository aLivroRepo) {
+		livroRepo = aLivroRepo;
 	}
 
 	public boolean addLivro(Livro aLivro, Funcionario aFuncionario) {
 
-		if (aLivro.getId() == null && aFuncionario.isAtivo()) {
-			livroRepository.save(aLivro);
+		if (aLivro.getId() == null && aFuncionario.isLoginAtivo()) {
+			livroRepo.save(aLivro);
 			return true;
 		}
 		return false;
 	}
 
-	public List<Livro> getLivros() {
+	public List<Livro> getAllLivros() {
 		List<Livro> livros = new ArrayList<>();
-		livroRepository.findAll().forEach(livros::add);
+		livroRepo.findAll().forEach(livros::add);
 		return livros;
 	}
 
@@ -40,18 +40,16 @@ public class LivroService {
 		if (aLivro.getiSBN().length() != 10) {
 			return false;
 		}
-
 		return true;
 	}
 
 	public boolean verificarIsbnExistente(Livro aLivro) {
 
-		for (Livro livros : getLivros()) {
+		for (Livro livros : getAllLivros()) {
 			if (aLivro.getiSBN().equals(livros.getiSBN())) {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -73,42 +71,49 @@ public class LivroService {
 	}
 
 	public boolean updateLivro(Livro aLivro) {
-		if (aLivro.getId() == null || livroRepository.findById(aLivro.getId()).isEmpty()) {
+		if (aLivro.getId() == null || livroRepo.findById(aLivro.getId()).isEmpty()) {
 			return false;
 		}
-		Livro livroUpdate = livroRepository.findById(aLivro.getId()).get();
+		
+		Livro livroToUpdate = livroRepo.findById(aLivro.getId()).get();
 
 		if (aLivro.getAutor() != null || !aLivro.getAutor().isBlank()) {
-			livroUpdate.setAutor(aLivro.getAutor());
-
+			livroToUpdate.setAutor(aLivro.getAutor());
 		}
+		
 		if (aLivro.getTitulo() != null || !aLivro.getTitulo().isBlank()) {
-			livroUpdate.setTitulo(aLivro.getTitulo());
+			livroToUpdate.setTitulo(aLivro.getTitulo());
 		}
+		
 		if (aLivro.getPreco() <= 0) {
-			livroUpdate.setPreco(aLivro.getPreco());
-
+			livroToUpdate.setPreco(aLivro.getPreco());
 		}
+		
 		if (aLivro.getQuantidadeStock() <= 0) {
-			livroUpdate.setQuantidadeStock(aLivro.getQuantidadeStock());
+			livroToUpdate.setQuantidadeStock(aLivro.getQuantidadeStock());
 		}
+		
 		if (aLivro.getEditora() != null || !aLivro.getEditora().isBlank()) {
-			livroUpdate.setEditora(aLivro.getEditora());
+			livroToUpdate.setEditora(aLivro.getEditora());
 		}
+		
 		if (aLivro.getNumeroPaginas() <= 0) {
-			livroUpdate.setNumeroPaginas(aLivro.getNumeroPaginas());
+			livroToUpdate.setNumeroPaginas(aLivro.getNumeroPaginas());
 		}
 
 		if (aLivro.getSinopse() != null || !aLivro.getSinopse().isBlank()) {
-			livroUpdate.setSinopse(aLivro.getSinopse());
+			livroToUpdate.setSinopse(aLivro.getSinopse());
 		}
+		
 		if (aLivro.getEdicao() != null || !aLivro.getEdicao().isBlank()) {
-			livroUpdate.setEdicao(aLivro.getEdicao());
+			livroToUpdate.setEdicao(aLivro.getEdicao());
 		}
+		
 		if (aLivro.getDataLancamento() != null) {
-			livroUpdate.setDataLancamento(aLivro.getDataLancamento());
+			livroToUpdate.setDataLancamento(aLivro.getDataLancamento());
 		}
-		livroRepository.save(livroUpdate);
+		
+		livroRepo.save(livroToUpdate);
 		return true;
 	}
 

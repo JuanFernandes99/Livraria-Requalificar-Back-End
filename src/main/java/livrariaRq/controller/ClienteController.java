@@ -32,29 +32,29 @@ public class ClienteController {
 		SimpleResponseCliente src = new SimpleResponseCliente();
 
 		if (aCliente.getNome() == null || aCliente.getNome().isBlank()) {
-			src.setMessage("Nome inválido");
+			src.setMessage("Tem de inserir um nome");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 
 		if (aCliente.getEmail() == null || aCliente.getEmail().isBlank()) {
-			src.setMessage("Email inválido");
+			src.setMessage("Tem de inserir um email");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 
 		if (aCliente.getPalavraPasse() == null || aCliente.getPalavraPasse().isBlank()) {
-			src.setMessage("Palavra-Passe inválida");
+			src.setMessage("Tem de inserir uma Palavra-Passe");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 
 		if (aCliente.getDataNascimento() == null) {
-			src.setMessage("Data de nascimento inválida");
+			src.setMessage("Data de nascimento inválida, formato esperado: dd-MM-yyyy");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 
 		}
 
 		if (clienteService.addCliente(aCliente)) {
 			src.setAsSuccess("Cliente adicionado com sucesso");
-			src.setClientes(clienteService.getClientes());
+			src.setClientes(clienteService.getAllClientes());
 			return ResponseEntity.status(HttpStatus.OK).body(src);
 		}
 
@@ -71,7 +71,7 @@ public class ClienteController {
 
 		if (autenticacaoService.autenticacaoCliente(aCliente)) {
 			src.setAsSuccess("Cliente autenticado Com Sucesso");
-			src.setClientes(clienteService.getClientes());
+			src.setClientes(clienteService.getAllClientes());
 			return ResponseEntity.status(HttpStatus.OK).body(src);
 		}
 		src.setMessage("Ocorreu um erro de autenticação");
@@ -82,11 +82,11 @@ public class ClienteController {
 	public ResponseEntity<SimpleResponseCliente> getAllClientes() {
 		SimpleResponseCliente src = new SimpleResponseCliente();
 
-		if (clienteService.getClientes().isEmpty()) {
+		if (clienteService.getAllClientes().isEmpty()) {
 			src.setMessage("Inexistência de clientes");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
-		src.setClientes(clienteService.getClientes());
+		src.setClientes(clienteService.getAllClientes());
 		src.setAsSuccess("Lista de clientes existentes na livraria:");
 		return ResponseEntity.status(HttpStatus.OK).body(src);
 	}
@@ -97,7 +97,7 @@ public class ClienteController {
 
 		if (clienteService.updateCliente(aCliente)) {
 			src.setAsSuccess("Cliente atualizado com sucesso");
-			src.setClientes(clienteService.getClientes());
+			src.setClientes(clienteService.getAllClientes());
 			return ResponseEntity.status(HttpStatus.OK).body(src);
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);

@@ -19,9 +19,10 @@ public class FuncionarioLivroService {
 	}
 	
 	public boolean addLivro(Funcionario aFuncionario , Livro aLivro) {
-		Funcionario funcionario = funcionarioRepo.findById(aFuncionario.getId()).get();
 		
-		if (aLivro.getId() == null && funcionario.isAtivo()) {
+		Funcionario funcionario = funcionarioRepo.findById(aFuncionario.getId()).get();
+	
+		if (aLivro.getId() == null && funcionario.isLoginAtivo()) {
 			livroRepo.save(aLivro);
 			return true;
 		}

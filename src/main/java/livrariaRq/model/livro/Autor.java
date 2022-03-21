@@ -21,8 +21,8 @@ public class Autor {
 	private Long id;
 
 	private String nome;
-	private Date dataNascimento;
 	private String email;
+	private Date dataNascimento;
 
 	@ManyToOne
 	@JoinColumn(name = "Editora_id")

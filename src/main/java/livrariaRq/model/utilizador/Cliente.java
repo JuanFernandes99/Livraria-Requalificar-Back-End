@@ -21,25 +21,21 @@ public class Cliente {
 
 	private String nome;
 	private String morada;
+	private String palavraPasse;
+	private String email;
+	private boolean loginAtivo;
 
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
 
-	private String palavraPasse;
-
-	private String email;
-	private boolean ativo;
-
-//	private List<Compra> compras;
+	// private List<Compra> compras;
 	// private List<Voucher> vouchers;
 
 	public String getNome() {
 		return nome;
-
 	}
 
 	public Date getDataNascimento() {
-
 		return dataNascimento;
 	}
 
@@ -53,6 +49,14 @@ public class Cliente {
 
 	public String getMorada() {
 		return morada;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public boolean isLoginAtivo() {
+		return loginAtivo;
 	}
 
 	/*
@@ -80,27 +84,16 @@ public class Cliente {
 		morada = aMorada;
 	}
 
-	/*
-	 * public void setCompras(List<Compra> aCompras) { compras = aCompras; }
-	 * 
-	 * public void setVouchers(List<Voucher> aVouchers) { vouchers = aVouchers; }
-	 */
-	public Long getId() {
-		return id;
+	public void setLoginAtivo(boolean aLoginAtivo) {
+		loginAtivo = aLoginAtivo;
+	}
+/*
+	public void setCompras(List<Compra> aCompras) {
+		compras = aCompras;
 	}
 
-	public boolean isAtivo() {
-		return ativo;
+	public void setVouchers(List<Voucher> aVouchers) {
+		vouchers = aVouchers;
 	}
-
-	public void setAtivo(boolean aAtivo) {
-		ativo = aAtivo;
-	}
-
-	@Override
-	public String toString() {
-		return "Cliente [id=" + id + ", nome=" + nome + ", morada=" + morada + ", dataNascimento=" + dataNascimento
-				+ ", palavraPasse=" + palavraPasse + ", email=" + email + ", ativo=" + ativo + "]";
-	}
-
+*/
 }

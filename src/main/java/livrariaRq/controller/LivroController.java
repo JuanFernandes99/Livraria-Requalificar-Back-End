@@ -93,7 +93,7 @@ public class LivroController {
 
 		if (funcionarioLivroService.addLivro(aWrapper.getFuncionario(), aWrapper.getLivro())) {
 			srl.setAsSuccess("Livro adicionado com sucesso");
-			srl.setLivros(livroService.getLivros());
+			srl.setLivros(livroService.getAllLivros());
 			return ResponseEntity.status(HttpStatus.OK).body(srl);
 		} else {
 			srl.setMessage("Ocorreu um erro");
@@ -101,8 +101,8 @@ public class LivroController {
 		}
 	}
 
-	@GetMapping("/getLivros")
-	public ResponseEntity<SimpleResponseLivro> getLivros(@RequestBody Cliente aCliente) {
+	@GetMapping("/getAllLivros")
+	public ResponseEntity<SimpleResponseLivro> getAllLivros(@RequestBody Cliente aCliente) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
 
 		if (!clienteLivroService.autenticacaoLivros(aCliente)) {
@@ -110,13 +110,13 @@ public class LivroController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (livroService.getLivros().isEmpty()) {
-			srl.setMessage("nao tem livros registados na livraria");
+		if (livroService.getAllLivros().isEmpty()) {
+			srl.setMessage("não tem livros registados na livraria");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 		if (clienteLivroService.autenticacaoLivros(aCliente)) {
-			srl.setLivros(livroService.getLivros());
-			srl.setAsSuccess("Lista de Livros:");
+			srl.setLivros(livroService.getAllLivros());
+			srl.setAsSuccess("Lista de Livros existentes na livraria:");
 			return ResponseEntity.status(HttpStatus.OK).body(srl);
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
@@ -129,7 +129,7 @@ public class LivroController {
 
 		if (livroService.updateLivro(aLivro)) {
 			srl.setAsSuccess("Livro atualizado com sucesso");
-			srl.setLivros(livroService.getLivros());
+			srl.setLivros(livroService.getAllLivros());
 			return ResponseEntity.status(HttpStatus.OK).body(srl);
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);

@@ -17,10 +17,10 @@ public class ClienteLivroService {
 		clienteRepo = aClienteRepo;
 	}
 
-//	método para verificar se o cliente tem conta e pode aceder à lista de livros
+//	Método para verificar se o cliente tem uma conta registada e pode aceder à lista de livros
 	public boolean autenticacaoLivros(Cliente aCliente) {
 		Cliente cliente = clienteRepo.findById(aCliente.getId()).get();
-		if (aCliente.getId() != null && cliente.isAtivo()) {
+		if (aCliente.getId() != null && cliente.isLoginAtivo()) {
 			return true;
 		}
 		return false;
