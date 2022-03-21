@@ -24,6 +24,9 @@ public class Editora {
 	@OneToMany(mappedBy = "autoresEditora") // autores presente na editora
 	private List<Autor> autores = new ArrayList<>();
 
+	@OneToMany(mappedBy = "livrosEditora")
+	private List<Livro> livros = new ArrayList<>();
+
 	public String getNome() {
 		return nome;
 	}
@@ -32,9 +35,9 @@ public class Editora {
 		return morada;
 	}
 
-//	public List<Autor> getAutores() {
-//		return autores;
-//	}
+	public List<Autor> getAutores() {
+		return autores;
+	}
 
 	public void setNome(String aNome) {
 		nome = aNome;
@@ -44,8 +47,16 @@ public class Editora {
 		morada = aMorada;
 	}
 
-//	public void setAutores(List<Autor> aAutores) {
-//		autores = aAutores;
-//	}
+	public void setAutores(List<Autor> aAutores) {
+		autores = aAutores;
+	}
+
+	public List<Livro> getLivros() {
+		return livros;
+	}
+
+	public void setLivros(List<Livro> aLivros) {
+		livros = aLivros;
+	}
 
 }

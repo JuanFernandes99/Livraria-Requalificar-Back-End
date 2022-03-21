@@ -1,6 +1,8 @@
 package livrariaRq.model.livro;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,8 +32,9 @@ public class Autor {
 	@JsonIgnore
 	private Editora autoresEditora; // ligação com a Editora
 
-//	aqui vai ser aligação com a classe livro de ManyToMany com a lista livros
-//	private List<Livro> livros;
+	@JsonIgnore
+	@ManyToMany(mappedBy = "autores") // aqui ligação com livros através da lista???
+	private List<Livro> livros = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -66,6 +70,14 @@ public class Autor {
 
 	public void setEmail(String aEmail) {
 		email = aEmail;
+	}
+
+	public Editora getAutoresEditora() {
+		return autoresEditora;
+	}
+
+	public void setAutoresEditora(Editora aAutoresEditora) {
+		autoresEditora = aAutoresEditora;
 	}
 
 //	public void setLivros(List<Livro> aLivros) {
