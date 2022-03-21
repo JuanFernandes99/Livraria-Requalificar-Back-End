@@ -37,24 +37,27 @@ public class LivroController {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
 
 		if (aWrapper.getLivro().getAutor() == null || aWrapper.getLivro().getAutor().isBlank()) {
-			srl.setMessage("Autor inválido");
+			srl.setMessage("Tem de inserir um autor");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
+
 		if (aWrapper.getLivro().getTitulo() == null || aWrapper.getLivro().getTitulo().isBlank()) {
-			srl.setMessage("Título inválido");
+			srl.setMessage("Tem de inserir um titulo");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
 		if (!livroService.verificarIsbnExistente(aWrapper.getLivro())) {
-			srl.setMessage("ISBN existe na base de dados");
+			srl.setMessage("O ISBN digitado já existe na base de dados");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
+
 		if (!livroService.verificarTamanhoIsbn(aWrapper.getLivro())) {
-			srl.setMessage("ISBN nao pode ser inferior a 10 caracteres");
+			srl.setMessage("O ISBN não pode ser inferior a 10 caracteres");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
+
 		if (!livroService.verificarValidacaoIsbn(aWrapper.getLivro())) {
-			srl.setMessage("ISBN nao valido");
+			srl.setMessage("O ISBN não é valido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
@@ -62,29 +65,32 @@ public class LivroController {
 			srl.setMessage("Preço inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (aWrapper.getLivro().getQuantidadeStock() <= 0) {
 
+		if (aWrapper.getLivro().getQuantidadeStock() <= 0) {
 			srl.setMessage("Quantidade em Stock inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
+
 		if (aWrapper.getLivro().getEditora() == null || aWrapper.getLivro().getEditora().isBlank()) {
-			srl.setMessage("Editora inválida");
+			srl.setMessage("Tem de inserir uma editora");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (aWrapper.getLivro().getNumeroPaginas() <= 0) {
 
-			srl.setMessage("Número de páginas inválido");
+		if (aWrapper.getLivro().getNumeroPaginas() <= 0) {
+			srl.setMessage("Número de páginas inválido, tem de ser maior que 0");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
 		if (aWrapper.getLivro().getSinopse() == null || aWrapper.getLivro().getSinopse().isBlank()) {
-			srl.setMessage("Editora do livro inválida");
+			srl.setMessage("Tem de inserir uma sinopse");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
+
 		if (aWrapper.getLivro().getEdicao() == null || aWrapper.getLivro().getEdicao().isBlank()) {
-			srl.setMessage("Edição do livro inválida");
+			srl.setMessage("Tem de inserir uma edição do livro");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
+
 		if (funcionarioLivroService.addLivro(aWrapper.getFuncionario(), aWrapper.getLivro())) {
 			srl.setAsSuccess("Livro adicionado com sucesso");
 			srl.setLivros(livroService.getLivros());
@@ -100,7 +106,7 @@ public class LivroController {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
 
 		if (!clienteLivroService.autenticacaoLivros(aCliente)) {
-			srl.setMessage("Tem de fazer login primeiro");
+			srl.setMessage("Tem de fazer login primeiro, para conseguir ver os livros disponíveis na livraria");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 

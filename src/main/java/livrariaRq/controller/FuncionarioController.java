@@ -1,6 +1,5 @@
 package livrariaRq.controller;
 
-import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,52 +31,56 @@ public class FuncionarioController {
 	}
 
 	@PostMapping(path = "/addFuncionario")
-	@JsonFormat(pattern = "dd/MM/yyyy")
 	public ResponseEntity<SimpleResponse> addFuncionario(@RequestBody Funcionario aFuncionario) {
-		SimpleResponseFuncionario sr = new SimpleResponseFuncionario();
+		SimpleResponseFuncionario srf = new SimpleResponseFuncionario();
+		
 		if (aFuncionario.getNome() == null || aFuncionario.getNome().isBlank()) {
-			sr.setMessage("Nome Invalido");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sr);
+			srf.setMessage("Nome invalido");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srf);
 		}
 
 		if (aFuncionario.getDataNascimento() == null) {
-			sr.setMessage("Data de nascimento invalida");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sr);
+			srf.setMessage("Data de nascimento invalida");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srf);
 		}
 
 		if (aFuncionario.getPalavraPasse() == null || aFuncionario.getPalavraPasse().isBlank()) {
-			sr.setMessage("PalavraPasse invalida");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sr);
+			srf.setMessage("Palavra-Passe invalida");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srf);
 		}
 
 		if (funcionarioService.addFuncionario(aFuncionario)) {
-			sr.setAsSuccess("Funcionario Inserido Com Sucesso");
-			sr.setFuncionarios(funcionarioService.getAllFuncionarios());
-			return ResponseEntity.status(HttpStatus.OK).body(sr);
+			srf.setAsSuccess("Funcionario adicionado com sucesso");
+			srf.setFuncionarios(funcionarioService.getAllFuncionarios());
+			return ResponseEntity.status(HttpStatus.OK).body(srf);
 
 		} else {
-			sr.setMessage("Erro a inserir o Funcionario");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sr);
+			srf.setMessage("Ocorreu um erro ao adicionar o Funcionário");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srf);
 		}
 
 	}
 
 	@PostMapping(path = "/autenticacaoFuncionario")
 	public ResponseEntity<SimpleResponse> autenticacaoFuncionario(@RequestBody Funcionario aFuncionario) {
-		SimpleResponseFuncionario sr = new SimpleResponseFuncionario();
+		SimpleResponseFuncionario srf = new SimpleResponseFuncionario();
 
 		if (autenticacaoService.autenticacaoFuncionario(aFuncionario)) {
-			sr.setAsSuccess("Funcionario autenticado Com Sucesso");
-			sr.setFuncionarios(funcionarioService.getAllFuncionarios());
-			return ResponseEntity.status(HttpStatus.OK).body(sr);
+			srf.setAsSuccess("Funcionario autenticado com sucesso");
+			srf.setFuncionarios(funcionarioService.getAllFuncionarios());
+			return ResponseEntity.status(HttpStatus.OK).body(srf);
 		}
-		sr.setMessage("Erro ao autenticar");
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sr);
+		srf.setMessage("Ocorreu um erro de autenticação");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srf);
 	}
-
+	
+	
+	/* Em dúvida se é para implementar
 	@GetMapping("/getAllFuncionarios")
 	public List<Funcionario> getAllFuncionarios() {
 		return funcionarioService.getAllFuncionarios();
 	}
+*/
+
 
 }

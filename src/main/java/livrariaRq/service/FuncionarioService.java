@@ -34,7 +34,7 @@ public class FuncionarioService {
 		return false;
 	}
 
-	// ver se é preciso
+
 	public List<Funcionario> getAllFuncionarios() {
 		List<Funcionario> listaFuncionarios = new ArrayList<>();
 

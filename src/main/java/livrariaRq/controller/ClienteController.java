@@ -35,44 +35,60 @@ public class ClienteController {
 			src.setMessage("Nome inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
+
 		if (aCliente.getEmail() == null || aCliente.getEmail().isBlank()) {
-			src.setMessage("Email invÃ¡lido");
+			src.setMessage("Email inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
+
 		if (aCliente.getPalavraPasse() == null || aCliente.getPalavraPasse().isBlank()) {
 			src.setMessage("Palavra-Passe inválida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
+
 		if (aCliente.getDataNascimento() == null) {
 			src.setMessage("Data de nascimento inválida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 
 		}
+
 		if (clienteService.addCliente(aCliente)) {
-			src.setAsSuccess("Cliente criado com sucesso");
+			src.setAsSuccess("Cliente adicionado com sucesso");
 			src.setClientes(clienteService.getClientes());
 			return ResponseEntity.status(HttpStatus.OK).body(src);
 		}
 
 		else {
-			src.setMessage(" Ocorreu um erro ");
+			src.setMessage(" Ocorreu um erro ao adicionar o cliente  ");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 
 	}
 
-	@GetMapping("/getClientes")
-	public ResponseEntity<SimpleResponseCliente> getClientes() {
+	@PostMapping(path = "/autenticacaoCliente")
+	public ResponseEntity<SimpleResponse> autenticacaoCliente(@RequestBody Cliente aCliente) {
+		SimpleResponseCliente src = new SimpleResponseCliente();
+
+		if (autenticacaoService.autenticacaoCliente(aCliente)) {
+			src.setAsSuccess("Cliente autenticado Com Sucesso");
+			src.setClientes(clienteService.getClientes());
+			return ResponseEntity.status(HttpStatus.OK).body(src);
+		}
+		src.setMessage("Ocorreu um erro de autenticação");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+	}
+
+	@GetMapping("/getAllClientes")
+	public ResponseEntity<SimpleResponseCliente> getAllClientes() {
 		SimpleResponseCliente src = new SimpleResponseCliente();
 
 		if (clienteService.getClientes().isEmpty()) {
-			src.setMessage(" sem clientes ");
+			src.setMessage("Inexistência de clientes");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 		src.setClientes(clienteService.getClientes());
-		src.setAsSuccess("Lista de Clientes:");
+		src.setAsSuccess("Lista de clientes existentes na livraria:");
 		return ResponseEntity.status(HttpStatus.OK).body(src);
-
 	}
 
 	@PutMapping("/updateCliente")
@@ -80,26 +96,11 @@ public class ClienteController {
 		SimpleResponseCliente src = new SimpleResponseCliente();
 
 		if (clienteService.updateCliente(aCliente)) {
-
 			src.setAsSuccess("Cliente atualizado com sucesso");
 			src.setClientes(clienteService.getClientes());
 			return ResponseEntity.status(HttpStatus.OK).body(src);
 		}
-
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
-
 	}
 
-	@PostMapping(path = "/autenticacaoCliente")
-	public ResponseEntity<SimpleResponse> autenticacaoCliente(@RequestBody Cliente aCliente) {
-		SimpleResponseCliente sr = new SimpleResponseCliente();
-
-		if (autenticacaoService.autenticacaoCliente(aCliente)) {
-			sr.setAsSuccess("Cliente autenticado Com Sucesso");
-			sr.setClientes(clienteService.getClientes());
-			return ResponseEntity.status(HttpStatus.OK).body(sr);
-		}
-		sr.setMessage("Erro ao autenticar");
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sr);
-	}
 }
