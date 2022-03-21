@@ -43,8 +43,10 @@ public class Livro {
 
 //	ligação entre autor e livro
 	@ManyToMany
-	@JoinTable(name = "Livro_Autor", joinColumns = { @JoinColumn(name = "livro_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "autor_id") })
+	@JoinTable(name = "Livro_Autor",
+	joinColumns = { @JoinColumn(name = "livro_id") },
+	inverseJoinColumns = { @JoinColumn(name = "autor_id") })
+	
 	List<Autor> autores = new ArrayList<>();
 
 //	ligação entre editora e livro
