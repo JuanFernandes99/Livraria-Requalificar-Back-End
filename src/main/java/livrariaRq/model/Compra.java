@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,8 +29,14 @@ public class Compra {
 
 	private double valorCompra;
 	private int quantidadeVoucher;
-	private List<CarrinhoDeCompras> carrinho;
-	private List<Voucher> vouchers;
+	
+	@OneToOne
+	@JoinColumn(name = "carrinho_id")
+	private CarrinhoDeCompras carrinho;
+
+	@OneToOne
+	@JoinColumn(name = "voucher_id")
+	private Voucher voucher;
 
 	@OneToMany(mappedBy = "compra")
 	@JsonIgnore
@@ -37,8 +46,8 @@ public class Compra {
 		livros.add(aLivro);
 	}
 
-	public void adicionarVoucher(Voucher aVoucher) {
-		vouchers.add(aVoucher);
+	public void removeLivroCompra(Livro aLivro) {
+		livros.remove(aLivro);
 	}
 
 	public Long getId() {
