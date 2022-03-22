@@ -61,6 +61,14 @@ public class Compra {
 		return quantidadeVoucher;
 	}
 
+	public CarrinhoDeCompras getCarrinho() {
+		return carrinho;
+	}
+
+	public Voucher getVoucher() {
+		return voucher;
+	}
+
 	public void setValorCompra(double aValorCompra) {
 		valorCompra = aValorCompra;
 	}
@@ -75,6 +83,14 @@ public class Compra {
 
 	public void setLivros(List<Livro> aLivros) {
 		livros = aLivros;
+	}
+
+	public void setCarrinho(CarrinhoDeCompras aCarrinho) {
+		carrinho = aCarrinho;
+	}
+
+	public void setVoucher(Voucher aVoucher) {
+		voucher = aVoucher;
 	}
 
 }
