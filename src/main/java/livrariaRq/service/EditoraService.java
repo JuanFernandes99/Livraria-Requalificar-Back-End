@@ -26,7 +26,7 @@ public class EditoraService {
 		return false;
 	}
 
-	public List<Editora> getEditoras() {
+	public List<Editora> getAllEditoras() {
 		List<Editora> editoras = new ArrayList<>();
 		editoraRepository.findAll().forEach(editoras::add);
 		return editoras;

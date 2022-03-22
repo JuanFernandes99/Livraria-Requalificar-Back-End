@@ -1,7 +1,10 @@
 package livrariaRq.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseAutor;
 import livrariaRq.model.livro.Autor;
+import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.service.AutorEditoraService;
 import livrariaRq.service.AutorService;
 
@@ -53,6 +57,11 @@ public class AutorController {
 	@PostMapping("/addAutor/{aAutor_id}/editora/{aEditora_id}")
 	public String addAndarToCentroComercialByIds(@PathVariable String aAutor_id, @PathVariable String aEditora_id) {
 		return autorEditoraService.addAutorToEditora(aAutor_id, aEditora_id);
+	}
+
+	@GetMapping("/getAllAutores")
+	public List<Autor> getAllAutores() {
+		return autorService.getAllAutores();
 	}
 
 }

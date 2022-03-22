@@ -26,11 +26,9 @@ public class Livro {
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	private String autor;
 	private String titulo;
 	private String ISBN; // String porque o valor pode começar em 0
-	private String editora;
 	private String sinopse;
 	private String edicao;
 	private String imagem; // Ainda não está feita a imagem
@@ -43,17 +41,27 @@ public class Livro {
 
 //	ligação entre autor e livro
 	@ManyToMany
-	@JoinTable(name = "Livro_Autor",
-	joinColumns = { @JoinColumn(name = "livro_id") },
-	inverseJoinColumns = { @JoinColumn(name = "autor_id") })
-	
+	@JoinTable(name = "Livro_Autor", joinColumns = { @JoinColumn(name = "livro_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "autor_id") })
+	@JsonIgnore
 	List<Autor> autores = new ArrayList<>();
 
 //	ligação entre editora e livro
 	@ManyToOne
 	@JoinColumn(name = "Editora_id")
-	@JsonIgnore
-	private Editora livrosEditora;
+	private Editora editora;
+
+	public void adicionarAutor(Autor aAutor) {
+
+		autores.add(aAutor);
+
+	}
+
+	public void removerAutor(Autor aAutor) {
+
+		autores.remove(aAutor);
+
+	}
 
 	public Long getId() {
 		return id;
@@ -79,10 +87,6 @@ public class Livro {
 		return quantidadeStock;
 	}
 
-	public String getEditora() {
-		return editora;
-	}
-
 	public int getNumeroPaginas() {
 		return numeroPaginas;
 	}
@@ -103,16 +107,20 @@ public class Livro {
 		return imagem;
 	}
 
-//	public List<Autor> getAutores() {
-//		return autores;
-//	}
+	public Editora getEditora() {
+		return editora;
+	}
 
-	public void setAutor(String aAutor) {
-		autor = aAutor;
+	public List<Autor> getAutores() {
+		return autores;
 	}
 
 	public void setTitulo(String aTitulo) {
 		titulo = aTitulo;
+	}
+
+	public void setAutor(String aAutor) {
+		autor = aAutor;
 	}
 
 	public void setiSBN(String aISBN) {
@@ -127,7 +135,7 @@ public class Livro {
 		quantidadeStock = aQuantidadeStock;
 	}
 
-	public void setEditora(String aEditora) {
+	public void setEditora(Editora aEditora) {
 		editora = aEditora;
 	}
 
@@ -151,16 +159,8 @@ public class Livro {
 		imagem = aImagem;
 	}
 
-	public Editora getLivrosEditora() {
-		return livrosEditora;
+	public void setAutores(List<Autor> aAutores) {
+		autores = aAutores;
 	}
-
-	public void setLivrosEditora(Editora aLivrosEditora) {
-		livrosEditora = aLivrosEditora;
-	}
-
-//	public void setAutores(List<Autor> aAutores) {
-//		autores = aAutores;
-//	}
 
 }

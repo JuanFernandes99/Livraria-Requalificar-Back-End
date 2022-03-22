@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.service.ClienteLivroService;
 import livrariaRq.service.FuncionarioLivroService;
+import livrariaRq.service.LivroAutorService;
 import livrariaRq.service.LivroService;
 import livrariaRq.utils.WrapperFuncionarioLivro;
 
@@ -23,23 +25,20 @@ public class LivroController {
 	private final LivroService livroService;
 	private final FuncionarioLivroService funcionarioLivroService;
 	private final ClienteLivroService clienteLivroService;
+	private final LivroAutorService livroAutorService;
 
 	@Autowired
 	public LivroController(LivroService aLivroService, FuncionarioLivroService aFuncionarioLivroService,
-			ClienteLivroService aClienteLivroService) {
+			ClienteLivroService aClienteLivroService, LivroAutorService aLivroAutorService) {
 		livroService = aLivroService;
 		funcionarioLivroService = aFuncionarioLivroService;
 		clienteLivroService = aClienteLivroService;
+		livroAutorService = aLivroAutorService;
 	}
 
 	@PostMapping("/addLivro")
 	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody WrapperFuncionarioLivro aWrapper) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
-
-		if (aWrapper.getLivro().getAutor() == null || aWrapper.getLivro().getAutor().isBlank()) {
-			srl.setMessage("Tem de inserir um autor");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
-		}
 
 		if (aWrapper.getLivro().getTitulo() == null || aWrapper.getLivro().getTitulo().isBlank()) {
 			srl.setMessage("Tem de inserir um titulo");
@@ -55,12 +54,12 @@ public class LivroController {
 			srl.setMessage("O ISBN não pode ser inferior a 10 caracteres");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-
+/*
 		if (!livroService.verificarValidacaoIsbn(aWrapper.getLivro())) {
 			srl.setMessage("O ISBN não é valido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-
+*/
 		if (aWrapper.getLivro().getPreco() <= 0) {
 			srl.setMessage("Preço inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
@@ -68,11 +67,6 @@ public class LivroController {
 
 		if (aWrapper.getLivro().getQuantidadeStock() <= 0) {
 			srl.setMessage("Quantidade em Stock inválido");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
-		}
-
-		if (aWrapper.getLivro().getEditora() == null || aWrapper.getLivro().getEditora().isBlank()) {
-			srl.setMessage("Tem de inserir uma editora");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
@@ -99,6 +93,11 @@ public class LivroController {
 			srl.setMessage("Ocorreu um erro");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
+	}
+
+	@PostMapping("/addLivro/{aLivro_id}/autor/{aAutor_id}")
+	public String addLivroToAutorByIds(@PathVariable String aLivro_id, @PathVariable String aAutor_id) {
+		return livroAutorService.addLivroToAutor(aLivro_id, aAutor_id);
 	}
 
 	@GetMapping("/getAllLivros")

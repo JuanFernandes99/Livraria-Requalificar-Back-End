@@ -34,8 +34,7 @@ public class AutorEditoraService {
 			Autor autorAux = opcionalAutor.get();
 
 			editoraAux.adicionarAutor(autorAux);
-			autorAux.setAutoresEditora(editoraAux);
-
+			autorAux.setEditora(editoraAux);
 			editoraRepo.save(editoraAux); // save pq estamos a adicionar novos dados
 			autorRepo.save(autorAux);
 

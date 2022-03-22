@@ -1,13 +1,17 @@
 package livrariaRq.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseEditora;
+import livrariaRq.model.livro.Autor;
 import livrariaRq.model.livro.Editora;
 import livrariaRq.service.EditoraService;
 
@@ -35,12 +39,17 @@ public class EditoraController {
 		}
 		if (editoraService.addEditora(aEditora)) {
 			sre.setAsSuccess("Editora adicionada com sucesso");
-			sre.setEditoras(editoraService.getEditoras());
+			sre.setEditoras(editoraService.getAllEditoras());
 			return ResponseEntity.status(HttpStatus.OK).body(sre);
 		} else {
 			sre.setMessage("Ocorreu um erro ao adicionar a editora");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sre);
 		}
+	}
+	
+	@GetMapping("/getAllEditoras")
+	public List<Editora> getAllEditoras() {
+		return editoraService.getAllEditoras();
 	}
 
 }

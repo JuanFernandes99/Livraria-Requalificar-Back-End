@@ -53,8 +53,9 @@ public class LivroService {
 		return true;
 	}
 
-	public boolean verificarValidacaoIsbn(Livro aLivro) {
+	/*public boolean verificarValidacaoIsbn(Livro aLivro) {
 		// 0201530821 ISBN valido para testar
+		//9721041440
 
 		int sum = 0;
 		for (int i = 0; i < aLivro.getiSBN().length(); i++) {
@@ -69,34 +70,26 @@ public class LivroService {
 		}
 
 	}
-
+*/
 	public boolean updateLivro(Livro aLivro) {
 		if (aLivro.getId() == null || livroRepo.findById(aLivro.getId()).isEmpty()) {
 			return false;
 		}
-		
+
 		Livro livroToUpdate = livroRepo.findById(aLivro.getId()).get();
 
-		if (aLivro.getAutor() != null || !aLivro.getAutor().isBlank()) {
-			livroToUpdate.setAutor(aLivro.getAutor());
-		}
-		
 		if (aLivro.getTitulo() != null || !aLivro.getTitulo().isBlank()) {
 			livroToUpdate.setTitulo(aLivro.getTitulo());
 		}
-		
+
 		if (aLivro.getPreco() <= 0) {
 			livroToUpdate.setPreco(aLivro.getPreco());
 		}
-		
+
 		if (aLivro.getQuantidadeStock() <= 0) {
 			livroToUpdate.setQuantidadeStock(aLivro.getQuantidadeStock());
 		}
-		
-		if (aLivro.getEditora() != null || !aLivro.getEditora().isBlank()) {
-			livroToUpdate.setEditora(aLivro.getEditora());
-		}
-		
+
 		if (aLivro.getNumeroPaginas() <= 0) {
 			livroToUpdate.setNumeroPaginas(aLivro.getNumeroPaginas());
 		}
@@ -104,15 +97,15 @@ public class LivroService {
 		if (aLivro.getSinopse() != null || !aLivro.getSinopse().isBlank()) {
 			livroToUpdate.setSinopse(aLivro.getSinopse());
 		}
-		
+
 		if (aLivro.getEdicao() != null || !aLivro.getEdicao().isBlank()) {
 			livroToUpdate.setEdicao(aLivro.getEdicao());
 		}
-		
+
 		if (aLivro.getDataLancamento() != null) {
 			livroToUpdate.setDataLancamento(aLivro.getDataLancamento());
 		}
-		
+
 		livroRepo.save(livroToUpdate);
 		return true;
 	}
