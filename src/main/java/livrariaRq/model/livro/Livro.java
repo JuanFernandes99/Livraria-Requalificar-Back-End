@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import livrariaRq.model.Compra;
+
 @Entity
 @Table(name = "Livro")
 public class Livro {
@@ -50,6 +52,10 @@ public class Livro {
 	@ManyToOne
 	@JoinColumn(name = "Editora_id")
 	private Editora editora;
+
+	@ManyToOne
+	@JoinColumn(name = "Compra_id") // ligação com a classe Compra
+	private Compra compra;
 
 	public void adicionarAutor(Autor aAutor) {
 
@@ -161,6 +167,14 @@ public class Livro {
 
 	public void setAutores(List<Autor> aAutores) {
 		autores = aAutores;
+	}
+
+	public Compra getCompra() {
+		return compra;
+	}
+
+	public void setCompra(Compra aCompra) {
+		compra = aCompra;
 	}
 
 }

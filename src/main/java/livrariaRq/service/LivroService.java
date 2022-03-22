@@ -53,24 +53,17 @@ public class LivroService {
 		return true;
 	}
 
-	/*public boolean verificarValidacaoIsbn(Livro aLivro) {
-		// 0201530821 ISBN valido para testar
-		//9721041440
-
-		int sum = 0;
-		for (int i = 0; i < aLivro.getiSBN().length(); i++) {
-			int digit = aLivro.getiSBN().charAt(i);
-			sum += (digit * (10 - i));
-		}
-
-		if ((sum % 11) != 0) {
-			return false;
-		} else {
-			return true;
-		}
-
-	}
-*/
+	/*
+	 * public boolean verificarValidacaoIsbn(Livro aLivro) { // 0201530821 ISBN
+	 * valido para testar //9721041440
+	 * 
+	 * int sum = 0; for (int i = 0; i < aLivro.getiSBN().length(); i++) { int digit
+	 * = aLivro.getiSBN().charAt(i); sum += (digit * (10 - i)); }
+	 * 
+	 * if ((sum % 11) != 0) { return false; } else { return true; }
+	 * 
+	 * }
+	 */
 	public boolean updateLivro(Livro aLivro) {
 		if (aLivro.getId() == null || livroRepo.findById(aLivro.getId()).isEmpty()) {
 			return false;
