@@ -39,7 +39,7 @@ public class Cliente {
 
 	// private List<Compra> compras;
 
-	@ManyToMany(mappedBy = "cliente") // aqui ligação com livros através da lista???
+	@ManyToMany(mappedBy = "clientes")
 	private List<Voucher> vouchers = new ArrayList<>();
 
 	@OneToOne
