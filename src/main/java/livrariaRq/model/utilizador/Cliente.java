@@ -11,12 +11,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import livrariaRq.model.CarrinhoDeCompras;
+import livrariaRq.model.Compra;
 import livrariaRq.model.Voucher;
 
 @Entity
@@ -37,9 +41,10 @@ public class Cliente {
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
 
-	// private List<Compra> compras;
+	@OneToMany(mappedBy = "cliente")
+	private List<Compra> compras;
 
-	@ManyToMany(mappedBy = "clientes")
+	@OneToMany(mappedBy = "cliente")
 	private List<Voucher> vouchers = new ArrayList<>();
 
 	@OneToOne

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -32,11 +33,10 @@ public class Voucher {
 	@OneToOne(mappedBy = "voucher")
 	private Compra compra;
 
-	@ManyToMany
-	@JoinTable(name = "Cliente_Voucher", joinColumns = { @JoinColumn(name = "cliente_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "voucher_id") })
+	@ManyToOne
+	@JoinColumn(name = "Cliente_id")
 	@JsonIgnore
-	List<Cliente> clientes = new ArrayList<>();
+	private Cliente cliente;
 
 	public Long getId() {
 		return id;
@@ -50,8 +50,8 @@ public class Voucher {
 		return compra;
 	}
 
-	public List<Cliente> getClientes() {
-		return clientes;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
 	public void setValorVoucher(double aValorVoucher) {
@@ -62,8 +62,8 @@ public class Voucher {
 		compra = aCompra;
 	}
 
-	public void setClientes(List<Cliente> aClientes) {
-		clientes = aClientes;
+	public void setCliente(Cliente aCliente) {
+		cliente = aCliente;
 	}
 
 }

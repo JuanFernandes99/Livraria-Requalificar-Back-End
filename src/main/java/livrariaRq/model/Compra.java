@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import livrariaRq.model.livro.Livro;
+import livrariaRq.model.utilizador.Cliente;
 
 @Entity
 @Table(name = "Compra")
@@ -29,6 +31,11 @@ public class Compra {
 	private double valorCompra;
 	private int quantidadeVoucher;
 
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
+	private Cliente cliente;
+	
+	
 	@OneToOne
 	@JoinColumn(name = "carrinho_id")
 	private CarrinhoDeCompras carrinho;
