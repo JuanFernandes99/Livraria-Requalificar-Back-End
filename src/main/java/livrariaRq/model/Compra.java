@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,7 +28,7 @@ public class Compra {
 
 	private double valorCompra;
 	private int quantidadeVoucher;
-	
+
 	@OneToOne
 	@JoinColumn(name = "carrinho_id")
 	private CarrinhoDeCompras carrinho;
@@ -62,28 +61,12 @@ public class Compra {
 		return quantidadeVoucher;
 	}
 
-	public List<CarrinhoDeCompras> getCarrinho() {
-		return carrinho;
-	}
-
-	public List<Voucher> getVouchers() {
-		return vouchers;
-	}
-
 	public void setValorCompra(double aValorCompra) {
 		valorCompra = aValorCompra;
 	}
 
 	public void setQuantidadeVoucher(int aQuantidadeVoucher) {
 		quantidadeVoucher = aQuantidadeVoucher;
-	}
-
-	public void setCarrinho(List<CarrinhoDeCompras> aCarrinho) {
-		carrinho = aCarrinho;
-	}
-
-	public void setVouchers(List<Voucher> aVouchers) {
-		vouchers = aVouchers;
 	}
 
 	public List<Livro> getLivros() {

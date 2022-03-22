@@ -58,15 +58,11 @@ public class Livro {
 	private Compra compra;
 
 	public void adicionarAutor(Autor aAutor) {
-
 		autores.add(aAutor);
-
 	}
 
 	public void removerAutor(Autor aAutor) {
-
 		autores.remove(aAutor);
-
 	}
 
 	public Long getId() {
