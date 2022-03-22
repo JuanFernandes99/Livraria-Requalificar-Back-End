@@ -1,11 +1,15 @@
 package livrariaRq.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import livrariaRq.model.livro.Autor;
+import livrariaRq.model.livro.Editora;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.repository.LivroRepository;
@@ -35,6 +39,36 @@ public class LivroService {
 		return livros;
 	}
 
+	public List<Livro> getLivrosPrecoAsc() {
+		List<Livro> livros = new ArrayList<>();
+		livroRepo.findAll().forEach(livros::add);
+		livros.sort(Comparator.comparing(Livro::getPreco));
+		return livros;
+	}
+
+	public List<Livro> getLivrosPrecoDesc() {
+		List<Livro> livros = new ArrayList<>();
+		livroRepo.findAll().forEach(livros::add);
+		livros.sort(Comparator.comparing(Livro::getPreco).reversed());
+		return livros;
+	}
+	
+	public List<Livro> getLivrosPorDataDesc() {
+		List<Livro> livros = new ArrayList<>();
+		livroRepo.findAll().forEach(livros::add);
+		livros.sort(Comparator.comparing(Livro::getDataLancamento).reversed());
+		return livros;
+	}
+	
+	public List<Livro> getLivrosPorDataAsc() {
+		List<Livro> livros = new ArrayList<>();
+		livroRepo.findAll().forEach(livros::add);
+		livros.sort(Comparator.comparing(Livro::getDataLancamento));
+		return livros;
+	}
+
+
+	
 	public boolean verificarTamanhoIsbn(Livro aLivro) {
 
 		if (aLivro.getiSBN().length() != 10) {
@@ -53,24 +87,17 @@ public class LivroService {
 		return true;
 	}
 
-	/*public boolean verificarValidacaoIsbn(Livro aLivro) {
-		// 0201530821 ISBN valido para testar
-		//9721041440
-
-		int sum = 0;
-		for (int i = 0; i < aLivro.getiSBN().length(); i++) {
-			int digit = aLivro.getiSBN().charAt(i);
-			sum += (digit * (10 - i));
-		}
-
-		if ((sum % 11) != 0) {
-			return false;
-		} else {
-			return true;
-		}
-
-	}
-*/
+	/*
+	 * public boolean verificarValidacaoIsbn(Livro aLivro) { // 0201530821 ISBN
+	 * valido para testar //9721041440
+	 * 
+	 * int sum = 0; for (int i = 0; i < aLivro.getiSBN().length(); i++) { int digit
+	 * = aLivro.getiSBN().charAt(i); sum += (digit * (10 - i)); }
+	 * 
+	 * if ((sum % 11) != 0) { return false; } else { return true; }
+	 * 
+	 * }
+	 */
 	public boolean updateLivro(Livro aLivro) {
 		if (aLivro.getId() == null || livroRepo.findById(aLivro.getId()).isEmpty()) {
 			return false;

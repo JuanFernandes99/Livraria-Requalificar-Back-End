@@ -1,5 +1,8 @@
 package livrariaRq.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseLivro;
+import livrariaRq.model.livro.Autor;
+import livrariaRq.model.livro.Editora;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
+import livrariaRq.service.AutorEditoraService;
 import livrariaRq.service.ClienteLivroService;
 import livrariaRq.service.FuncionarioLivroService;
 import livrariaRq.service.LivroAutorService;
@@ -26,14 +32,17 @@ public class LivroController {
 	private final FuncionarioLivroService funcionarioLivroService;
 	private final ClienteLivroService clienteLivroService;
 	private final LivroAutorService livroAutorService;
+	private final AutorEditoraService autorEditoraService;
 
 	@Autowired
 	public LivroController(LivroService aLivroService, FuncionarioLivroService aFuncionarioLivroService,
-			ClienteLivroService aClienteLivroService, LivroAutorService aLivroAutorService) {
+			ClienteLivroService aClienteLivroService, LivroAutorService aLivroAutorService,
+			AutorEditoraService aAutorEditoraService) {
 		livroService = aLivroService;
 		funcionarioLivroService = aFuncionarioLivroService;
 		clienteLivroService = aClienteLivroService;
 		livroAutorService = aLivroAutorService;
+		autorEditoraService = aAutorEditoraService;
 	}
 
 	@PostMapping("/addLivro")
@@ -54,12 +63,11 @@ public class LivroController {
 			srl.setMessage("O ISBN não pode ser inferior a 10 caracteres");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-/*
-		if (!livroService.verificarValidacaoIsbn(aWrapper.getLivro())) {
-			srl.setMessage("O ISBN não é valido");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
-		}
-*/
+		/*
+		 * if (!livroService.verificarValidacaoIsbn(aWrapper.getLivro())) {
+		 * srl.setMessage("O ISBN não é valido"); return
+		 * ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl); }
+		 */
 		if (aWrapper.getLivro().getPreco() <= 0) {
 			srl.setMessage("Preço inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
@@ -133,4 +141,36 @@ public class LivroController {
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 	}
+
+	@GetMapping("/getLivrosPrecoAsc")
+	public List<Livro> getLivrosPrecoAsc() {
+		return livroService.getLivrosPrecoAsc();
+	}
+
+	@GetMapping("/getLivrosPrecoDesc")
+	public List<Livro> getLivrosPrecoDec() {
+		return livroService.getLivrosPrecoDesc();
+	}
+
+	@GetMapping("/getLivrosDataDesc")
+	public List<Livro> getLivrosPorDataDesc() {
+		return livroService.getLivrosPorDataDesc();
+	}
+
+	@GetMapping("/getLivrosDataAsc")
+	public List<Livro> getLivrosPorDataAsc() {
+		return livroService.getLivrosPorDataAsc();
+	}
+
+	@GetMapping("/getLivrosPorEditora/{aEditora_id}")
+	public List<Livro> getLivrosPorEditora(@PathVariable String aEditora_id) {
+		return autorEditoraService.getLivrosPorEditora(aEditora_id);
+	}
+
+	@GetMapping("/getLivrosPorAutor/{aAutor_id}")
+	public List<Livro> getLivrosPorAutor(@PathVariable String aAutor_id) {
+
+		return autorEditoraService.getLivrosPorAutor(aAutor_id);
+	}
+
 }

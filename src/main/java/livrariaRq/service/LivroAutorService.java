@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import livrariaRq.model.livro.Autor;
+
 import livrariaRq.model.livro.Livro;
 import livrariaRq.repository.AutorRepository;
 import livrariaRq.repository.LivroRepository;
@@ -46,4 +47,5 @@ public class LivroAutorService {
 
 		return "Insucesso ao adicionar o livro ao autor";
 	}
+
 }
