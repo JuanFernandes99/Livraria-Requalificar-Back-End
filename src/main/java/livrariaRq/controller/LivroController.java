@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import livrariaRq.dto.SimpleResponseLivro;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
+import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.service.AutorEditoraService;
 import livrariaRq.service.ClienteLivroService;
 import livrariaRq.service.FuncionarioLivroService;
@@ -127,6 +128,29 @@ public class LivroController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 		if (clienteLivroService.autenticacaoLivros(aCliente)) {
+			srl.setLivros(livroService.getAllLivros());
+			srl.setAsSuccess("Lista de Livros existentes na livraria:");
+			return ResponseEntity.status(HttpStatus.OK).body(srl);
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+
+	}
+
+	// verificar se está correto!!
+	@GetMapping("/getAllLivrosFuncionario")
+	public ResponseEntity<SimpleResponseLivro> getAllLivrosFuncionario(@RequestBody Funcionario aFuncionario) {
+		SimpleResponseLivro srl = new SimpleResponseLivro();
+
+		if (!funcionarioLivroService.autenticacaoFuncionario(aFuncionario)) {
+			srl.setMessage("Tem de fazer login primeiro, para conseguir ver os livros disponíveis na livraria");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (livroService.getAllLivros().isEmpty()) {
+			srl.setMessage("não tem livros registados na livraria");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		if (funcionarioLivroService.autenticacaoFuncionario(aFuncionario)) {
 			srl.setLivros(livroService.getAllLivros());
 			srl.setAsSuccess("Lista de Livros existentes na livraria:");
 			return ResponseEntity.status(HttpStatus.OK).body(srl);

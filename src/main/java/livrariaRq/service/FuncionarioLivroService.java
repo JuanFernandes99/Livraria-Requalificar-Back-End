@@ -31,4 +31,14 @@ public class FuncionarioLivroService {
 		return false;
 	}
 
+// verificar se está correto
+	public boolean autenticacaoFuncionario(Funcionario aFuncionario) {
+		Funcionario funcionario = funcionarioRepo.findById(aFuncionario.getId()).get();
+		if (aFuncionario.getId() != null && funcionario.isLoginAtivo()) {
+			return true;
+		}
+		return false;
+
+	}
+
 }
