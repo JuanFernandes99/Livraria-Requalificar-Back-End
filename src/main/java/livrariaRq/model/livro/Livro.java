@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -54,8 +56,9 @@ public class Livro {
 	@JoinColumn(name = "Editora_id")
 	private Editora editora;
 
-	@ManyToOne
+	@OneToMany
 	@JoinColumn(name = "Compra_id") // ligação com a classe Compra
+	@JsonIgnore
 	private Compra compra;
 
 	@ManyToOne

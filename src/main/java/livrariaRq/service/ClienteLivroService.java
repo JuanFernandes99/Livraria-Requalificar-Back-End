@@ -1,5 +1,6 @@
 package livrariaRq.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import livrariaRq.model.utilizador.Cliente;
@@ -11,7 +12,7 @@ public class ClienteLivroService {
 
 	private final LivroRepository livroRepo;
 	private final ClienteRepository clienteRepo;
-
+@Autowired
 	public ClienteLivroService(LivroRepository aLivroRepo, ClienteRepository aClienteRepo) {
 		livroRepo = aLivroRepo;
 		clienteRepo = aClienteRepo;

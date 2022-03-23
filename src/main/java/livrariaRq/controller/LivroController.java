@@ -1,7 +1,6 @@
 package livrariaRq.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,9 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import livrariaRq.dto.SimpleResponseLivro;
-import livrariaRq.model.livro.Autor;
-import livrariaRq.model.livro.Editora;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.service.AutorEditoraService;
@@ -128,6 +126,11 @@ public class LivroController {
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 
+	}
+
+	@GetMapping("/getLivroById/{aId}")
+	public Livro getCentroComercialById(@PathVariable String aId) {
+		return livroService.getLivroById(aId).get();
 	}
 
 	@PutMapping("/updateLivro")

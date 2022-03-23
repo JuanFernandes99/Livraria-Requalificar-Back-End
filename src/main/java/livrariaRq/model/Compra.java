@@ -45,7 +45,7 @@ public class Compra {
 	private Voucher voucher;
 
 	@OneToMany(mappedBy = "compra")
-	@JsonIgnore
+
 	private List<Livro> livros = new ArrayList<>();
 
 	public void adicionarLivroCompra(Livro aLivro) {
