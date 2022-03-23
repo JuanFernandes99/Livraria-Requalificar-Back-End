@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import livrariaRq.dto.SimpleResponseLivro;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
@@ -20,6 +19,7 @@ import livrariaRq.service.AutorEditoraService;
 import livrariaRq.service.ClienteLivroService;
 import livrariaRq.service.FuncionarioLivroService;
 import livrariaRq.service.LivroAutorService;
+import livrariaRq.service.LivroCarrinhoService;
 import livrariaRq.service.LivroService;
 import livrariaRq.utils.WrapperFuncionarioLivro;
 
@@ -31,16 +31,18 @@ public class LivroController {
 	private final ClienteLivroService clienteLivroService;
 	private final LivroAutorService livroAutorService;
 	private final AutorEditoraService autorEditoraService;
+	private final LivroCarrinhoService livroCarrinhoService;
 
 	@Autowired
 	public LivroController(LivroService aLivroService, FuncionarioLivroService aFuncionarioLivroService,
 			ClienteLivroService aClienteLivroService, LivroAutorService aLivroAutorService,
-			AutorEditoraService aAutorEditoraService) {
+			AutorEditoraService aAutorEditoraService, LivroCarrinhoService aLivroCarrinhoService) {
 		livroService = aLivroService;
 		funcionarioLivroService = aFuncionarioLivroService;
 		clienteLivroService = aClienteLivroService;
 		livroAutorService = aLivroAutorService;
 		autorEditoraService = aAutorEditoraService;
+		livroCarrinhoService = aLivroCarrinhoService;
 	}
 
 	@PostMapping("/addLivro")
@@ -104,6 +106,11 @@ public class LivroController {
 	@PostMapping("/addLivro/{aLivro_id}/autor/{aAutor_id}")
 	public String addLivroToAutorByIds(@PathVariable String aLivro_id, @PathVariable String aAutor_id) {
 		return livroAutorService.addLivroToAutor(aLivro_id, aAutor_id);
+	}
+
+	@PostMapping("/addLivro/{aLivro_id}/carrinho/{aCarrinho_id}")
+	public String addLivroToCarrinhoByIds(@PathVariable String aLivro_id, @PathVariable String aCarrinho_id) {
+		return livroCarrinhoService.adicionarLivroToCarrinho(aLivro_id, aCarrinho_id);
 	}
 
 	@GetMapping("/getAllLivros")

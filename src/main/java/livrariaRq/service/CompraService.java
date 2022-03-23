@@ -11,16 +11,24 @@ import livrariaRq.repository.CompraRepository;
 
 @Service
 public class CompraService {
-	private final CompraRepository compraRepository;
+	private final CompraRepository compraRepo;
 
 	@Autowired
-	public CompraService(CompraRepository aCompraRepository) {
-		compraRepository = aCompraRepository;
+	public CompraService(CompraRepository aCompraRepo) {
+		compraRepo = aCompraRepo;
 	}
 
+	public boolean addCompra(Compra aCompra) {
+		if (aCompra.getId() == null) {
+			compraRepo.save(aCompra);
+			return true;
+		}
+		return false;
+	}
+	
 	public List<Compra> getAllCompras() {
 		List<Compra> compras = new ArrayList<>();
-		compraRepository.findAll().forEach(compras::add);
+		compraRepo.findAll().forEach(compras::add);
 		return compras;
 	}
 

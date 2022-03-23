@@ -30,17 +30,44 @@ public class LivroCarrinhoService {
 			Livro livroAux = opcionalLivro.get();
 
 			CarrinhoDeCompras carrinhoAux = opcionalCarrinho.get();
+			
+			if (livroAux.getQuantidadeStock() > 0) {
+				livroAux.setCarrinho(carrinhoAux);
+				carrinhoAux.adicionarLivro(livroAux);
+				carrinhoAux.setValorTotalPagar(carrinhoAux.getValorTotalPagar() + livroAux.getPreco()); //
+				livroRepo.save(livroAux); // save pq estamos a adicionar novos dados
+				carrinhoRepo.save(carrinhoAux);
 
-			livroAux.setCarrinho(carrinhoAux);
-			carrinhoAux.setLivros(livroAux);
-
-			livroRepo.save(livroAux); // save pq estamos a adicionar novos dados
-			carrinhoRepo.save(carrinhoAux);
-
-			return "Sucesso ao adicionar o livro: " + livroAux.getTitulo() + "ao carrinho: " + carrinhoAux.getId();
+				return "Sucesso ao adicionar o livro: " + livroAux.getTitulo() + "ao carrinho: " + carrinhoAux.getId();
+			} else {
+				return "Sem stock";
+			}
 
 		}
 		return "Insucesso ao adicionar o carrinho ao cliente";
+
+	}
+
+	public String removerLivroToCarrinho(String aLivroId, String aCarrinhoId) {
+		Optional<Livro> opcionalLivro = livroRepo.findById(Long.parseLong(aLivroId));
+		Optional<CarrinhoDeCompras> opcionalCarrinho = carrinhoRepo.findById(Long.parseLong(aCarrinhoId));
+
+		if (opcionalLivro.isPresent() && opcionalCarrinho.isPresent()) {
+
+			Livro livroAux = opcionalLivro.get();
+
+			CarrinhoDeCompras carrinhoAux = opcionalCarrinho.get();
+			// testar tudo
+			livroAux.setCarrinho(null);
+			carrinhoAux.removeLivro(livroAux);
+			carrinhoAux.setValorTotalPagar(carrinhoAux.getValorTotalPagar() - livroAux.getPreco()); //
+			livroRepo.save(livroAux); // save pq estamos a adicionar novos dados
+			carrinhoRepo.save(carrinhoAux);
+
+			return "Sucesso ao remover o livro: " + livroAux.getTitulo() + "ao carrinho: " + carrinhoAux.getId();
+
+		}
+		return "Insucesso ao remover o carrinho ao cliente";
 
 	}
 }

@@ -34,6 +34,14 @@ public class CarrinhoDeCompras {
 	@OneToMany(mappedBy = "carrinho")
 	private List<Livro> livros;
 
+	public void adicionarLivro(Livro aLivro) {
+		livros.add(aLivro);
+	}
+
+	public void removeLivro(Livro aLivro) {
+		livros.remove(aLivro);
+	}
+	
 	public Long getId() {
 		return id;
 	}
