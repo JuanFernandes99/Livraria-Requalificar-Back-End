@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseCarrinho;
 import livrariaRq.model.CarrinhoDeCompras;
-import livrariaRq.model.livro.Autor;
 import livrariaRq.service.CarrinhoService;
 import livrariaRq.service.ClienteCarrinhoService;
 
