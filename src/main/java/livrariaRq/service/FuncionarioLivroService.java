@@ -47,14 +47,13 @@ public class FuncionarioLivroService {
 			Optional<Autor> autorLivro = autorRepo.findById(autor.getId());
 			autoresLivro.add(autorLivro.get());
 		}
-		
-		
+
 		aLivro.setAutores(autoresLivro);
 		aLivro.setEditora(editoraAux);
-		
+
 		if (aLivro.getId() == null && autenticacaoFuncionario(aFuncionario)) {
 			livroRepo.save(aLivro);
-			
+
 			return true;
 		}
 		return false;

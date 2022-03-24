@@ -1,5 +1,7 @@
 package livrariaRq.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +9,13 @@ import org.springframework.stereotype.Service;
 
 import livrariaRq.model.CarrinhoDeCompras;
 import livrariaRq.model.Compra;
+import livrariaRq.model.livro.Autor;
+import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.CarrinhoRepository;
 import livrariaRq.repository.ClienteRepository;
 import livrariaRq.repository.CompraRepository;
+import livrariaRq.repository.LivroRepository;
 
 @Service
 public class CompraCarrinhoService {
@@ -18,13 +23,15 @@ public class CompraCarrinhoService {
 	private CompraRepository compraRepo;
 	private CarrinhoRepository carrinhoRepo;
 	private ClienteRepository clienteRepo;
+	private LivroRepository livroRepo;
 
 	@Autowired
 	public CompraCarrinhoService(CompraRepository aCompraRepo, CarrinhoRepository aCarrinhoRepo,
-			ClienteRepository aClienteRepo) {
+			ClienteRepository aClienteRepo, LivroRepository aLivroRepo) {
 		compraRepo = aCompraRepo;
 		carrinhoRepo = aCarrinhoRepo;
 		clienteRepo = aClienteRepo;
+		livroRepo = aLivroRepo;
 	}
 
 	public String adicionarCarrinhoToCompra(String aCarrinhoId, String aCompraId) {
@@ -42,11 +49,21 @@ public class CompraCarrinhoService {
 
 			Cliente clienteAux = opcionalCliente.get();
 
+			
+			List<Livro> compraLivro = new ArrayList<>();
+			
+			for (Livro livro : carrinhoAux.getLivros()) {
+				Optional<Livro> livroCompra = livroRepo.findById(livro.getId());
+				compraLivro.add(livroCompra.get());
+			}
+			
 			compraAux.setCarrinho(carrinhoAux);
+			compraAux.setLivros(compraLivro);
 			// compraAux.setLivros(carrinhoAux.getLivros());
 			compraAux.setCliente(clienteAux);
 			compraAux.setValorCompra(carrinhoAux.getValorTotalPagar());
 			clienteAux.adicionarCompra(compraAux);
+			
 			/*
 			 * if(compraAux.getValorCompra() >= 50 || compraAux.getValorCompra() < 100) {
 			 * carrinhoAux.getCliente().adicionarVoucher(null);; }

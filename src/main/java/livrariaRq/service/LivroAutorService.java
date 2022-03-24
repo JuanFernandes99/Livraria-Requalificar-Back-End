@@ -32,12 +32,12 @@ public class LivroAutorService {
 			Livro livroAux = opcionalLivro.get();
 
 			Autor autorAux = opcionalAutor.get();
-			
+			/*
 			for (Autor autores : livroAux.getAutores()) {
 				if (autores.getLivros() == (livroAux)) {
 					return "problema";
 				}
-			}
+			}*/
 			livroAux.adicionarAutor(autorAux);
 			autorAux.adicionarLivro(livroAux);
 
