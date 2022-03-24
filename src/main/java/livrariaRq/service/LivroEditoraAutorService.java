@@ -32,23 +32,48 @@ public class LivroEditoraAutorService {
 	public boolean addLivro(Livro aLivro) {
 
 		Optional<Editora> editora = editoraRepo.findById(aLivro.getEditora().getId());
+
 		Editora editoraAux = editora.get();
 
 		List<Autor> autoresLivro = new ArrayList<>();
 
 		for (Autor autor : aLivro.getAutores()) {
 			Optional<Autor> autorLivro = autorRepo.findById(autor.getId());
+
 			autoresLivro.add(autorLivro.get());
 		}
 
-		aLivro.setAutores(autoresLivro);
-		aLivro.setEditora(editoraAux);
-
 		if (aLivro.getId() == null) {
+			aLivro.setAutores(autoresLivro);
+			aLivro.setEditora(editoraAux);
 			livroRepo.save(aLivro);
 
 			return true;
 		}
 		return false;
+	}
+
+	public boolean VerificarEditora(Livro aLivro) {
+
+		Optional<Editora> editora = editoraRepo.findById(aLivro.getEditora().getId());
+
+		if (aLivro.getEditora() == null || !editora.isPresent()) {
+			return false;
+		}
+		return true;
+
+	}
+
+	public boolean VerificarAutor(Livro aLivro) {
+
+		for (Autor autor : aLivro.getAutores()) {
+			Optional<Autor> autorLivro = autorRepo.findById(autor.getId());
+
+			if (!autorLivro.isPresent()) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

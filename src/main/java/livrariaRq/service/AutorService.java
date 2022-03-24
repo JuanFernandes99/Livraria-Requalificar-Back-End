@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import livrariaRq.model.livro.Autor;
 import livrariaRq.model.livro.Editora;
+import livrariaRq.model.livro.Livro;
 import livrariaRq.repository.AutorRepository;
 import livrariaRq.repository.EditoraRepository;
 
@@ -18,9 +19,9 @@ public class AutorService {
 	private final EditoraRepository editoraRepo;
 
 	@Autowired
-	public AutorService(AutorRepository aAutorRepo, EditoraRepository editoraRepo) {
+	public AutorService(AutorRepository aAutorRepo, EditoraRepository aEditoraRepo) {
 		autorRepo = aAutorRepo;
-		this.editoraRepo = editoraRepo;
+		editoraRepo = aEditoraRepo;
 	}
 
 	// falta o update
@@ -30,7 +31,7 @@ public class AutorService {
 		Editora editoraAux = editora.get();
 
 		aAutor.setEditora(editoraAux);
-		
+
 		if (aAutor.getId() == null) {
 			autorRepo.save(aAutor);
 			return true;
@@ -43,6 +44,17 @@ public class AutorService {
 		List<Autor> autores = new ArrayList<>();
 		autorRepo.findAll().forEach(autores::add);
 		return autores;
+	}
+
+	public boolean VerificarEditora(Autor aAutor) {
+
+		Optional<Editora> editora = editoraRepo.findById(aAutor.getEditora().getId());
+
+		if (aAutor.getEditora() == null || !editora.isPresent()) {
+			return false;
+		}
+		return true;
+
 	}
 
 }

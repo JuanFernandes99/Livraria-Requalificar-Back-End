@@ -45,6 +45,12 @@ public class AutorController {
 			sra.setMessage("O autor tem de pertencer a uma editora");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sra);
 		}
+
+		if (!autorService.VerificarEditora(aAutor)) {
+			sra.setMessage("A editora nao existe");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sra);
+		}
+
 		if (autorService.addAutor(aAutor)) {
 			sra.setAsSuccess("Autor adicionado com sucesso");
 			sra.setAutores(autorService.getAllAutores());

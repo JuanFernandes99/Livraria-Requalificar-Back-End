@@ -47,6 +47,11 @@ public class LivroController {
 			srl.setMessage("Tem de inserir uma data");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
+		
+		if(aLivro.getIsbn() == null) {
+			srl.setMessage("Tem de inserir um ISBN");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
 
 		if (!livroService.verificarIsbnExistente(aLivro)) {
 			srl.setMessage("O ISBN digitado já existe na base de dados");
@@ -86,14 +91,21 @@ public class LivroController {
 			srl.setMessage("Tem de inserir uma edição do livro");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-
+		if (aLivro.getAutores() == null || aLivro.getAutores().isEmpty()) {
+			srl.setMessage("Tem de inserir pelo menos um autor");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		if (!livroEditoraAutorService.VerificarAutor(aLivro)) {
+			srl.setMessage("O autor(es) nao existem");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
 		if (aLivro.getEditora() == null) {
-			srl.setMessage("Tem de inserir uma editora ao livro");
+			srl.setMessage("Tem de inserir uma edição do livro");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (aLivro.getAutores() == null || aLivro.getAutores().isEmpty()) {
-			srl.setMessage("Tem de inserir pelo menos um autor");
+		if (!livroEditoraAutorService.VerificarEditora(aLivro)) {
+			srl.setMessage("A editora nao existe");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
@@ -108,7 +120,7 @@ public class LivroController {
 	}
 
 	@GetMapping("/getAllLivros")
-	public ResponseEntity<SimpleResponseLivro> getAllLivros(@RequestBody Cliente aCliente) {
+	public ResponseEntity<SimpleResponseLivro> getAllLivros() {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
 
 		if (livroService.getAllLivros().isEmpty()) {

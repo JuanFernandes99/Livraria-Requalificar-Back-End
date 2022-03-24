@@ -74,7 +74,7 @@ public class LivroService {
 
 	public boolean verificarTamanhoIsbn(Livro aLivro) {
 
-		if (aLivro.getiSBN().length() != 10) {
+		if ( aLivro.getIsbn().length() != 10 ) {
 			return false;
 		}
 		return true;
@@ -83,7 +83,7 @@ public class LivroService {
 	public boolean verificarIsbnExistente(Livro aLivro) {
 
 		for (Livro livros : getAllLivros()) {
-			if (aLivro.getiSBN().equals(livros.getiSBN())) {
+			if (aLivro.getIsbn().equals(livros.getIsbn())) {
 				return false;
 			}
 		}

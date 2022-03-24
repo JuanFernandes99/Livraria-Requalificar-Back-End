@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import livrariaRq.dto.SimpleResponseCompra;
 import livrariaRq.model.Compra;
 import livrariaRq.model.utilizador.Cliente;
@@ -27,18 +26,24 @@ public class CompraController {
 	}
 
 	@PostMapping("/addCompra")
-	public ResponseEntity<SimpleResponseCompra> addCompra(Cliente aCliente , Compra aCompra) {
+	public ResponseEntity<SimpleResponseCompra> addCompra(Compra aCompra) {
 		SimpleResponseCompra src = new SimpleResponseCompra();
 
+		if (aCompra.getCliente() == null) {
+			src.setMessage("Deve inserir um cliente");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+		}
+		if (!clienteCompraService.VerificarCliente(aCompra)) {
+			src.setMessage("O cliente nao existe");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+		}
 
 		if (aCompra.getLivros() == null || aCompra.getLivros().isEmpty()) {
 			src.setMessage("Tem de inserir pelo menos um livro a compra");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 
-
-		
-		if (clienteCompraService.adicionarCompra(aCliente, aCompra)) {
+		if (clienteCompraService.adicionarCompra(aCompra)) {
 			src.setAsSuccess("Compra adicionada com sucesso");
 			src.setCompras(compraService.getAllCompras());
 			return ResponseEntity.status(HttpStatus.OK).body(src);

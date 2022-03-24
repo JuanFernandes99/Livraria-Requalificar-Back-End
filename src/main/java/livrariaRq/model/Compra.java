@@ -33,7 +33,7 @@ public class Compra {
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
-	@JsonIgnore
+
 	private Cliente cliente;
 
 	@OneToOne

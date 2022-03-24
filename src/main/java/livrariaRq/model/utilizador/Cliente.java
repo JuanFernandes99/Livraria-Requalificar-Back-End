@@ -38,15 +38,12 @@ public class Cliente {
 	private Date dataNascimento;
 
 	@OneToMany(mappedBy = "cliente")
+	@JsonIgnore
 	private List<Compra> compras;
 
 	@OneToMany(mappedBy = "cliente")
 	private List<Voucher> vouchers = new ArrayList<>();
 
-	@OneToOne
-	@JoinColumn(name = "carrinho_id")
-	@JsonIgnore
-	private Compra carrinho;
 
 	public void adicionarCompra(Compra aCompra) {
 		compras.add(aCompra);

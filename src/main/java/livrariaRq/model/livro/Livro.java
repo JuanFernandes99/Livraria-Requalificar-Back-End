@@ -29,7 +29,7 @@ public class Livro {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String titulo;
-	private String ISBN; // String porque o valor pode começar em 0
+	private String isbn; // String porque o valor pode começar em 0
 	private String sinopse;
 	private String edicao;
 	private String imagem; // Ainda não está feita a imagem
@@ -73,10 +73,6 @@ public class Livro {
 		return titulo;
 	}
 
-	public String getiSBN() {
-		return ISBN;
-	}
-
 	public double getPreco() {
 		return preco;
 	}
@@ -112,13 +108,17 @@ public class Livro {
 	public List<Autor> getAutores() {
 		return autores;
 	}
+	
+	public Compra getCompra() {
+		return compra;
+	}
+	
+	public String getIsbn() {
+		return isbn;
+	}
 
 	public void setTitulo(String aTitulo) {
 		titulo = aTitulo;
-	}
-
-	public void setiSBN(String aISBN) {
-		ISBN = aISBN;
 	}
 
 	public void setPreco(double aPreco) {
@@ -157,12 +157,16 @@ public class Livro {
 		autores = aAutores;
 	}
 
-	public Compra getCompra() {
-		return compra;
-	}
+
 
 	public void setCompra(Compra aCompra) {
 		compra = aCompra;
+	}
+
+
+
+	public void setIsbn(String aIsbn) {
+		isbn = aIsbn;
 	}
 
 }
