@@ -23,13 +23,14 @@ public class AutorService {
 		this.editoraRepo = editoraRepo;
 	}
 
-	// falta o update , e ver quem regista ao autor.
+	// falta o update
 
 	public boolean addAutor(Autor aAutor) {
 		Optional<Editora> editora = editoraRepo.findById(aAutor.getEditora().getId());
 		Editora editoraAux = editora.get();
 
 		aAutor.setEditora(editoraAux);
+		
 		if (aAutor.getId() == null) {
 			autorRepo.save(aAutor);
 			return true;

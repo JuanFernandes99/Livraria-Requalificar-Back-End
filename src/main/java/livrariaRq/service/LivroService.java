@@ -25,15 +25,6 @@ public class LivroService {
 		livroRepo = aLivroRepo;
 	}
 
-	public boolean addLivro(Livro aLivro, Funcionario aFuncionario) {
-
-		if (aLivro.getId() == null && aFuncionario.isLoginAtivo()) {
-			livroRepo.save(aLivro);
-			return true;
-		}
-		return false;
-	}
-
 	public List<Livro> getAllLivros() {
 		List<Livro> livros = new ArrayList<>();
 		livroRepo.findAll().forEach(livros::add);

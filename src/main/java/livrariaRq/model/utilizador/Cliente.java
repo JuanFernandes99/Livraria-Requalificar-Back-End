@@ -37,7 +37,6 @@ public class Cliente {
 	private String morada;
 	private String palavraPasse;
 	private String email;
-	private boolean loginAtivo;
 
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
@@ -86,9 +85,7 @@ public class Cliente {
 		return id;
 	}
 
-	public boolean isLoginAtivo() {
-		return loginAtivo;
-	}
+
 	
 	public List<Compra> getCompras() {
 		return compras;
@@ -123,9 +120,7 @@ public class Cliente {
 		morada = aMorada;
 	}
 
-	public void setLoginAtivo(boolean aLoginAtivo) {
-		loginAtivo = aLoginAtivo;
-	}
+
 
 	public List<Voucher> getVouchers() {
 		return vouchers;

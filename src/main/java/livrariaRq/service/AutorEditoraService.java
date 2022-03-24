@@ -25,27 +25,6 @@ public class AutorEditoraService {
 		editoraRepo = aEditoraRepo;
 	}
 
-	public String addAutorToEditora(String aAutorId, String aEditoraId) {
-		Optional<Editora> opcionalEditora = editoraRepo.findById(Long.parseLong(aEditoraId));
-		Optional<Autor> opcionalAutor = autorRepo.findById(Long.parseLong(aAutorId));
-
-		if (opcionalEditora.isPresent() && opcionalAutor.isPresent()) {
-
-			Editora editoraAux = opcionalEditora.get();
-
-			Autor autorAux = opcionalAutor.get();
-
-			editoraAux.adicionarAutor(autorAux);
-			autorAux.setEditora(editoraAux);
-			editoraRepo.save(editoraAux); // save pq estamos a adicionar novos dados
-			autorRepo.save(autorAux);
-
-			return "Sucesso ao adicionar o autor: " + autorAux.getNome() + " à editora: " + editoraAux.getNome();
-
-		}
-
-		return "Insucesso ao adicionar o autor à editora";
-	}
 
 	public List<Livro> getLivrosPorEditora(String aEditora_id) {
 		Long id_long = parseLong(aEditora_id);
