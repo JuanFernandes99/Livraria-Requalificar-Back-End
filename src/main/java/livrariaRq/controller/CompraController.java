@@ -11,28 +11,48 @@ import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseCarrinho;
 import livrariaRq.dto.SimpleResponseCompra;
-import livrariaRq.model.CarrinhoDeCompras;
 import livrariaRq.model.Compra;
+import livrariaRq.model.utilizador.Cliente;
+import livrariaRq.service.ClienteCompraService;
 import livrariaRq.service.CompraCarrinhoService;
 import livrariaRq.service.CompraService;
 
 @RestController
 public class CompraController {
 	private final CompraService compraService;
-	private final CompraCarrinhoService compraCarrinhoService;
+	private final ClienteCompraService clienteCompraService;
 
 	@Autowired
-	public CompraController(CompraService aCompraService, CompraCarrinhoService aCompraCarrinhoService) {
+	public CompraController(CompraService aCompraService, ClienteCompraService aClienteCompraService) {
 
 		compraService = aCompraService;
-		compraCarrinhoService = aCompraCarrinhoService;
+		clienteCompraService = aClienteCompraService;
 	}
-	
+
 	@PostMapping("/addCompra")
-	public ResponseEntity<SimpleResponseCompra> addCarrinho(@RequestBody Compra aCompra) {
+	public ResponseEntity<SimpleResponseCompra> addCompra(Cliente aCliente , Compra aCompra) {
 		SimpleResponseCompra src = new SimpleResponseCompra();
 
-		if (compraService.addCompra(aCompra)) {
+
+		if (aCompra.getLivros() == null || aCompra.getLivros().isEmpty()) {
+			src.setMessage("Tem de inserir pelo menos um livro a compra");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+		}
+		if (aCompra.getCliente() != null) {
+			src.setMessage("O cliente é adicionado automaticamente");//ver
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+		}
+
+		if (aCompra.ge == null) {
+			src.setMessage("Data de nascimento inválida, formato esperado: dd-MM-yyyy");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+		}
+
+		if (aAutor.getEditora() == null) {
+			src.setMessage("O autor tem de pertencer a uma editora");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+		}
+		if (clienteCompraService.adicionarCompra(aCliente_id, aCompra_id)) {
 			src.setAsSuccess("Compra adicionado com sucesso");
 			src.setCompras(compraService.getAllCompras());
 			return ResponseEntity.status(HttpStatus.OK).body(src);
@@ -43,10 +63,6 @@ public class CompraController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 
-	}
-	@PostMapping("/addCarrinho/{aCarrinho_id}/compra/{aCompra_id}")
-	public String addCarrinhoToCompraByIds(@PathVariable String aCarrinho_id, @PathVariable String aCompra_id) {
-		return compraCarrinhoService.adicionarCarrinhoToCompra(aCarrinho_id, aCompra_id);
 	}
 
 	@GetMapping("/getAllCompras")

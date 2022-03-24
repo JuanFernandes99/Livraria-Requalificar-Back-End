@@ -1,4 +1,4 @@
- package livrariaRq.service;
+package livrariaRq.service;
 
 import java.util.Optional;
 
@@ -22,27 +22,23 @@ public class ClienteCompraService {
 		clienteRepo = aClienteRepo;
 	}
 
-	public String adicionarCarrinhoToCliente(String aCompraId, String aClienteId) {
-		Optional<Compra> compraOptional = compraRepo.findById(Long.parseLong(aCompraId));
-		Optional<Cliente> opcionalCliente = clienteRepo.findById(Long.parseLong(aClienteId));
+	public boolean adicionarCompra(Cliente aCliente, Compra aCompra) {
+		Optional<Cliente> opcionalCliente = clienteRepo.findById(aCliente.getId());
 
-		if (compraOptional.isPresent() && opcionalCliente.isPresent()) {
+		if (opcionalCliente.isEmpty()) {
+			return false;
+		} else {
 
 			Cliente clienteAux = opcionalCliente.get();
 
-			CarrinhoDeCompras carrinhoAux = opcionalCarrinho.get();
-
-			clienteAux.setCarrinho(carrinhoAux);
-			carrinhoAux.setCliente(clienteAux);
+			clienteAux.adicionarCompra(aCompra);
+			aCompra.setCliente(clienteAux);
 
 			clienteRepo.save(clienteAux); // save pq estamos a adicionar novos dados
-			carrinhoRepo.save(carrinhoAux);
+			compraRepo.save(aCompra);
 
-			return "Sucesso ao adicionar o carrinho com id: " + carrinhoAux.getId() + "ao cliente: "
-					+ clienteAux.getNome();
-
+			return true;
 		}
-		return "Insucesso ao adicionar o carrinho ao cliente";
 
 	}
 }
