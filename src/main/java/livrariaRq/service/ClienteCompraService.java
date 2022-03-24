@@ -44,7 +44,7 @@ public class ClienteCompraService {
 
 		Optional<Cliente> opcionalCliente = clienteRepo.findById(aCompra.getCliente().getId());
 
-		if (opcionalCliente.isEmpty()) {
+		if (opcionalCliente.isEmpty() || aCompra.getCliente() == null) {
 			return false;
 		} else {
 			return true;

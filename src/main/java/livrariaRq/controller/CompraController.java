@@ -29,14 +29,15 @@ public class CompraController {
 	public ResponseEntity<SimpleResponseCompra> addCompra(Compra aCompra) {
 		SimpleResponseCompra src = new SimpleResponseCompra();
 
-		if (!clienteCompraService.VerificarCliente(aCompra)) {
-			src.setMessage("O cliente nao existe");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
-		}
 		if (aCompra.getCliente() == null) {
 			src.setMessage("Deve inserir um cliente");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
+		if (!clienteCompraService.VerificarCliente(aCompra)) {
+			src.setMessage("O cliente nao existe");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+		}
+
 
 
 		if (aCompra.getLivros() == null || aCompra.getLivros().isEmpty()) {
