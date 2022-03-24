@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import livrariaRq.model.livro.Livro;
-import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.repository.LivroRepository;
 
 @Service

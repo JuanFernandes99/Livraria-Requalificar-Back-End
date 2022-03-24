@@ -80,15 +80,6 @@ public class Cliente {
 		return id;
 	}
 
-<<<<<<< Updated upstream
-
-	
-=======
-	public boolean isLoginAtivo() {
-		return loginAtivo;
-	}
-
->>>>>>> Stashed changes
 	public List<Compra> getCompras() {
 		return compras;
 	}
@@ -116,7 +107,6 @@ public class Cliente {
 	public void setMorada(String aMorada) {
 		morada = aMorada;
 	}
-
 
 
 	public List<Voucher> getVouchers() {

@@ -4,17 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import livrariaRq.dto.SimpleResponseCarrinho;
+
 import livrariaRq.dto.SimpleResponseCompra;
 import livrariaRq.model.Compra;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.service.ClienteCompraService;
-import livrariaRq.service.CompraCarrinhoService;
 import livrariaRq.service.CompraService;
 
 @RestController
@@ -38,22 +35,11 @@ public class CompraController {
 			src.setMessage("Tem de inserir pelo menos um livro a compra");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
-		if (aCompra.getCliente() != null) {
-			src.setMessage("O cliente é adicionado automaticamente");//ver
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
-		}
 
-		if (aCompra.ge == null) {
-			src.setMessage("Data de nascimento inválida, formato esperado: dd-MM-yyyy");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
-		}
 
-		if (aAutor.getEditora() == null) {
-			src.setMessage("O autor tem de pertencer a uma editora");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
-		}
-		if (clienteCompraService.adicionarCompra(aCliente_id, aCompra_id)) {
-			src.setAsSuccess("Compra adicionado com sucesso");
+		
+		if (clienteCompraService.adicionarCompra(aCliente, aCompra)) {
+			src.setAsSuccess("Compra adicionada com sucesso");
 			src.setCompras(compraService.getAllCompras());
 			return ResponseEntity.status(HttpStatus.OK).body(src);
 		}

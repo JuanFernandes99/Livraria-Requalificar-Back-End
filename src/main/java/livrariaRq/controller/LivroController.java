@@ -15,11 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import livrariaRq.dto.SimpleResponseLivro;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
-import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.service.AutorEditoraService;
 import livrariaRq.service.LivroEditoraAutorService;
-import livrariaRq.service.LivroAutorService;
-import livrariaRq.service.LivroCarrinhoService;
 import livrariaRq.service.LivroService;
 
 @RestController
@@ -27,33 +24,21 @@ public class LivroController {
 
 	private final LivroService livroService;
 	private final LivroEditoraAutorService livroEditoraAutorService;
-	private final LivroAutorService livroAutorService;
 	private final AutorEditoraService autorEditoraService;
-	private final LivroCarrinhoService livroCarrinhoService;
 
 	@Autowired
 	public LivroController(LivroService aLivroService, LivroEditoraAutorService aLivroEditoraAutorService,
-			LivroAutorService aLivroAutorService, AutorEditoraService aAutorEditoraService,
-			LivroCarrinhoService aLivroCarrinhoService) {
+			AutorEditoraService aAutorEditoraService) {
 		livroService = aLivroService;
 		livroEditoraAutorService = aLivroEditoraAutorService;
-		livroAutorService = aLivroAutorService;
 		autorEditoraService = aAutorEditoraService;
-		livroCarrinhoService = aLivroCarrinhoService;
 	}
 
 	@PostMapping("/addLivro")
 	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
-<<<<<<< Updated upstream
 
 		if (aLivro.getTitulo() == null || aLivro.getTitulo().isBlank()) {
-=======
-		// Optional<Livro> livroOpcional =
-		// livroRepo.findById(aWrapper.getLivro().getId());
-
-		if (aWrapper.getLivro().getTitulo() == null || aWrapper.getLivro().getTitulo().isBlank()) {
->>>>>>> Stashed changes
 			srl.setMessage("Tem de inserir um titulo");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
