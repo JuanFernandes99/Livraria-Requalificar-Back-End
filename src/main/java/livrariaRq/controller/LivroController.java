@@ -1,7 +1,6 @@
 package livrariaRq.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseLivro;
-import livrariaRq.model.livro.Autor;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.model.utilizador.Funcionario;
@@ -47,8 +45,15 @@ public class LivroController {
 	@PostMapping("/addLivro")
 	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
+<<<<<<< Updated upstream
 
 		if (aLivro.getTitulo() == null || aLivro.getTitulo().isBlank()) {
+=======
+		// Optional<Livro> livroOpcional =
+		// livroRepo.findById(aWrapper.getLivro().getId());
+
+		if (aWrapper.getLivro().getTitulo() == null || aWrapper.getLivro().getTitulo().isBlank()) {
+>>>>>>> Stashed changes
 			srl.setMessage("Tem de inserir um titulo");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}

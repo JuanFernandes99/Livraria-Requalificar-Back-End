@@ -10,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -19,10 +17,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import livrariaRq.model.CarrinhoDeCompras;
 import livrariaRq.model.Compra;
 import livrariaRq.model.Voucher;
-import livrariaRq.model.livro.Autor;
 
 @Entity
 @Table(name = "Cliente")
@@ -44,14 +40,13 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente")
 	private List<Compra> compras;
 
-	
 	@OneToMany(mappedBy = "cliente")
 	private List<Voucher> vouchers = new ArrayList<>();
 
 	@OneToOne
 	@JoinColumn(name = "carrinho_id")
 	@JsonIgnore
-	private CarrinhoDeCompras carrinho;
+	private Compra carrinho;
 
 	public void adicionarCompra(Compra aCompra) {
 		compras.add(aCompra);
@@ -85,8 +80,15 @@ public class Cliente {
 		return id;
 	}
 
+<<<<<<< Updated upstream
 
 	
+=======
+	public boolean isLoginAtivo() {
+		return loginAtivo;
+	}
+
+>>>>>>> Stashed changes
 	public List<Compra> getCompras() {
 		return compras;
 	}
@@ -95,11 +97,6 @@ public class Cliente {
 		this.compras = compras;
 	}
 
-	/*
-	 * public List<Compra> getCompras() { return compras; }
-	 * 
-	 * public List<Voucher> getVouchers() { return vouchers; }
-	 */
 	public void setNome(String aNome) {
 		nome = aNome;
 	}
@@ -126,21 +123,8 @@ public class Cliente {
 		return vouchers;
 	}
 
-	public CarrinhoDeCompras getCarrinho() {
-		return carrinho;
-	}
-
 	public void setVouchers(List<Voucher> aVouchers) {
 		vouchers = aVouchers;
 	}
 
-	public void setCarrinho(CarrinhoDeCompras aCarrinho) {
-		carrinho = aCarrinho;
-	}
-
-	/*
-	 * public void setCompras(List<Compra> aCompras) { compras = aCompras; }
-	 * 
-	 * public void setVouchers(List<Voucher> aVouchers) { vouchers = aVouchers; }
-	 */
 }

@@ -5,29 +5,28 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import livrariaRq.model.CarrinhoDeCompras;
+import livrariaRq.model.Compra;
 import livrariaRq.model.utilizador.Cliente;
-import livrariaRq.repository.CarrinhoRepository;
 import livrariaRq.repository.ClienteRepository;
+import livrariaRq.repository.CompraRepository;
 
 @Service
-public class ClienteCarrinhoService {
+public class ClienteCompraService {
 
-	private final CarrinhoRepository carrinhoRepo;
+	private final CompraRepository compraRepo;
 	private final ClienteRepository clienteRepo;
 
 	@Autowired
-	public ClienteCarrinhoService(CarrinhoRepository aCarrinhoRepo, ClienteRepository aClienteRepo) {
-		carrinhoRepo = aCarrinhoRepo;
+	public ClienteCompraService(CompraRepository aCompraRepo, ClienteRepository aClienteRepo) {
+		compraRepo = aCompraRepo;
 		clienteRepo = aClienteRepo;
 	}
 
-
-	public String adicionarCarrinhoToCliente(String aCarrinhoId, String aClienteId) {
-		Optional<CarrinhoDeCompras> opcionalCarrinho = carrinhoRepo.findById(Long.parseLong(aCarrinhoId));
+	public String adicionarCarrinhoToCliente(String aCompraId, String aClienteId) {
+		Optional<Compra> compraOptional = compraRepo.findById(Long.parseLong(aCompraId));
 		Optional<Cliente> opcionalCliente = clienteRepo.findById(Long.parseLong(aClienteId));
 
-		if (opcionalCarrinho.isPresent() && opcionalCliente.isPresent()) {
+		if (compraOptional.isPresent() && opcionalCliente.isPresent()) {
 
 			Cliente clienteAux = opcionalCliente.get();
 

@@ -37,11 +37,6 @@ public class Compra {
 	private Cliente cliente;
 
 	@OneToOne
-	@JoinColumn(name = "carrinho_id")
-	@JsonIgnore
-	private CarrinhoDeCompras carrinho;
-
-	@OneToOne
 	@JoinColumn(name = "voucher_id")
 	private Voucher voucher;
 
@@ -66,10 +61,6 @@ public class Compra {
 
 	public int getQuantidadeVoucher() {
 		return quantidadeVoucher;
-	}
-
-	public CarrinhoDeCompras getCarrinho() {
-		return carrinho;
 	}
 
 	public Voucher getVoucher() {
@@ -98,10 +89,6 @@ public class Compra {
 
 	public void setLivros(List<Livro> aLivros) {
 		livros = aLivros;
-	}
-
-	public void setCarrinho(CarrinhoDeCompras aCarrinho) {
-		carrinho = aCarrinho;
 	}
 
 	public void setVoucher(Voucher aVoucher) {

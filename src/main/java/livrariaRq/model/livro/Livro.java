@@ -13,14 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import livrariaRq.model.CarrinhoDeCompras;
 import livrariaRq.model.Compra;
 
 @Entity
@@ -47,7 +44,7 @@ public class Livro {
 	@ManyToOne
 	@JoinColumn(name = "Editora_id")
 	private Editora editora;
-	
+
 //	ligação entre autor e livro
 	@ManyToMany
 	@JoinTable(name = "Livro_Autor", joinColumns = { @JoinColumn(name = "livro_id") }, inverseJoinColumns = {
@@ -55,17 +52,10 @@ public class Livro {
 
 	List<Autor> autores = new ArrayList<>();
 
-
-
 	@ManyToOne
 	@JoinColumn(name = "Compra_id") // ligação com a classe Compra
 	@JsonIgnore
 	private Compra compra;
-
-	@ManyToOne
-	@JoinColumn(name = "Livro_id")
-	@JsonIgnore
-	private CarrinhoDeCompras carrinho;
 
 	public void adicionarAutor(Autor aAutor) {
 		autores.add(aAutor);
@@ -78,8 +68,6 @@ public class Livro {
 	public Long getId() {
 		return id;
 	}
-
-
 
 	public String getTitulo() {
 		return titulo;
@@ -129,7 +117,6 @@ public class Livro {
 		titulo = aTitulo;
 	}
 
-
 	public void setiSBN(String aISBN) {
 		ISBN = aISBN;
 	}
@@ -176,14 +163,6 @@ public class Livro {
 
 	public void setCompra(Compra aCompra) {
 		compra = aCompra;
-	}
-
-	public CarrinhoDeCompras getCarrinho() {
-		return carrinho;
-	}
-
-	public void setCarrinho(CarrinhoDeCompras aCarrinho) {
-		carrinho = aCarrinho;
 	}
 
 }

@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 import livrariaRq.dto.SimpleResponseCarrinho;
 import livrariaRq.model.CarrinhoDeCompras;
 import livrariaRq.service.CarrinhoService;
-import livrariaRq.service.ClienteCarrinhoService;
+import livrariaRq.service.ClienteCompraService;
 
 @RestController
 public class CarrinhoController {
 
 	private final CarrinhoService carrinhoService;
-	private final ClienteCarrinhoService clienteCarrinhoService;
+	private final ClienteCompraService clienteCarrinhoService;
 
 	@Autowired
-	public CarrinhoController(CarrinhoService aCarrinhoService, ClienteCarrinhoService aClienteCarrinhoService) {
+	public CarrinhoController(CarrinhoService aCarrinhoService, ClienteCompraService aClienteCarrinhoService) {
 
 		carrinhoService = aCarrinhoService;
 		clienteCarrinhoService = aClienteCarrinhoService;

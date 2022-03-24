@@ -21,6 +21,7 @@ public class EditoraService {
 	}
 
 	public boolean addEditora(Editora aEditora) {
+
 		if (aEditora.getId() == null) {
 			editoraRepo.save(aEditora);
 			return true;
