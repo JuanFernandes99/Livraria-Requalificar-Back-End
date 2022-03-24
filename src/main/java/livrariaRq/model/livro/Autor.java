@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Autor {
@@ -34,6 +35,7 @@ public class Autor {
 	private Editora editora; // ligação com a Editora
 
 	@ManyToMany(mappedBy = "autores") // aqui ligação com livros através da lista???
+	@JsonIgnore
 	private List<Livro> livros = new ArrayList<>();
 
 	public void adicionarLivro(Livro aLivro) {

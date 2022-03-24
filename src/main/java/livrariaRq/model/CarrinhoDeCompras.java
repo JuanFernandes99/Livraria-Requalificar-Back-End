@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 
@@ -26,9 +28,11 @@ public class CarrinhoDeCompras {
 	private double valorTotalPagar;
 
 	@OneToOne(mappedBy = "carrinho")
+	@JsonIgnore
 	private Compra compra;
 
 	@OneToOne(mappedBy = "carrinho")
+	@JsonIgnore
 	private Cliente cliente;
 
 	@OneToMany(mappedBy = "carrinho")

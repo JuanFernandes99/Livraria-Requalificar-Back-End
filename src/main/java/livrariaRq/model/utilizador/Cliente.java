@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import livrariaRq.model.CarrinhoDeCompras;
 import livrariaRq.model.Compra;
 import livrariaRq.model.Voucher;
+import livrariaRq.model.livro.Autor;
 
 @Entity
 @Table(name = "Cliente")
@@ -50,6 +51,14 @@ public class Cliente {
 	@OneToOne
 	@JoinColumn(name = "carrinho_id")
 	private CarrinhoDeCompras carrinho;
+
+	public void adicionarCompra(Compra aCompra) {
+		compras.add(aCompra);
+	}
+
+	public void adicionarVoucher(Voucher aVoucher) {
+		vouchers.add(aVoucher);
+	}
 
 	public String getNome() {
 		return nome;

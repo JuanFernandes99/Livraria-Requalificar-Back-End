@@ -32,11 +32,14 @@ public class LivroAutorService {
 			Livro livroAux = opcionalLivro.get();
 
 			Autor autorAux = opcionalAutor.get();
-
+			
+			for (Autor autores : livroAux.getAutores()) {
+				if (autores.getLivros() == (livroAux)) {
+					return "problema";
+				}
+			}
 			livroAux.adicionarAutor(autorAux);
 			autorAux.adicionarLivro(livroAux);
-			livroAux.setEditora(autorAux.getEditora());
-			livroAux.setAutor(autorAux.getNome());
 
 			livroRepo.save(livroAux); // save pq estamos a adicionar novos dados
 			autorRepo.save(autorAux);

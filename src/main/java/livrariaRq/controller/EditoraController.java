@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseEditora;
-import livrariaRq.model.livro.Autor;
 import livrariaRq.model.livro.Editora;
 import livrariaRq.service.EditoraService;
 

@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
@@ -34,8 +33,7 @@ public class Compra {
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
-	
-	
+
 	@OneToOne
 	@JoinColumn(name = "carrinho_id")
 	private CarrinhoDeCompras carrinho;
@@ -45,7 +43,6 @@ public class Compra {
 	private Voucher voucher;
 
 	@OneToMany(mappedBy = "compra")
-
 	private List<Livro> livros = new ArrayList<>();
 
 	public void adicionarLivroCompra(Livro aLivro) {
@@ -74,6 +71,14 @@ public class Compra {
 
 	public Voucher getVoucher() {
 		return voucher;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente aCliente) {
+		cliente = aCliente;
 	}
 
 	public void setValorCompra(double aValorCompra) {

@@ -1,6 +1,7 @@
 package livrariaRq.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseLivro;
+import livrariaRq.model.livro.Autor;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.model.utilizador.Funcionario;
@@ -49,9 +51,15 @@ public class LivroController {
 	@PostMapping("/addLivro")
 	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody WrapperFuncionarioLivro aWrapper) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
-
+		// Optional<Livro> livroOpcional =
+		// livroRepo.findById(aWrapper.getLivro().getId());
 		if (aWrapper.getLivro().getTitulo() == null || aWrapper.getLivro().getTitulo().isBlank()) {
 			srl.setMessage("Tem de inserir um titulo");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (aWrapper.getLivro().getDataLancamento() == null) {
+			srl.setMessage("Tem de inserir uma data");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
@@ -93,6 +101,7 @@ public class LivroController {
 			srl.setMessage("Tem de inserir uma edição do livro");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
+
 
 		if (funcionarioLivroService.addLivro(aWrapper.getFuncionario(), aWrapper.getLivro())) {
 			srl.setAsSuccess("Livro adicionado com sucesso");

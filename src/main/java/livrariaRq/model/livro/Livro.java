@@ -31,7 +31,6 @@ public class Livro {
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String autor;
 	private String titulo;
 	private String ISBN; // String porque o valor pode começar em 0
 	private String sinopse;
@@ -42,13 +41,13 @@ public class Livro {
 	private int numeroPaginas;
 
 	@JsonFormat(pattern = "dd-MM-yyyy")
-	private Date dataLancamento = new Date();
+	private Date dataLancamento;
 
 //	ligação entre autor e livro
 	@ManyToMany
 	@JoinTable(name = "Livro_Autor", joinColumns = { @JoinColumn(name = "livro_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "autor_id") })
-	@JsonIgnore
+
 	List<Autor> autores = new ArrayList<>();
 
 //	ligação entre editora e livro
@@ -56,13 +55,14 @@ public class Livro {
 	@JoinColumn(name = "Editora_id")
 	private Editora editora;
 
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "Compra_id") // ligação com a classe Compra
 	@JsonIgnore
 	private Compra compra;
 
 	@ManyToOne
 	@JoinColumn(name = "Livro_id")
+	@JsonIgnore
 	private CarrinhoDeCompras carrinho;
 
 	public void adicionarAutor(Autor aAutor) {
@@ -77,9 +77,7 @@ public class Livro {
 		return id;
 	}
 
-	public String getAutor() {
-		return autor;
-	}
+
 
 	public String getTitulo() {
 		return titulo;
@@ -129,9 +127,6 @@ public class Livro {
 		titulo = aTitulo;
 	}
 
-	public void setAutor(String aAutor) {
-		autor = aAutor;
-	}
 
 	public void setiSBN(String aISBN) {
 		ISBN = aISBN;
