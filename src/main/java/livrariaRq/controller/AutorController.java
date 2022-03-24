@@ -44,6 +44,11 @@ public class AutorController {
 			sra.setMessage("Data de nascimento inválida, formato esperado: dd-MM-yyyy");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sra);
 		}
+		
+		if (aAutor.getEditora() == null) {
+			sra.setMessage("O autor tem de pertencer a uma editora");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sra);
+		}
 		if (autorService.addAutor(aAutor)) {
 			sra.setAsSuccess("Autor adicionado com sucesso");
 			sra.setAutores(autorService.getAllAutores());

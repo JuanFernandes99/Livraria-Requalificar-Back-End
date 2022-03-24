@@ -26,8 +26,10 @@ public class FuncionarioLivroService {
 	private final FuncionarioRepository funcionarioRepo;
 	private final EditoraRepository editoraRepo;
 	private final AutorRepository autorRepo;
+
 	@Autowired
-	public FuncionarioLivroService(LivroRepository aLivroRepo, FuncionarioRepository aFuncionarioRepo, EditoraRepository editoraRepo, AutorRepository autorRepo) {
+	public FuncionarioLivroService(LivroRepository aLivroRepo, FuncionarioRepository aFuncionarioRepo,
+			EditoraRepository editoraRepo, AutorRepository autorRepo) {
 		livroRepo = aLivroRepo;
 		funcionarioRepo = aFuncionarioRepo;
 		this.editoraRepo = editoraRepo;
@@ -35,23 +37,24 @@ public class FuncionarioLivroService {
 	}
 
 	public boolean addLivro(Funcionario aFuncionario, Livro aLivro) {
+
 		Optional<Editora> editora = editoraRepo.findById(aLivro.getEditora().getId());
-		List<Long> ids = new ArrayList<>();;
-		List <Autor> autores = new ArrayList<>();
-		for(Autor autorr : aLivro.getAutores()) { 
-			autores.add(autorr);
-			ids.add(autorr.getId());
-			}
-		Iterable<Autor> autor = autorRepo.findAllById(ids);
-		
 		Editora editoraAux = editora.get();
 
+		List<Autor> autoresLivro = new ArrayList<>();
 
+		for (Autor autor : aLivro.getAutores()) {
+			Optional<Autor> autorLivro = autorRepo.findById(autor.getId());
+			autoresLivro.add(autorLivro.get());
+		}
 		
-aLivro.setAutores(autores);
+		
+		aLivro.setAutores(autoresLivro);
 		aLivro.setEditora(editoraAux);
+		
 		if (aLivro.getId() == null && autenticacaoFuncionario(aFuncionario)) {
 			livroRepo.save(aLivro);
+			
 			return true;
 		}
 		return false;
