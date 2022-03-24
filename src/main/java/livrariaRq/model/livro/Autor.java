@@ -26,18 +26,29 @@ public class Autor {
 
 	private String nome;
 	private String email;
-	
+
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
 
 	@ManyToOne
 	@JoinColumn(name = "Editora_id") // vai criar na tabela do autor , uma coluna com editora_id
-	@JsonIgnore
-	private Editora autoresEditora; // ligação com a Editora
+	private Editora editora; // ligação com a Editora
 
-	@JsonIgnore
 	@ManyToMany(mappedBy = "autores") // aqui ligação com livros através da lista???
+	@JsonIgnore
 	private List<Livro> livros = new ArrayList<>();
+
+	public void adicionarLivro(Livro aLivro) {
+
+		livros.add(aLivro);
+
+	}
+
+	public void removerLivro(Livro aLivro) {
+
+		livros.remove(aLivro);
+
+	}
 
 	public Long getId() {
 		return id;
@@ -55,9 +66,9 @@ public class Autor {
 		return email;
 	}
 
-//	public List<Livro> getLivros() {
-//		return livros;
-//	}
+	public List<Livro> getLivros() {
+		return livros;
+	}
 
 	public void setId(Long aId) {
 		id = aId;
@@ -75,16 +86,16 @@ public class Autor {
 		email = aEmail;
 	}
 
-	public Editora getAutoresEditora() {
-		return autoresEditora;
+	public Editora getEditora() {
+		return editora;
 	}
 
-	public void setAutoresEditora(Editora aAutoresEditora) {
-		autoresEditora = aAutoresEditora;
+	public void setEditora(Editora aEditora) {
+		editora = aEditora;
 	}
 
-//	public void setLivros(List<Livro> aLivros) {
-//		livros = aLivros;
-//	}
+	public void setLivros(List<Livro> aLivros) {
+		livros = aLivros;
+	}
 
 }

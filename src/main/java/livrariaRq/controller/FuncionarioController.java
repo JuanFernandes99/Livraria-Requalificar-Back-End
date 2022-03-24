@@ -1,8 +1,11 @@
 package livrariaRq.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,12 +73,12 @@ public class FuncionarioController {
 	}
 	
 	
-	/* Em dúvida se é para implementar
+	// Em dúvida se é para implementar
 	@GetMapping("/getAllFuncionarios")
 	public List<Funcionario> getAllFuncionarios() {
 		return funcionarioService.getAllFuncionarios();
 	}
-*/
+
 
 
 }

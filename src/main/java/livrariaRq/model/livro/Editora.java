@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Editora {
 
@@ -21,10 +23,12 @@ public class Editora {
 	private String nome;
 	private String morada;
 
-	@OneToMany(mappedBy = "autoresEditora") // autores presente na editora
+	@OneToMany(mappedBy = "editora") // autores presente na editora
+	@JsonIgnore
 	private List<Autor> autores = new ArrayList<>();
 
-	@OneToMany(mappedBy = "livrosEditora")
+	@JsonIgnore
+	@OneToMany(mappedBy = "editora") // livros presente na editora
 	private List<Livro> livros = new ArrayList<>();
 
 	public void adicionarAutor(Autor aAutor) {

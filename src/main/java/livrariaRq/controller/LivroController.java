@@ -1,9 +1,12 @@
 package livrariaRq.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,115 +15,128 @@ import org.springframework.web.bind.annotation.RestController;
 import livrariaRq.dto.SimpleResponseLivro;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
-import livrariaRq.service.ClienteLivroService;
-import livrariaRq.service.FuncionarioLivroService;
+import livrariaRq.service.AutorEditoraService;
+import livrariaRq.service.LivroEditoraAutorService;
 import livrariaRq.service.LivroService;
-import livrariaRq.utils.WrapperFuncionarioLivro;
 
 @RestController
 public class LivroController {
 
 	private final LivroService livroService;
-	private final FuncionarioLivroService funcionarioLivroService;
-	private final ClienteLivroService clienteLivroService;
+	private final LivroEditoraAutorService livroEditoraAutorService;
+	private final AutorEditoraService autorEditoraService;
 
 	@Autowired
-	public LivroController(LivroService aLivroService, FuncionarioLivroService aFuncionarioLivroService,
-			ClienteLivroService aClienteLivroService) {
+	public LivroController(LivroService aLivroService, LivroEditoraAutorService aLivroEditoraAutorService,
+			AutorEditoraService aAutorEditoraService) {
 		livroService = aLivroService;
-		funcionarioLivroService = aFuncionarioLivroService;
-		clienteLivroService = aClienteLivroService;
+		livroEditoraAutorService = aLivroEditoraAutorService;
+		autorEditoraService = aAutorEditoraService;
 	}
 
 	@PostMapping("/addLivro")
-	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody WrapperFuncionarioLivro aWrapper) {
+	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
 
-		if (aWrapper.getLivro().getAutor() == null || aWrapper.getLivro().getAutor().isBlank()) {
-			srl.setMessage("Tem de inserir um autor");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
-		}
-
-		if (aWrapper.getLivro().getTitulo() == null || aWrapper.getLivro().getTitulo().isBlank()) {
+		if (aLivro.getTitulo() == null || aLivro.getTitulo().isBlank()) {
 			srl.setMessage("Tem de inserir um titulo");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (!livroService.verificarIsbnExistente(aWrapper.getLivro())) {
+		if (aLivro.getDataLancamento() == null) {
+			srl.setMessage("Tem de inserir uma data");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		
+		if(aLivro.getIsbn() == null) {
+			srl.setMessage("Tem de inserir um ISBN");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (!livroService.verificarIsbnExistente(aLivro)) {
 			srl.setMessage("O ISBN digitado já existe na base de dados");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (!livroService.verificarTamanhoIsbn(aWrapper.getLivro())) {
+		if (!livroService.verificarTamanhoIsbn(aLivro)) {
 			srl.setMessage("O ISBN não pode ser inferior a 10 caracteres");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-
-		if (!livroService.verificarValidacaoIsbn(aWrapper.getLivro())) {
-			srl.setMessage("O ISBN não é valido");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
-		}
-
-		if (aWrapper.getLivro().getPreco() <= 0) {
+		/*
+		 * if (!livroService.verificarValidacaoIsbn(aWrapper.getLivro())) {
+		 * srl.setMessage("O ISBN não é valido"); return
+		 * ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl); }
+		 */
+		if (aLivro.getPreco() <= 0) {
 			srl.setMessage("Preço inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (aWrapper.getLivro().getQuantidadeStock() <= 0) {
+		if (aLivro.getQuantidadeStock() <= 0) {
 			srl.setMessage("Quantidade em Stock inválido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (aWrapper.getLivro().getEditora() == null || aWrapper.getLivro().getEditora().isBlank()) {
-			srl.setMessage("Tem de inserir uma editora");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
-		}
-
-		if (aWrapper.getLivro().getNumeroPaginas() <= 0) {
+		if (aLivro.getNumeroPaginas() <= 0) {
 			srl.setMessage("Número de páginas inválido, tem de ser maior que 0");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (aWrapper.getLivro().getSinopse() == null || aWrapper.getLivro().getSinopse().isBlank()) {
+		if (aLivro.getSinopse() == null || aLivro.getSinopse().isBlank()) {
 			srl.setMessage("Tem de inserir uma sinopse");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (aWrapper.getLivro().getEdicao() == null || aWrapper.getLivro().getEdicao().isBlank()) {
+		if (aLivro.getEdicao() == null || aLivro.getEdicao().isBlank()) {
+			srl.setMessage("Tem de inserir uma edição do livro");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		if (aLivro.getAutores() == null || aLivro.getAutores().isEmpty()) {
+			srl.setMessage("Tem de inserir pelo menos um autor");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		if (!livroEditoraAutorService.VerificarAutor(aLivro)) {
+			srl.setMessage("O autor(es) nao existem");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		if (aLivro.getEditora() == null) {
 			srl.setMessage("Tem de inserir uma edição do livro");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (funcionarioLivroService.addLivro(aWrapper.getFuncionario(), aWrapper.getLivro())) {
+		if (!livroEditoraAutorService.VerificarEditora(aLivro)) {
+			srl.setMessage("A editora nao existe");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (livroEditoraAutorService.addLivro(aLivro)) {
 			srl.setAsSuccess("Livro adicionado com sucesso");
 			srl.setLivros(livroService.getAllLivros());
 			return ResponseEntity.status(HttpStatus.OK).body(srl);
 		} else {
-			srl.setMessage("Ocorreu um erro");
+			srl.setMessage("Ocorreu um erro ao adicionar o livro");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 	}
 
 	@GetMapping("/getAllLivros")
-	public ResponseEntity<SimpleResponseLivro> getAllLivros(@RequestBody Cliente aCliente) {
+	public ResponseEntity<SimpleResponseLivro> getAllLivros() {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
-
-		if (!clienteLivroService.autenticacaoLivros(aCliente)) {
-			srl.setMessage("Tem de fazer login primeiro, para conseguir ver os livros disponíveis na livraria");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
-		}
 
 		if (livroService.getAllLivros().isEmpty()) {
 			srl.setMessage("não tem livros registados na livraria");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		if (clienteLivroService.autenticacaoLivros(aCliente)) {
-			srl.setLivros(livroService.getAllLivros());
-			srl.setAsSuccess("Lista de Livros existentes na livraria:");
-			return ResponseEntity.status(HttpStatus.OK).body(srl);
-		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 
+		srl.setLivros(livroService.getAllLivros());
+		srl.setAsSuccess("Lista de Livros existentes na livraria:");
+		return ResponseEntity.status(HttpStatus.OK).body(srl);
+
+	}
+
+	@GetMapping("/getLivroById/{aId}")
+	public Livro getCentroComercialById(@PathVariable String aId) {
+		return livroService.getLivroById(aId).get();
 	}
 
 	@PutMapping("/updateLivro")
@@ -134,4 +150,36 @@ public class LivroController {
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 	}
+
+	@GetMapping("/getLivrosPrecoAsc")
+	public List<Livro> getLivrosPrecoAsc() {
+		return livroService.getLivrosPrecoAsc();
+	}
+
+	@GetMapping("/getLivrosPrecoDesc")
+	public List<Livro> getLivrosPrecoDec() {
+		return livroService.getLivrosPrecoDesc();
+	}
+
+	@GetMapping("/getLivrosDataDesc")
+	public List<Livro> getLivrosPorDataDesc() {
+		return livroService.getLivrosPorDataDesc();
+	}
+
+	@GetMapping("/getLivrosDataAsc")
+	public List<Livro> getLivrosPorDataAsc() {
+		return livroService.getLivrosPorDataAsc();
+	}
+
+	@GetMapping("/getLivrosPorEditora/{aEditora_id}")
+	public List<Livro> getLivrosPorEditora(@PathVariable String aEditora_id) {
+		return autorEditoraService.getLivrosPorEditora(aEditora_id);
+	}
+
+	@GetMapping("/getLivrosPorAutor/{aAutor_id}")
+	public List<Livro> getLivrosPorAutor(@PathVariable String aAutor_id) {
+
+		return autorEditoraService.getLivrosPorAutor(aAutor_id);
+	}
+
 }

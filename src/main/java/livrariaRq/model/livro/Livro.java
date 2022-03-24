@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import livrariaRq.model.Compra;
+
 @Entity
 @Table(name = "Livro")
 public class Livro {
@@ -26,11 +28,8 @@ public class Livro {
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private String autor;
 	private String titulo;
-	private String ISBN; // String porque o valor pode começar em 0
-	private String editora;
+	private String isbn; // String porque o valor pode começar em 0
 	private String sinopse;
 	private String edicao;
 	private String imagem; // Ainda não está feita a imagem
@@ -39,36 +38,39 @@ public class Livro {
 	private int numeroPaginas;
 
 	@JsonFormat(pattern = "dd-MM-yyyy")
-	private Date dataLancamento = new Date();
-
-//	ligação entre autor e livro
-	@ManyToMany
-	@JoinTable(name = "Livro_Autor",
-	joinColumns = { @JoinColumn(name = "livro_id") },
-	inverseJoinColumns = { @JoinColumn(name = "autor_id") })
-	
-	List<Autor> autores = new ArrayList<>();
+	private Date dataLancamento;
 
 //	ligação entre editora e livro
 	@ManyToOne
 	@JoinColumn(name = "Editora_id")
+	private Editora editora;
+
+//	ligação entre autor e livro
+	@ManyToMany
+	@JoinTable(name = "Livro_Autor", joinColumns = { @JoinColumn(name = "livro_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "autor_id") })
+
+	List<Autor> autores = new ArrayList<>();
+
+	@ManyToOne
+	@JoinColumn(name = "Compra_id") // ligação com a classe Compra
 	@JsonIgnore
-	private Editora livrosEditora;
+	private Compra compra;
+
+	public void adicionarAutor(Autor aAutor) {
+		autores.add(aAutor);
+	}
+
+	public void removerAutor(Autor aAutor) {
+		autores.remove(aAutor);
+	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public String getAutor() {
-		return autor;
-	}
-
 	public String getTitulo() {
 		return titulo;
-	}
-
-	public String getiSBN() {
-		return ISBN;
 	}
 
 	public double getPreco() {
@@ -77,10 +79,6 @@ public class Livro {
 
 	public int getQuantidadeStock() {
 		return quantidadeStock;
-	}
-
-	public String getEditora() {
-		return editora;
 	}
 
 	public int getNumeroPaginas() {
@@ -103,20 +101,24 @@ public class Livro {
 		return imagem;
 	}
 
-//	public List<Autor> getAutores() {
-//		return autores;
-//	}
+	public Editora getEditora() {
+		return editora;
+	}
 
-	public void setAutor(String aAutor) {
-		autor = aAutor;
+	public List<Autor> getAutores() {
+		return autores;
+	}
+	
+	public Compra getCompra() {
+		return compra;
+	}
+	
+	public String getIsbn() {
+		return isbn;
 	}
 
 	public void setTitulo(String aTitulo) {
 		titulo = aTitulo;
-	}
-
-	public void setiSBN(String aISBN) {
-		ISBN = aISBN;
 	}
 
 	public void setPreco(double aPreco) {
@@ -127,7 +129,7 @@ public class Livro {
 		quantidadeStock = aQuantidadeStock;
 	}
 
-	public void setEditora(String aEditora) {
+	public void setEditora(Editora aEditora) {
 		editora = aEditora;
 	}
 
@@ -151,16 +153,20 @@ public class Livro {
 		imagem = aImagem;
 	}
 
-	public Editora getLivrosEditora() {
-		return livrosEditora;
+	public void setAutores(List<Autor> aAutores) {
+		autores = aAutores;
 	}
 
-	public void setLivrosEditora(Editora aLivrosEditora) {
-		livrosEditora = aLivrosEditora;
+
+
+	public void setCompra(Compra aCompra) {
+		compra = aCompra;
 	}
 
-//	public void setAutores(List<Autor> aAutores) {
-//		autores = aAutores;
-//	}
+
+
+	public void setIsbn(String aIsbn) {
+		isbn = aIsbn;
+	}
 
 }

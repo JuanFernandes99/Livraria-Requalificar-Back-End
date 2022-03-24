@@ -1,14 +1,24 @@
 package livrariaRq.model.utilizador;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import livrariaRq.model.Compra;
+import livrariaRq.model.Voucher;
 
 @Entity
 @Table(name = "Cliente")
@@ -23,13 +33,25 @@ public class Cliente {
 	private String morada;
 	private String palavraPasse;
 	private String email;
-	private boolean loginAtivo;
 
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
 
-	// private List<Compra> compras;
-	// private List<Voucher> vouchers;
+	@OneToMany(mappedBy = "cliente")
+	@JsonIgnore
+	private List<Compra> compras;
+
+	@OneToMany(mappedBy = "cliente")
+	private List<Voucher> vouchers = new ArrayList<>();
+
+
+	public void adicionarCompra(Compra aCompra) {
+		compras.add(aCompra);
+	}
+
+	public void adicionarVoucher(Voucher aVoucher) {
+		vouchers.add(aVoucher);
+	}
 
 	public String getNome() {
 		return nome;
@@ -55,15 +77,14 @@ public class Cliente {
 		return id;
 	}
 
-	public boolean isLoginAtivo() {
-		return loginAtivo;
+	public List<Compra> getCompras() {
+		return compras;
 	}
 
-	/*
-	 * public List<Compra> getCompras() { return compras; }
-	 * 
-	 * public List<Voucher> getVouchers() { return vouchers; }
-	 */
+	public void setCompras(List<Compra> compras) {
+		this.compras = compras;
+	}
+
 	public void setNome(String aNome) {
 		nome = aNome;
 	}
@@ -84,16 +105,13 @@ public class Cliente {
 		morada = aMorada;
 	}
 
-	public void setLoginAtivo(boolean aLoginAtivo) {
-		loginAtivo = aLoginAtivo;
-	}
-/*
-	public void setCompras(List<Compra> aCompras) {
-		compras = aCompras;
+
+	public List<Voucher> getVouchers() {
+		return vouchers;
 	}
 
 	public void setVouchers(List<Voucher> aVouchers) {
 		vouchers = aVouchers;
 	}
-*/
+
 }

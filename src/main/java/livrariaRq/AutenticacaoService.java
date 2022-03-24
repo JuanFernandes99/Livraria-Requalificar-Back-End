@@ -31,7 +31,6 @@ public class AutenticacaoService {
 
 			if (funcionario.getPalavraPasse().equals(aFuncionario.getPalavraPasse())
 					&& funcionario.getNickName().equals(aFuncionario.getNickName())) {
-				funcionario.setLoginAtivo(true);
 				funcionarioRepo.save(funcionario);
 				return true;
 			}
@@ -48,7 +47,6 @@ public class AutenticacaoService {
 			if (cliente.getPalavraPasse().equals(aCliente.getPalavraPasse())
 					&& cliente.getEmail().equals(aCliente.getEmail())) {
 
-				cliente.setLoginAtivo(true);
 				clienteRepo.save(cliente);
 				return true;
 			}

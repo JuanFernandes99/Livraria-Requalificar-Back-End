@@ -1,26 +1,26 @@
 package livrariaRq.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseAutor;
 import livrariaRq.model.livro.Autor;
-import livrariaRq.service.AutorEditoraService;
+
 import livrariaRq.service.AutorService;
 
 @RestController
 public class AutorController {
 
 	private final AutorService autorService;
-	private final AutorEditoraService autorEditoraService;
 
-	public AutorController(AutorService aAutorService, AutorEditoraService aAutorEditoraService) {
+	public AutorController(AutorService aAutorService) {
 		autorService = aAutorService;
-		autorEditoraService = aAutorEditoraService;
 	}
 
 	@PostMapping("/addAutor")
@@ -40,6 +40,17 @@ public class AutorController {
 			sra.setMessage("Data de nascimento inválida, formato esperado: dd-MM-yyyy");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sra);
 		}
+
+		if (aAutor.getEditora() == null) {
+			sra.setMessage("O autor tem de pertencer a uma editora");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sra);
+		}
+
+		if (!autorService.VerificarEditora(aAutor)) {
+			sra.setMessage("A editora nao existe");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sra);
+		}
+
 		if (autorService.addAutor(aAutor)) {
 			sra.setAsSuccess("Autor adicionado com sucesso");
 			sra.setAutores(autorService.getAllAutores());
@@ -50,9 +61,9 @@ public class AutorController {
 		}
 	}
 
-	@PostMapping("/addAutor/{aAutor_id}/editora/{aEditora_id}")
-	public String addAndarToCentroComercialByIds(@PathVariable String aAutor_id, @PathVariable String aEditora_id) {
-		return autorEditoraService.addAutorToEditora(aAutor_id, aEditora_id);
+	@GetMapping("/getAllAutores")
+	public List<Autor> getAllAutores() {
+		return autorService.getAllAutores();
 	}
 
 }

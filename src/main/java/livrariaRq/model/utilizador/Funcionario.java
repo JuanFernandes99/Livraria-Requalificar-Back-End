@@ -23,7 +23,6 @@ public class Funcionario {
 	private String nome;
 	private String palavraPasse;
 	private String nickName;
-	private boolean loginAtivo;
 
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
@@ -50,10 +49,6 @@ public class Funcionario {
 		return nickName;
 	}
 
-	public boolean isLoginAtivo() {
-		return loginAtivo;
-	}
-
 	/*
 	 * public List<Compra> getCompras() { return compras; }
 	 */
@@ -72,10 +67,6 @@ public class Funcionario {
 
 	public void setNickName(String aNickName) {
 		nickName = aNickName;
-	}
-
-	public void setLoginAtivo(boolean aLoginAtivo) {
-		loginAtivo = aLoginAtivo;
 	}
 
 	/*
