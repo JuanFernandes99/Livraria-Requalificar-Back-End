@@ -1,6 +1,7 @@
 package livrariaRq.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,12 +36,16 @@ public class FuncionarioLivroService {
 
 	public boolean addLivro(Funcionario aFuncionario, Livro aLivro) {
 		Optional<Editora> editora = editoraRepo.findById(aLivro.getEditora().getId());
-		Editora editoraAux = editora.get();
-		
+		List<Long> ids = new ArrayList<>();;
 		List <Autor> autores = new ArrayList<>();
-		for(Autor autor : aLivro.getAutores()) { 
-			autores.add(autor);
+		for(Autor autorr : aLivro.getAutores()) { 
+			autores.add(autorr);
+			ids.add(autorr.getId());
 			}
+		Iterable<Autor> autor = autorRepo.findAllById(ids);
+		
+		Editora editoraAux = editora.get();
+
 
 		
 aLivro.setAutores(autores);
