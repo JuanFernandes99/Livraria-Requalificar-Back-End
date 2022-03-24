@@ -1,5 +1,7 @@
 package livrariaRq.utils;
 
+import livrariaRq.model.livro.Autor;
+import livrariaRq.model.livro.Editora;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Funcionario;
 
@@ -7,7 +9,8 @@ public class WrapperFuncionarioLivro {
 	private Livro livro;
 	private Funcionario funcionario;
 
-	public WrapperFuncionarioLivro(Livro aLivro, Funcionario aFuncionario) {
+
+	public WrapperFuncionarioLivro(Livro aLivro, Funcionario aFuncionario , Editora aEditora , Autor aAutor) {
 		livro = aLivro;
 		funcionario = aFuncionario;
 	}

@@ -45,11 +45,13 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente")
 	private List<Compra> compras;
 
+	
 	@OneToMany(mappedBy = "cliente")
 	private List<Voucher> vouchers = new ArrayList<>();
 
 	@OneToOne
 	@JoinColumn(name = "carrinho_id")
+	@JsonIgnore
 	private CarrinhoDeCompras carrinho;
 
 	public void adicionarCompra(Compra aCompra) {
@@ -86,6 +88,14 @@ public class Cliente {
 
 	public boolean isLoginAtivo() {
 		return loginAtivo;
+	}
+	
+	public List<Compra> getCompras() {
+		return compras;
+	}
+
+	public void setCompras(List<Compra> compras) {
+		this.compras = compras;
 	}
 
 	/*

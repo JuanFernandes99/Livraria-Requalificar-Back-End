@@ -31,6 +31,7 @@ public class Voucher {
 	private double valorVoucher;
 
 	@OneToOne(mappedBy = "voucher")
+	@JsonIgnore
 	private Compra compra;
 
 	@ManyToOne

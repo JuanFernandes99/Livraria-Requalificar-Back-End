@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import livrariaRq.model.CarrinhoDeCompras;
 import livrariaRq.model.Compra;
+import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.CarrinhoRepository;
 import livrariaRq.repository.ClienteRepository;
 import livrariaRq.repository.CompraRepository;
@@ -36,16 +37,23 @@ public class CompraCarrinhoService {
 
 			CarrinhoDeCompras carrinhoAux = opcionalCarrinho.get();
 
-			compraAux.getCliente().setCarrinho(carrinhoAux);
+			Optional<Cliente> opcionalCliente = clienteRepo.findById(carrinhoAux.getCliente().getId()); // o carrinho
+																										// desse cliente
+
+			Cliente clienteAux = opcionalCliente.get();
+
 			compraAux.setCarrinho(carrinhoAux);
-			carrinhoAux.setCompra(compraAux);
+			// compraAux.setLivros(carrinhoAux.getLivros());
+			compraAux.setCliente(clienteAux);
 			compraAux.setValorCompra(carrinhoAux.getValorTotalPagar());
+			clienteAux.adicionarCompra(compraAux);
 			/*
 			 * if(compraAux.getValorCompra() >= 50 || compraAux.getValorCompra() < 100) {
 			 * carrinhoAux.getCliente().adicionarVoucher(null);; }
 			 */
 			compraRepo.save(compraAux); // save pq estamos a adicionar novos dados
 			carrinhoRepo.save(carrinhoAux);
+			clienteRepo.save(clienteAux);
 
 			return "Sucesso ao adicionar o carrinho com id: " + carrinhoAux.getId() + "a compra: " + compraAux.getId();
 

@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
@@ -32,10 +33,12 @@ public class Compra {
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
+	@JsonIgnore
 	private Cliente cliente;
 
 	@OneToOne
 	@JoinColumn(name = "carrinho_id")
+	@JsonIgnore
 	private CarrinhoDeCompras carrinho;
 
 	@OneToOne

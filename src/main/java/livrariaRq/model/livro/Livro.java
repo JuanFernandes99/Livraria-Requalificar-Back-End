@@ -43,6 +43,11 @@ public class Livro {
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataLancamento;
 
+//	ligação entre editora e livro
+	@ManyToOne
+	@JoinColumn(name = "Editora_id")
+	private Editora editora;
+	
 //	ligação entre autor e livro
 	@ManyToMany
 	@JoinTable(name = "Livro_Autor", joinColumns = { @JoinColumn(name = "livro_id") }, inverseJoinColumns = {
@@ -50,10 +55,7 @@ public class Livro {
 
 	List<Autor> autores = new ArrayList<>();
 
-//	ligação entre editora e livro
-	@ManyToOne
-	@JoinColumn(name = "Editora_id")
-	private Editora editora;
+
 
 	@ManyToOne
 	@JoinColumn(name = "Compra_id") // ligação com a classe Compra

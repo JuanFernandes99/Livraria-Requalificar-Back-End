@@ -102,6 +102,15 @@ public class LivroController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
+		if (aWrapper.getLivro().getEditora() == null) {
+			srl.setMessage("Tem de inserir uma editora ao livro");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (aWrapper.getLivro().getAutores() == null || aWrapper.getLivro().getAutores().isEmpty()) {
+			srl.setMessage("Tem de inserir pelo menos um autor");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
 
 		if (funcionarioLivroService.addLivro(aWrapper.getFuncionario(), aWrapper.getLivro())) {
 			srl.setAsSuccess("Livro adicionado com sucesso");

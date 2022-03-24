@@ -28,11 +28,10 @@ public class CarrinhoDeCompras {
 	private double valorTotalPagar;
 
 	@OneToOne(mappedBy = "carrinho")
-	@JsonIgnore
+	
 	private Compra compra;
 
 	@OneToOne(mappedBy = "carrinho")
-	@JsonIgnore
 	private Cliente cliente;
 
 	@OneToMany(mappedBy = "carrinho")
