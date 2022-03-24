@@ -5,47 +5,54 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseCompra;
 import livrariaRq.model.Compra;
 import livrariaRq.model.utilizador.Cliente;
-import livrariaRq.service.ClienteCompraService;
+import livrariaRq.service.ClienteLivroCompraService;
 import livrariaRq.service.CompraService;
 
 @RestController
 public class CompraController {
 	private final CompraService compraService;
-	private final ClienteCompraService clienteCompraService;
+	private final ClienteLivroCompraService clienteLivroCompraService;
 
 	@Autowired
-	public CompraController(CompraService aCompraService, ClienteCompraService aClienteCompraService) {
+	public CompraController(CompraService aCompraService, ClienteLivroCompraService aClienteCompraService) {
 
 		compraService = aCompraService;
-		clienteCompraService = aClienteCompraService;
+		clienteLivroCompraService = aClienteCompraService;
 	}
 
 	@PostMapping("/addCompra")
-	public ResponseEntity<SimpleResponseCompra> addCompra(Compra aCompra) {
+	public ResponseEntity<SimpleResponseCompra> addCompra(@RequestBody Compra aCompra) {
 		SimpleResponseCompra src = new SimpleResponseCompra();
 
 		if (aCompra.getCliente() == null) {
 			src.setMessage("Deve inserir um cliente");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
-		if (!clienteCompraService.VerificarCliente(aCompra)) {
+		if (!clienteLivroCompraService.VerificarCliente(aCompra)) {
 			src.setMessage("O cliente nao existe");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
-
 
 
 		if (aCompra.getLivros() == null || aCompra.getLivros().isEmpty()) {
 			src.setMessage("Tem de inserir pelo menos um livro a compra");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
+		
+		if (!clienteLivroCompraService.VerificarLivro(aCompra)) {
+			src.setMessage("O livro nao existe");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+		}
+		
+	
 
-		if (clienteCompraService.adicionarCompra(aCompra)) {
+		if (clienteLivroCompraService.adicionarCompra(aCompra)) {
 			src.setAsSuccess("Compra adicionada com sucesso");
 			src.setCompras(compraService.getAllCompras());
 			return ResponseEntity.status(HttpStatus.OK).body(src);

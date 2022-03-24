@@ -33,7 +33,6 @@ public class Compra {
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
-
 	private Cliente cliente;
 
 	@OneToOne
