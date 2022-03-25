@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import livrariaRq.model.livro.Autor;
 import livrariaRq.model.livro.Editora;
-import livrariaRq.model.livro.Livro;
 import livrariaRq.repository.AutorRepository;
 import livrariaRq.repository.EditoraRepository;
 

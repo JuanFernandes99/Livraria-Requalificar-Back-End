@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseCompra;
 import livrariaRq.model.Compra;
-import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.service.ClienteLivroCompraService;
 import livrariaRq.service.CompraService;
 

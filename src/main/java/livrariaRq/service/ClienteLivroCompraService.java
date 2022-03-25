@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import livrariaRq.model.Compra;
-import livrariaRq.model.livro.Autor;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.ClienteRepository;
@@ -38,11 +37,15 @@ public class ClienteLivroCompraService {
 		if (aCompra.getId() == null) {
 
 			List<Livro> compraLivro = new ArrayList<>();
-
+			double valorCompra = 0;
 			for (Livro livro : aCompra.getLivros()) {
 				Optional<Livro> livroCompra = livroRepo.findById(livro.getId());
-				compraLivro.add(livroCompra.get());
+				Livro livroAux = livroCompra.get();
+				compraLivro.add(livroAux);
+			valorCompra = valorCompra +livroAux.getPreco();
 			}
+			
+			aCompra.setValorCompra(valorCompra);
 			aCompra.setLivros(compraLivro);
 			clienteAux.adicionarCompra(aCompra);
 			aCompra.setCliente(clienteAux);
