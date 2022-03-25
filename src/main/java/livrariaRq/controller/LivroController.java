@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseLivro;
 import livrariaRq.model.livro.Livro;
-import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.service.AutorEditoraService;
 import livrariaRq.service.LivroEditoraAutorService;
 import livrariaRq.service.LivroService;

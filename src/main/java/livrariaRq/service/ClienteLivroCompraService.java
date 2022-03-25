@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import livrariaRq.model.Compra;
-import livrariaRq.model.livro.Autor;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.ClienteRepository;
