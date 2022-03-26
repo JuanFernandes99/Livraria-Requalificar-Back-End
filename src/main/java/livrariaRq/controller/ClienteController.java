@@ -3,6 +3,7 @@ package livrariaRq.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,7 +15,7 @@ import livrariaRq.dto.SimpleResponse;
 import livrariaRq.dto.SimpleResponseCliente;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.service.ClienteService;
-
+@CrossOrigin
 @RestController
 public class ClienteController {
 
@@ -64,7 +65,7 @@ public class ClienteController {
 		}
 
 	}
-
+	@CrossOrigin
 	@PostMapping(path = "/autenticacaoCliente")
 	public ResponseEntity<SimpleResponse> autenticacaoCliente(@RequestBody Cliente aCliente) {
 		SimpleResponseCliente src = new SimpleResponseCliente();

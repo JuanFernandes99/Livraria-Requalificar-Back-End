@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import livrariaRq.dto.SimpleResponseEditora;
 import livrariaRq.model.livro.Editora;
 import livrariaRq.service.EditoraService;
-
+@CrossOrigin
 @RestController
 public class EditoraController {
 
@@ -23,7 +24,7 @@ public class EditoraController {
 	public EditoraController(EditoraService aEditoraService) {
 		editoraService = aEditoraService;
 	}
-
+	@CrossOrigin
 	@PostMapping("/addEditora")
 	public ResponseEntity<SimpleResponseEditora> addEditora(@RequestBody Editora aEditora) {
 		SimpleResponseEditora sre = new SimpleResponseEditora();
@@ -45,7 +46,7 @@ public class EditoraController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sre);
 		}
 	}
-	
+	@CrossOrigin
 	@GetMapping("/getAllEditoras")
 	public List<Editora> getAllEditoras() {
 		return editoraService.getAllEditoras();

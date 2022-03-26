@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ import livrariaRq.model.livro.Livro;
 import livrariaRq.service.AutorEditoraService;
 import livrariaRq.service.LivroEditoraAutorService;
 import livrariaRq.service.LivroService;
-
+@CrossOrigin
 @RestController
 public class LivroController {
 
@@ -32,7 +33,7 @@ public class LivroController {
 		livroEditoraAutorService = aLivroEditoraAutorService;
 		autorEditoraService = aAutorEditoraService;
 	}
-
+	@CrossOrigin
 	@PostMapping("/addLivro")
 	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
@@ -46,8 +47,8 @@ public class LivroController {
 			srl.setMessage("Tem de inserir uma data");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		
-		if(aLivro.getIsbn() == null) {
+
+		if (aLivro.getIsbn() == null) {
 			srl.setMessage("Tem de inserir um ISBN");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
@@ -118,6 +119,7 @@ public class LivroController {
 		}
 	}
 
+	@CrossOrigin
 	@GetMapping("/getAllLivros")
 	public ResponseEntity<SimpleResponseLivro> getAllLivros() {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
