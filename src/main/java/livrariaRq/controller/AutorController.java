@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +14,7 @@ import livrariaRq.dto.SimpleResponseAutor;
 import livrariaRq.model.livro.Autor;
 
 import livrariaRq.service.AutorService;
-
+@CrossOrigin
 @RestController
 public class AutorController {
 
@@ -22,7 +23,7 @@ public class AutorController {
 	public AutorController(AutorService aAutorService) {
 		autorService = aAutorService;
 	}
-
+	@CrossOrigin
 	@PostMapping("/addAutor")
 	public ResponseEntity<SimpleResponseAutor> addAutor(@RequestBody Autor aAutor) {
 		SimpleResponseAutor sra = new SimpleResponseAutor();
@@ -60,7 +61,7 @@ public class AutorController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sra);
 		}
 	}
-
+	@CrossOrigin
 	@GetMapping("/getAllAutores")
 	public List<Autor> getAllAutores() {
 		return autorService.getAllAutores();

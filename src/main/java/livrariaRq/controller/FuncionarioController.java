@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +16,7 @@ import livrariaRq.dto.SimpleResponse;
 import livrariaRq.dto.SimpleResponseFuncionario;
 import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.service.FuncionarioService;
-
+@CrossOrigin
 @RestController
 public class FuncionarioController {
 
@@ -27,7 +28,7 @@ public class FuncionarioController {
 		funcionarioService = aFuncionarioService;
 		autenticacaoService = aAutenticacaoService;
 	}
-
+	@CrossOrigin
 	@PostMapping(path = "/addFuncionario")
 	public ResponseEntity<SimpleResponse> addFuncionario(@RequestBody Funcionario aFuncionario) {
 		SimpleResponseFuncionario srf = new SimpleResponseFuncionario();
@@ -58,7 +59,7 @@ public class FuncionarioController {
 		}
 
 	}
-
+	@CrossOrigin
 	@PostMapping(path = "/autenticacaoFuncionario")
 	public ResponseEntity<SimpleResponse> autenticacaoFuncionario(@RequestBody Funcionario aFuncionario) {
 		SimpleResponseFuncionario srf = new SimpleResponseFuncionario();
@@ -74,6 +75,7 @@ public class FuncionarioController {
 	
 	
 	// Em dúvida se é para implementar
+	@CrossOrigin
 	@GetMapping("/getAllFuncionarios")
 	public List<Funcionario> getAllFuncionarios() {
 		return funcionarioService.getAllFuncionarios();

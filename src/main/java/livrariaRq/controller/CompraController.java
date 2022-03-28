@@ -3,6 +3,7 @@ package livrariaRq.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +13,7 @@ import livrariaRq.dto.SimpleResponseCompra;
 import livrariaRq.model.Compra;
 import livrariaRq.service.ClienteLivroCompraService;
 import livrariaRq.service.CompraService;
-
+@CrossOrigin
 @RestController
 public class CompraController {
 	private final CompraService compraService;
@@ -24,7 +25,7 @@ public class CompraController {
 		compraService = aCompraService;
 		clienteLivroCompraService = aClienteCompraService;
 	}
-
+	@CrossOrigin
 	@PostMapping("/addCompra")
 	public ResponseEntity<SimpleResponseCompra> addCompra(@RequestBody Compra aCompra) {
 		SimpleResponseCompra src = new SimpleResponseCompra();
@@ -63,7 +64,7 @@ public class CompraController {
 		}
 
 	}
-
+	@CrossOrigin
 	@GetMapping("/getAllCompras")
 	public ResponseEntity<SimpleResponseCompra> getAllCompras() {
 		SimpleResponseCompra src = new SimpleResponseCompra();

@@ -2,6 +2,7 @@ package livrariaRq;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,11 +48,38 @@ public class AutenticacaoService {
 			if (cliente.getPalavraPasse().equals(aCliente.getPalavraPasse())
 					&& cliente.getEmail().equals(aCliente.getEmail())) {
 
-				clienteRepo.save(cliente);
+				clienteRepo.save(cliente); // ?
 				return true;
 			}
 		}
 		return false;
 	}
 
+	public boolean validacaoEmail(Cliente aCliente) {
+		List<Cliente> listaCliente = new ArrayList<>();
+
+		clienteRepo.findAll().forEach(listaCliente::add);
+
+		for (Cliente cliente : listaCliente) {
+			if (cliente.getEmail().equals(aCliente.getEmail())) {
+
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean validacaoPalavraPasse(Cliente aCliente) {
+		List<Cliente> listaCliente = new ArrayList<>();
+
+		clienteRepo.findAll().forEach(listaCliente::add);
+
+		for (Cliente cliente : listaCliente) {
+			if (cliente.getPalavraPasse().equals(aCliente.getPalavraPasse())) {
+
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -27,7 +27,7 @@ public class ClienteController {
 		clienteService = aClienteService;
 		autenticacaoService = aAutenticacaoService;
 	}
-
+	@CrossOrigin
 	@PostMapping("/addCliente")
 	public ResponseEntity<SimpleResponseCliente> addCliente(@RequestBody Cliente aCliente) {
 		SimpleResponseCliente src = new SimpleResponseCliente();
@@ -70,6 +70,18 @@ public class ClienteController {
 	public ResponseEntity<SimpleResponse> autenticacaoCliente(@RequestBody Cliente aCliente) {
 		SimpleResponseCliente src = new SimpleResponseCliente();
 
+		if (!autenticacaoService.validacaoEmail(aCliente)) {
+			src.setMessage("Email invalido");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+
+		}
+		
+		if (!autenticacaoService.validacaoPalavraPasse(aCliente)) {
+			src.setMessage("PalavraPasse invalida");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+
+		}
+		
 		if (autenticacaoService.autenticacaoCliente(aCliente)) {
 			src.setAsSuccess("Cliente autenticado Com Sucesso");
 			src.setClientes(clienteService.getAllClientes());
@@ -78,7 +90,7 @@ public class ClienteController {
 		src.setMessage("Ocorreu um erro de autenticação");
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 	}
-
+	@CrossOrigin
 	@GetMapping("/getAllClientes")
 	public ResponseEntity<SimpleResponseCliente> getAllClientes() {
 		SimpleResponseCliente src = new SimpleResponseCliente();
@@ -91,7 +103,7 @@ public class ClienteController {
 		src.setAsSuccess("Lista de clientes existentes na livraria:");
 		return ResponseEntity.status(HttpStatus.OK).body(src);
 	}
-
+	@CrossOrigin
 	@PutMapping("/updateCliente")
 	public ResponseEntity<SimpleResponseCliente> updateCliente(@RequestBody Cliente aCliente) {
 		SimpleResponseCliente src = new SimpleResponseCliente();
