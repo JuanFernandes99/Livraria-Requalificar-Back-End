@@ -2,6 +2,7 @@ package livrariaRq.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import livrariaRq.model.utilizador.Cliente;
@@ -32,7 +33,7 @@ public class ClienteService {
 		clienteRepo.findAll().forEach(clientes::add);
 		return clientes;
 	}
-
+	
 	public boolean updateCliente(Cliente aCliente) {
 		if (aCliente.getId() == null || clienteRepo.findById(aCliente.getId()).isEmpty() || aCliente.getNome() != null
 				|| aCliente.getDataNascimento() != null) {

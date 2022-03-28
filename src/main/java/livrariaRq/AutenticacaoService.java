@@ -2,7 +2,6 @@ package livrariaRq;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,11 +31,27 @@ public class AutenticacaoService {
 
 			if (funcionario.getPalavraPasse().equals(aFuncionario.getPalavraPasse())
 					&& funcionario.getNickName().equals(aFuncionario.getNickName())) {
-				funcionarioRepo.save(funcionario);
+
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public Funcionario funcionarioAutenticado(Funcionario aFuncionario) {
+		List<Funcionario> listaFuncionario = new ArrayList<>();
+
+		funcionarioRepo.findAll().forEach(listaFuncionario::add);
+
+		for (Funcionario funcionario : listaFuncionario) {
+			if (funcionario.getNickName().equals(aFuncionario.getNickName())
+					&& funcionario.getPalavraPasse().equals(aFuncionario.getPalavraPasse())) {
+
+				return funcionario;
+			}
+		}
+		return null;
+
 	}
 
 	public boolean autenticacaoCliente(Cliente aCliente) {
@@ -48,14 +63,29 @@ public class AutenticacaoService {
 			if (cliente.getPalavraPasse().equals(aCliente.getPalavraPasse())
 					&& cliente.getEmail().equals(aCliente.getEmail())) {
 
-				clienteRepo.save(cliente); // ?
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public boolean validacaoEmail(Cliente aCliente) {
+	public Cliente clienteAutenticado(Cliente aCliente) {
+		List<Cliente> listaCliente = new ArrayList<>();
+
+		clienteRepo.findAll().forEach(listaCliente::add);
+
+		for (Cliente cliente : listaCliente) {
+			if (cliente.getPalavraPasse().equals(aCliente.getPalavraPasse())
+					&& cliente.getEmail().equals(aCliente.getEmail())) {
+
+				return cliente;
+			}
+		}
+		return null;
+
+	}
+
+	public boolean validacaoEmailCliente(Cliente aCliente) {
 		List<Cliente> listaCliente = new ArrayList<>();
 
 		clienteRepo.findAll().forEach(listaCliente::add);
@@ -69,13 +99,41 @@ public class AutenticacaoService {
 		return false;
 	}
 
-	public boolean validacaoPalavraPasse(Cliente aCliente) {
+	public boolean validacaoPalavraPasseCliente(Cliente aCliente) {
 		List<Cliente> listaCliente = new ArrayList<>();
 
 		clienteRepo.findAll().forEach(listaCliente::add);
 
 		for (Cliente cliente : listaCliente) {
 			if (cliente.getPalavraPasse().equals(aCliente.getPalavraPasse())) {
+
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean validacaoPalavraPasseFuncionario(Funcionario aFuncionario) {
+		List<Funcionario> listaFuncionario = new ArrayList<>();
+
+		funcionarioRepo.findAll().forEach(listaFuncionario::add);
+
+		for (Funcionario funcionario : listaFuncionario) {
+			if (funcionario.getPalavraPasse().equals(aFuncionario.getPalavraPasse())) {
+
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean validacaoNickNameFuncionario(Funcionario aFuncionario) {
+		List<Funcionario> listaFuncionario = new ArrayList<>();
+
+		funcionarioRepo.findAll().forEach(listaFuncionario::add);
+
+		for (Funcionario funcionario : listaFuncionario) {
+			if (funcionario.getNickName().equals(aFuncionario.getNickName())) {
 
 				return true;
 			}

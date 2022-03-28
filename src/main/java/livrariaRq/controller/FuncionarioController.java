@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.AutenticacaoService;
 import livrariaRq.dto.SimpleResponse;
+import livrariaRq.dto.SimpleResponseAutFuncionario;
 import livrariaRq.dto.SimpleResponseFuncionario;
 import livrariaRq.model.utilizador.Funcionario;
 import livrariaRq.service.FuncionarioService;
@@ -62,11 +63,22 @@ public class FuncionarioController {
 	@CrossOrigin
 	@PostMapping(path = "/autenticacaoFuncionario")
 	public ResponseEntity<SimpleResponse> autenticacaoFuncionario(@RequestBody Funcionario aFuncionario) {
-		SimpleResponseFuncionario srf = new SimpleResponseFuncionario();
+		SimpleResponseAutFuncionario srf = new SimpleResponseAutFuncionario();
+		
+		if (!autenticacaoService.validacaoNickNameFuncionario(aFuncionario)) {
+			srf.setMessage("Nick Name invalido");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srf);
 
+		}
+		
+		if (!autenticacaoService.validacaoPalavraPasseFuncionario(aFuncionario)) {
+			srf.setMessage("PalavraPasse invalida");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srf);
+
+		}
 		if (autenticacaoService.autenticacaoFuncionario(aFuncionario)) {
 			srf.setAsSuccess("Funcionario autenticado com sucesso");
-			srf.setFuncionarios(funcionarioService.getAllFuncionarios());
+			srf.setFuncionario(autenticacaoService.funcionarioAutenticado(aFuncionario));
 			return ResponseEntity.status(HttpStatus.OK).body(srf);
 		}
 		srf.setMessage("Ocorreu um erro de autenticação");

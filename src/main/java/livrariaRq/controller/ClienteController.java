@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.AutenticacaoService;
 import livrariaRq.dto.SimpleResponse;
+import livrariaRq.dto.SimpleResponseAutCliente;
 import livrariaRq.dto.SimpleResponseCliente;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.service.ClienteService;
@@ -68,15 +69,15 @@ public class ClienteController {
 	@CrossOrigin
 	@PostMapping(path = "/autenticacaoCliente")
 	public ResponseEntity<SimpleResponse> autenticacaoCliente(@RequestBody Cliente aCliente) {
-		SimpleResponseCliente src = new SimpleResponseCliente();
+		SimpleResponseAutCliente src = new SimpleResponseAutCliente();
 
-		if (!autenticacaoService.validacaoEmail(aCliente)) {
+		if (!autenticacaoService.validacaoEmailCliente(aCliente)) {
 			src.setMessage("Email invalido");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 
 		}
 		
-		if (!autenticacaoService.validacaoPalavraPasse(aCliente)) {
+		if (!autenticacaoService.validacaoPalavraPasseCliente(aCliente)) {
 			src.setMessage("PalavraPasse invalida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 
@@ -84,7 +85,7 @@ public class ClienteController {
 		
 		if (autenticacaoService.autenticacaoCliente(aCliente)) {
 			src.setAsSuccess("Cliente autenticado Com Sucesso");
-			src.setClientes(clienteService.getAllClientes());
+			src.setCliente(autenticacaoService.clienteAutenticado(aCliente));
 			return ResponseEntity.status(HttpStatus.OK).body(src);
 		}
 		src.setMessage("Ocorreu um erro de autenticação");
