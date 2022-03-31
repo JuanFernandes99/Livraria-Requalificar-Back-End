@@ -59,12 +59,17 @@ public class ClienteLivroCompraService {
 
 	}
 	
-	/*public List<Compra> getComprasByClienteId(String aId) {
-		List<Compra> compras = new ArrayList<>();
-		livroRepo.findAll().forEach(livros::add);
-		return livros;
+	public List<Compra> getComprasByClienteId(String aClienteId) {
+		Optional<Cliente> opcionalCliente = clienteRepo.findById(Long.parseLong(aClienteId));
+		Cliente cliente = opcionalCliente.get();
+		List<Compra> comprasCliente = new ArrayList<>();
+		for (Compra compras : cliente.getCompras()) {
+			comprasCliente.add(compras);
+		}
+
+		return comprasCliente;
 	}
-*/
+
 	public boolean VerificarCliente(Compra aCompra) {
 
 		Optional<Cliente> opcionalCliente = clienteRepo.findById(aCompra.getCliente().getId());

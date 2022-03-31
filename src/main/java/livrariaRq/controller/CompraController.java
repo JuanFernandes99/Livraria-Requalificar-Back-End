@@ -1,10 +1,13 @@
 package livrariaRq.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,6 +79,12 @@ public class CompraController {
 		src.setCompras(compraService.getAllCompras());
 		src.setAsSuccess("Lista de todas as compras efetuadas na livraria:");
 		return ResponseEntity.status(HttpStatus.OK).body(src);
+	}
+	@CrossOrigin
+	@GetMapping("/getComprasCliente/{aId}")
+	public List<Compra> getComprasCliente(@PathVariable String aId) {
+		
+		return clienteLivroCompraService.getComprasByClienteId(aId);
 	}
 
 }
