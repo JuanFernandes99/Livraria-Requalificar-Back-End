@@ -38,7 +38,6 @@ public class ClienteLivroCompraService {
 		if (aCompra.getId() == null) {
 
 			List<Livro> compraLivro = new ArrayList<>();
-			double valorCompra = 0;
 
 			for (Livro livro : aCompra.getLivros()) {
 
@@ -46,10 +45,8 @@ public class ClienteLivroCompraService {
 				Livro livroAux = livroCompra.get();
 				livroAux.setQuantidadeStock(livroAux.getQuantidadeStock() - livro.getQuantidadeStock());
 				compraLivro.add(livroAux);
-				valorCompra += livroAux.getPreco();
 			}
 
-			aCompra.setValorCompra(valorCompra);
 
 			aCompra.setLivros(compraLivro);
 			clienteAux.adicionarCompra(aCompra);
