@@ -18,6 +18,7 @@ import livrariaRq.model.livro.Livro;
 import livrariaRq.service.AutorEditoraService;
 import livrariaRq.service.LivroEditoraAutorService;
 import livrariaRq.service.LivroService;
+
 @CrossOrigin
 @RestController
 public class LivroController {
@@ -33,6 +34,7 @@ public class LivroController {
 		livroEditoraAutorService = aLivroEditoraAutorService;
 		autorEditoraService = aAutorEditoraService;
 	}
+
 	@CrossOrigin
 	@PostMapping("/addLivro")
 	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro) {
@@ -108,8 +110,8 @@ public class LivroController {
 			srl.setMessage("A editora nao existe");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-		
-		if (livroEditoraAutorService.autoresEditora(aLivro)) {
+
+		if (!livroEditoraAutorService.autoresEditora(aLivro)) {
 			srl.setMessage("Os autores tem de pertencer  a mesma editora");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
@@ -139,11 +141,13 @@ public class LivroController {
 		return ResponseEntity.status(HttpStatus.OK).body(srl);
 
 	}
+
 	@CrossOrigin
 	@GetMapping("/getLivroById/{aId}")
 	public Livro getCentroComercialById(@PathVariable String aId) {
 		return livroService.getLivroById(aId).get();
 	}
+
 	@CrossOrigin
 	@PutMapping("/updateLivro")
 	public ResponseEntity<SimpleResponseLivro> updateLivro(@RequestBody Livro aLivro) {
@@ -156,31 +160,37 @@ public class LivroController {
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 	}
+
 	@CrossOrigin
 	@GetMapping("/getLivrosPrecoAsc")
 	public List<Livro> getLivrosPrecoAsc() {
 		return livroService.getLivrosPrecoAsc();
 	}
+
 	@CrossOrigin
 	@GetMapping("/getLivrosPrecoDesc")
 	public List<Livro> getLivrosPrecoDec() {
 		return livroService.getLivrosPrecoDesc();
 	}
+
 	@CrossOrigin
 	@GetMapping("/getLivrosDataDesc")
 	public List<Livro> getLivrosPorDataDesc() {
 		return livroService.getLivrosPorDataDesc();
 	}
+
 	@CrossOrigin
 	@GetMapping("/getLivrosDataAsc")
 	public List<Livro> getLivrosPorDataAsc() {
 		return livroService.getLivrosPorDataAsc();
 	}
+
 	@CrossOrigin
 	@GetMapping("/getLivrosPorEditora/{aEditora_id}")
 	public List<Livro> getLivrosPorEditora(@PathVariable String aEditora_id) {
 		return autorEditoraService.getLivrosPorEditora(aEditora_id);
 	}
+
 	@CrossOrigin
 	@GetMapping("/getLivrosPorAutor/{aAutor_id}")
 	public List<Livro> getLivrosPorAutor(@PathVariable String aAutor_id) {

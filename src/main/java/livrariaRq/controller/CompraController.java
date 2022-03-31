@@ -16,6 +16,7 @@ import livrariaRq.dto.SimpleResponseCompra;
 import livrariaRq.model.Compra;
 import livrariaRq.service.ClienteLivroCompraService;
 import livrariaRq.service.CompraService;
+
 @CrossOrigin
 @RestController
 public class CompraController {
@@ -28,6 +29,7 @@ public class CompraController {
 		compraService = aCompraService;
 		clienteLivroCompraService = aClienteCompraService;
 	}
+
 	@CrossOrigin
 	@PostMapping("/addCompra")
 	public ResponseEntity<SimpleResponseCompra> addCompra(@RequestBody Compra aCompra) {
@@ -42,18 +44,15 @@ public class CompraController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 
-
 		if (aCompra.getLivros() == null || aCompra.getLivros().isEmpty()) {
 			src.setMessage("Tem de inserir pelo menos um livro a compra");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
-		
+
 		if (!clienteLivroCompraService.VerificarLivro(aCompra)) {
 			src.setMessage("O livro nao existe");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
-		
-	
 
 		if (clienteLivroCompraService.adicionarCompra(aCompra)) {
 			src.setAsSuccess("Compra adicionada com sucesso");
@@ -67,6 +66,7 @@ public class CompraController {
 		}
 
 	}
+
 	@CrossOrigin
 	@GetMapping("/getAllCompras")
 	public ResponseEntity<SimpleResponseCompra> getAllCompras() {
@@ -80,10 +80,11 @@ public class CompraController {
 		src.setAsSuccess("Lista de todas as compras efetuadas na livraria:");
 		return ResponseEntity.status(HttpStatus.OK).body(src);
 	}
+
 	@CrossOrigin
 	@GetMapping("/getComprasCliente/{aId}")
 	public List<Compra> getComprasCliente(@PathVariable String aId) {
-		
+
 		return clienteLivroCompraService.getComprasByClienteId(aId);
 	}
 
