@@ -49,13 +49,11 @@ public class Livro {
 	@ManyToMany
 	@JoinTable(name = "Livro_Autor", joinColumns = { @JoinColumn(name = "livro_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "autor_id") })
-
 	List<Autor> autores = new ArrayList<>();
 
-	@ManyToOne
-	@JoinColumn(name = "Compra_id") // ligação com a classe Compra
+	@ManyToMany(mappedBy = "livros") // aqui ligação com livros através da lista???
 	@JsonIgnore
-	private Compra compra;
+	List<Compra> compras = new ArrayList<>();
 
 	public void adicionarAutor(Autor aAutor) {
 		autores.add(aAutor);
@@ -108,11 +106,7 @@ public class Livro {
 	public List<Autor> getAutores() {
 		return autores;
 	}
-	
-	public Compra getCompra() {
-		return compra;
-	}
-	
+
 	public String getIsbn() {
 		return isbn;
 	}
@@ -157,16 +151,16 @@ public class Livro {
 		autores = aAutores;
 	}
 
-
-
-	public void setCompra(Compra aCompra) {
-		compra = aCompra;
-	}
-
-
-
 	public void setIsbn(String aIsbn) {
 		isbn = aIsbn;
+	}
+
+	public List<Compra> getCompras() {
+		return compras;
+	}
+
+	public void setCompras(List<Compra> aCompras) {
+		compras = aCompras;
 	}
 
 }
