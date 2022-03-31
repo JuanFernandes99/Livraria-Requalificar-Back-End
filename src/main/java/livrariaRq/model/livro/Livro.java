@@ -35,6 +35,7 @@ public class Livro {
 	private String imagem; // Ainda não está feita a imagem
 	private double preco;
 	private int quantidadeStock;
+	private int quantidadeComprada;
 	private int numeroPaginas;
 
 	@JsonFormat(pattern = "dd-MM-yyyy")
@@ -161,6 +162,14 @@ public class Livro {
 
 	public void setCompras(List<Compra> aCompras) {
 		compras = aCompras;
+	}
+
+	public int getQuantidadeComprada() {
+		return quantidadeComprada;
+	}
+
+	public void setQuantidadeComprada(int quantidadeComprada) {
+		this.quantidadeComprada = quantidadeComprada;
 	}
 
 }

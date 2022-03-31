@@ -44,7 +44,7 @@ public class ClienteLivroCompraService {
 				compraLivro.add(livroAux);
 			valorCompra = valorCompra +livroAux.getPreco();
 			}
-			
+
 			aCompra.setValorCompra(valorCompra);
 			aCompra.setLivros(compraLivro);
 			clienteAux.adicionarCompra(aCompra);

@@ -33,7 +33,7 @@ public class AutorController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sra);
 		}
 		if (aAutor.getEmail() == null || aAutor.getEmail().isBlank()) {
-			sra.setMessage("Tem de inserir uma morada");
+			sra.setMessage("Tem de inserir um email");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sra);
 		}
 

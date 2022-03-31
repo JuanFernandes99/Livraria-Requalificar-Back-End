@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import livrariaRq.AutenticacaoService;
 import livrariaRq.dto.SimpleResponse;
 import livrariaRq.dto.SimpleResponseAutCliente;
 import livrariaRq.dto.SimpleResponseCliente;
+import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.service.ClienteService;
 @CrossOrigin
@@ -90,6 +92,11 @@ public class ClienteController {
 		}
 		src.setMessage("Ocorreu um erro de autenticação");
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+	}
+	@CrossOrigin
+	@GetMapping("/getClienteById/{aId}")
+	public Cliente getClienteById(@PathVariable String aId) {
+		return clienteService.getClienteById(aId).get();
 	}
 	@CrossOrigin
 	@GetMapping("/getAllClientes")
