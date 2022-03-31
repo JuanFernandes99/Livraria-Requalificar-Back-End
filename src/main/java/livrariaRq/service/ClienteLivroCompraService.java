@@ -37,15 +37,14 @@ public class ClienteLivroCompraService {
 		if (aCompra.getId() == null) {
 
 			List<Livro> compraLivro = new ArrayList<>();
-			double valorCompra = 0;
 			for (Livro livro : aCompra.getLivros()) {
 				Optional<Livro> livroCompra = livroRepo.findById(livro.getId());
 				Livro livroAux = livroCompra.get();
+				livroAux.setQuantidadeStock(livroAux.getQuantidadeStock() - livro.getQuantidadeStock());
 				compraLivro.add(livroAux);
-			valorCompra = valorCompra +livroAux.getPreco();
 			}
 
-			aCompra.setValorCompra(valorCompra);
+			//aCompra.setValorCompra(valorCompra);
 			aCompra.setLivros(compraLivro);
 			clienteAux.adicionarCompra(aCompra);
 			aCompra.setCliente(clienteAux);
@@ -59,7 +58,13 @@ public class ClienteLivroCompraService {
 		}
 
 	}
-
+	
+	/*public List<Compra> getComprasByClienteId(String aId) {
+		List<Compra> compras = new ArrayList<>();
+		livroRepo.findAll().forEach(livros::add);
+		return livros;
+	}
+*/
 	public boolean VerificarCliente(Compra aCompra) {
 
 		Optional<Cliente> opcionalCliente = clienteRepo.findById(aCompra.getCliente().getId());
