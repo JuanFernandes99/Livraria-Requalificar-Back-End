@@ -44,14 +44,13 @@ public class ClienteLivroCompraService {
 				Optional<Livro> livroCompra = livroRepo.findById(livro.getId());
 				Livro livroAux = livroCompra.get();
 				int livrosComprados = 0;
-				if(livroAux.getQuantidadeStock() >= livro.getQuantidadeStock()) {
+				if (livroAux.getQuantidadeStock() >= livro.getQuantidadeStock()) {
 					livrosComprados = livroAux.getQuantidadeStock() - livro.getQuantidadeStock();
 					livroAux.setQuantidadeStock(livrosComprados);
 					livroAux.setQuantidadeComprada(livro.getQuantidadeStock() + livroAux.getQuantidadeComprada());
-					compraLivro.add(livroAux);	
+					compraLivro.add(livroAux);
 				}
 			}
-
 
 			aCompra.setLivros(compraLivro);
 			clienteAux.adicionarCompra(aCompra);

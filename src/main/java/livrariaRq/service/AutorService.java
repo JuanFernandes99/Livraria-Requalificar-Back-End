@@ -29,8 +29,6 @@ public class AutorService {
 		Optional<Editora> editora = editoraRepo.findById(aAutor.getEditora().getId());
 		Editora editoraAux = editora.get();
 
-
-
 		if (aAutor.getId() == null) {
 			aAutor.setEditora(editoraAux);
 			autorRepo.save(aAutor);

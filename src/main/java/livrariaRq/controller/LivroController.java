@@ -152,6 +152,81 @@ public class LivroController {
 	@PutMapping("/updateLivro")
 	public ResponseEntity<SimpleResponseLivro> updateLivro(@RequestBody Livro aLivro) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
+		if (aLivro.getTitulo() == null || aLivro.getTitulo().isBlank()) {
+			srl.setMessage("Tem de inserir um titulo");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (aLivro.getDataLancamento() == null) {
+			srl.setMessage("Tem de inserir uma data");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (aLivro.getIsbn() == null) {
+			srl.setMessage("Tem de inserir um ISBN");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (!livroService.verificarIsbnExistente(aLivro)) {
+			srl.setMessage("O ISBN digitado já existe na base de dados");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (!livroService.verificarTamanhoIsbn(aLivro)) {
+			srl.setMessage("O ISBN não pode ser inferior a 10 caracteres");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		/*
+		 * if (!livroService.verificarValidacaoIsbn(aWrapper.getLivro())) {
+		 * srl.setMessage("O ISBN não é valido"); return
+		 * ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl); }
+		 */
+		if (aLivro.getPreco() <= 0) {
+			srl.setMessage("Preço inválido");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (aLivro.getQuantidadeStock() <= 0) {
+			srl.setMessage("Quantidade em Stock inválido");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (aLivro.getNumeroPaginas() <= 0) {
+			srl.setMessage("Número de páginas inválido, tem de ser maior que 0");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (aLivro.getSinopse() == null || aLivro.getSinopse().isBlank()) {
+			srl.setMessage("Tem de inserir uma sinopse");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (aLivro.getEdicao() == null || aLivro.getEdicao().isBlank()) {
+			srl.setMessage("Tem de inserir uma edição do livro");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		if (aLivro.getAutores() == null || aLivro.getAutores().isEmpty()) {
+			srl.setMessage("Tem de inserir pelo menos um autor");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		if (!livroEditoraAutorService.VerificarAutor(aLivro)) {
+			srl.setMessage("O autor(es) nao existem");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+		if (aLivro.getEditora() == null) {
+			srl.setMessage("Tem de inserir uma edição do livro");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (!livroEditoraAutorService.VerificarEditora(aLivro)) {
+			srl.setMessage("A editora nao existe");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (!livroEditoraAutorService.autoresEditora(aLivro)) {
+			srl.setMessage("Os autores tem de pertencer  a mesma editora");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
 
 		if (livroService.updateLivro(aLivro)) {
 			srl.setAsSuccess("Livro atualizado com sucesso");

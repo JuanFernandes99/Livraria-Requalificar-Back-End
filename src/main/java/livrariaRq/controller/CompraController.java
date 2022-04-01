@@ -88,4 +88,16 @@ public class CompraController {
 		return clienteLivroCompraService.getComprasByClienteId(aId);
 	}
 
+	@CrossOrigin
+	@GetMapping("/getValorCompraAsc")
+	public List<Compra> getValorCompraAsc() {
+		return compraService.getValorCompraAsc();
+	}
+
+	@CrossOrigin
+	@GetMapping("/getValorCompraDesc")
+	public List<Compra> getValorCompraDesc() {
+		return compraService.getValorCompraDesc();
+	}
+
 }
