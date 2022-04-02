@@ -42,7 +42,6 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente")
 	private List<Voucher> vouchers = new ArrayList<>();
 
-
 	public void adicionarCompra(Compra aCompra) {
 		compras.add(aCompra);
 	}
@@ -75,6 +74,10 @@ public class Cliente {
 		return id;
 	}
 
+	public List<Voucher> getVouchers() {
+		return vouchers;
+	}
+
 	public List<Compra> getCompras() {
 		return compras;
 	}
@@ -101,11 +104,6 @@ public class Cliente {
 
 	public void setMorada(String aMorada) {
 		morada = aMorada;
-	}
-
-
-	public List<Voucher> getVouchers() {
-		return vouchers;
 	}
 
 	public void setVouchers(List<Voucher> aVouchers) {

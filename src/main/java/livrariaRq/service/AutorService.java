@@ -23,13 +23,9 @@ public class AutorService {
 		editoraRepo = aEditoraRepo;
 	}
 
-	// falta o update
-
 	public boolean addAutor(Autor aAutor) {
 		Optional<Editora> editora = editoraRepo.findById(aAutor.getEditora().getId());
 		Editora editoraAux = editora.get();
-
-
 
 		if (aAutor.getId() == null) {
 			aAutor.setEditora(editoraAux);

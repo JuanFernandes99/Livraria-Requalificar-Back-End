@@ -9,8 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -27,7 +28,6 @@ public class Compra {
 	private Long id;
 
 	private double valorCompra;
-	private int quantidadeVoucher;
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
@@ -37,15 +37,17 @@ public class Compra {
 	@JoinColumn(name = "voucher_id")
 	private Voucher voucher;
 
-	@OneToMany(mappedBy = "compra")
+	@ManyToMany
+	@JoinTable(name = "Compra_Livro", joinColumns = { @JoinColumn(name = "compra_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "livro_id") })
 	private List<Livro> livros = new ArrayList<>();
 
-	public void adicionarLivroCompra(Livro aLivro) {
-		livros.add(aLivro);
+	public List<Livro> getLivros() {
+		return livros;
 	}
 
-	public void removeLivroCompra(Livro aLivro) {
-		livros.remove(aLivro);
+	public void setLivros(List<Livro> aLivros) {
+		livros = aLivros;
 	}
 
 	public Long getId() {
@@ -54,10 +56,6 @@ public class Compra {
 
 	public double getValorCompra() {
 		return valorCompra;
-	}
-
-	public int getQuantidadeVoucher() {
-		return quantidadeVoucher;
 	}
 
 	public Voucher getVoucher() {
@@ -74,18 +72,6 @@ public class Compra {
 
 	public void setValorCompra(double aValorCompra) {
 		valorCompra = aValorCompra;
-	}
-
-	public void setQuantidadeVoucher(int aQuantidadeVoucher) {
-		quantidadeVoucher = aQuantidadeVoucher;
-	}
-
-	public List<Livro> getLivros() {
-		return livros;
-	}
-
-	public void setLivros(List<Livro> aLivros) {
-		livros = aLivros;
 	}
 
 	public void setVoucher(Voucher aVoucher) {

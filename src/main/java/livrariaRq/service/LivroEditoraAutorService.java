@@ -64,6 +64,20 @@ public class LivroEditoraAutorService {
 
 	}
 
+	public boolean autoresEditora(Livro aLivro) {
+		Optional<Editora> editoraLivro = editoraRepo.findById(aLivro.getEditora().getId());
+		Editora editora = editoraLivro.get();
+
+		for (Autor autores : aLivro.getAutores()) {
+			Optional<Autor> autorLivro = autorRepo.findById(autores.getId());
+			Autor autor = autorLivro.get();
+			if (autor.getEditora() != editora) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public boolean VerificarAutor(Livro aLivro) {
 
 		for (Autor autor : aLivro.getAutores()) {

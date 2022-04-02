@@ -32,9 +32,10 @@ public class Livro {
 	private String isbn; // String porque o valor pode começar em 0
 	private String sinopse;
 	private String edicao;
-	private String imagem; // Ainda não está feita a imagem
+	private String imagem;
 	private double preco;
 	private int quantidadeStock;
+	private int quantidadeComprada;
 	private int numeroPaginas;
 
 	@JsonFormat(pattern = "dd-MM-yyyy")
@@ -49,13 +50,11 @@ public class Livro {
 	@ManyToMany
 	@JoinTable(name = "Livro_Autor", joinColumns = { @JoinColumn(name = "livro_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "autor_id") })
-
 	List<Autor> autores = new ArrayList<>();
 
-	@ManyToOne
-	@JoinColumn(name = "Compra_id") // ligação com a classe Compra
+	@ManyToMany(mappedBy = "livros") // aqui ligação com livros através da lista???
 	@JsonIgnore
-	private Compra compra;
+	List<Compra> compras = new ArrayList<>();
 
 	public void adicionarAutor(Autor aAutor) {
 		autores.add(aAutor);
@@ -108,13 +107,17 @@ public class Livro {
 	public List<Autor> getAutores() {
 		return autores;
 	}
-	
-	public Compra getCompra() {
-		return compra;
+
+	public List<Compra> getCompras() {
+		return compras;
 	}
-	
+
 	public String getIsbn() {
 		return isbn;
+	}
+
+	public int getQuantidadeComprada() {
+		return quantidadeComprada;
 	}
 
 	public void setTitulo(String aTitulo) {
@@ -157,16 +160,16 @@ public class Livro {
 		autores = aAutores;
 	}
 
-
-
-	public void setCompra(Compra aCompra) {
-		compra = aCompra;
-	}
-
-
-
 	public void setIsbn(String aIsbn) {
 		isbn = aIsbn;
+	}
+
+	public void setCompras(List<Compra> aCompras) {
+		compras = aCompras;
+	}
+
+	public void setQuantidadeComprada(int quantidadeComprada) {
+		this.quantidadeComprada = quantidadeComprada;
 	}
 
 }

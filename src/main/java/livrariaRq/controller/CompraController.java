@@ -1,9 +1,13 @@
 package livrariaRq.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +17,7 @@ import livrariaRq.model.Compra;
 import livrariaRq.service.ClienteLivroCompraService;
 import livrariaRq.service.CompraService;
 
+@CrossOrigin
 @RestController
 public class CompraController {
 	private final CompraService compraService;
@@ -25,6 +30,7 @@ public class CompraController {
 		clienteLivroCompraService = aClienteCompraService;
 	}
 
+	@CrossOrigin
 	@PostMapping("/addCompra")
 	public ResponseEntity<SimpleResponseCompra> addCompra(@RequestBody Compra aCompra) {
 		SimpleResponseCompra src = new SimpleResponseCompra();
@@ -38,18 +44,15 @@ public class CompraController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 
-
 		if (aCompra.getLivros() == null || aCompra.getLivros().isEmpty()) {
 			src.setMessage("Tem de inserir pelo menos um livro a compra");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
-		
+
 		if (!clienteLivroCompraService.VerificarLivro(aCompra)) {
 			src.setMessage("O livro nao existe");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
-		
-	
 
 		if (clienteLivroCompraService.adicionarCompra(aCompra)) {
 			src.setAsSuccess("Compra adicionada com sucesso");
@@ -64,6 +67,7 @@ public class CompraController {
 
 	}
 
+	@CrossOrigin
 	@GetMapping("/getAllCompras")
 	public ResponseEntity<SimpleResponseCompra> getAllCompras() {
 		SimpleResponseCompra src = new SimpleResponseCompra();
@@ -75,6 +79,25 @@ public class CompraController {
 		src.setCompras(compraService.getAllCompras());
 		src.setAsSuccess("Lista de todas as compras efetuadas na livraria:");
 		return ResponseEntity.status(HttpStatus.OK).body(src);
+	}
+
+	@CrossOrigin
+	@GetMapping("/getComprasCliente/{aId}")
+	public List<Compra> getComprasCliente(@PathVariable String aId) {
+
+		return clienteLivroCompraService.getComprasByClienteId(aId);
+	}
+
+	@CrossOrigin
+	@GetMapping("/getValorCompraAsc")
+	public List<Compra> getValorCompraAsc() {
+		return compraService.getValorCompraAsc();
+	}
+
+	@CrossOrigin
+	@GetMapping("/getValorCompraDesc")
+	public List<Compra> getValorCompraDesc() {
+		return compraService.getValorCompraDesc();
 	}
 
 }

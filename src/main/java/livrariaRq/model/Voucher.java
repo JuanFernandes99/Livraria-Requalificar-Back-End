@@ -1,6 +1,5 @@
 package livrariaRq.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +25,7 @@ public class Voucher {
 
 	private double valorVoucher;
 
+	private boolean isUtilizado = false;
 	@OneToOne(mappedBy = "voucher")
 	@JsonIgnore
 	private Compra compra;
@@ -51,6 +51,10 @@ public class Voucher {
 		return cliente;
 	}
 
+	public boolean isUtilizado() {
+		return isUtilizado;
+	}
+
 	public void setValorVoucher(double aValorVoucher) {
 		valorVoucher = aValorVoucher;
 	}
@@ -61,6 +65,10 @@ public class Voucher {
 
 	public void setCliente(Cliente aCliente) {
 		cliente = aCliente;
+	}
+
+	public void setUtilizado(boolean aIsUtilizado) {
+		isUtilizado = aIsUtilizado;
 	}
 
 }

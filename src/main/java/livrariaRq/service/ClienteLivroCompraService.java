@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import livrariaRq.model.Compra;
+import livrariaRq.model.Voucher;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.ClienteRepository;
 import livrariaRq.repository.CompraRepository;
 import livrariaRq.repository.LivroRepository;
+import livrariaRq.repository.VoucherRepository;
 
 @Service
 public class ClienteLivroCompraService {
@@ -20,16 +22,19 @@ public class ClienteLivroCompraService {
 	private final CompraRepository compraRepo;
 	private final ClienteRepository clienteRepo;
 	private final LivroRepository livroRepo;
+	private final VoucherRepository voucherRepo;
 
 	@Autowired
 	public ClienteLivroCompraService(CompraRepository aCompraRepo, ClienteRepository aClienteRepo,
-			LivroRepository aLivroRepo) {
+			LivroRepository aLivroRepo, VoucherRepository aVoucherRepo) {
 		compraRepo = aCompraRepo;
 		clienteRepo = aClienteRepo;
 		livroRepo = aLivroRepo;
+		voucherRepo = aVoucherRepo;
 	}
 
 	public boolean adicionarCompra(Compra aCompra) {
+
 		Optional<Cliente> opcionalCliente = clienteRepo.findById(aCompra.getCliente().getId());
 
 		Cliente clienteAux = opcionalCliente.get();
@@ -37,27 +42,79 @@ public class ClienteLivroCompraService {
 		if (aCompra.getId() == null) {
 
 			List<Livro> compraLivro = new ArrayList<>();
-			double valorCompra = 0;
+
 			for (Livro livro : aCompra.getLivros()) {
+
 				Optional<Livro> livroCompra = livroRepo.findById(livro.getId());
 				Livro livroAux = livroCompra.get();
-				compraLivro.add(livroAux);
-			valorCompra = valorCompra +livroAux.getPreco();
+				int livrosComprados = 0;
+				if (livroAux.getQuantidadeStock() >= livro.getQuantidadeStock()) {
+					livrosComprados = livroAux.getQuantidadeStock() - livro.getQuantidadeStock();
+					livroAux.setQuantidadeStock(livrosComprados);
+					livroAux.setQuantidadeComprada(livro.getQuantidadeStock() + livroAux.getQuantidadeComprada());
+					compraLivro.add(livroAux);
+				}
 			}
-			
-			aCompra.setValorCompra(valorCompra);
-			aCompra.setLivros(compraLivro);
-			clienteAux.adicionarCompra(aCompra);
-			aCompra.setCliente(clienteAux);
 
+			if (!clienteAux.getVouchers().isEmpty() && aCompra.getVoucher().getValorVoucher() > 0) {
+
+				Optional<Voucher> opcionalVoucher = voucherRepo.findById(aCompra.getVoucher().getId());
+
+				Voucher voucherAux = opcionalVoucher.get();
+
+				voucherAux.setUtilizado(true);
+				voucherRepo.save(voucherAux);
+				clienteRepo.save(clienteAux);
+
+			}
+
+			if (aCompra.getValorCompra() > 50 && aCompra.getValorCompra() < 150) {
+				Voucher voucher = new Voucher();
+
+				voucher.setValorVoucher(0.05);
+				voucher.setCliente(clienteAux);
+				voucherRepo.save(voucher);
+				aCompra.setValorCompra(aCompra.getValorCompra() - voucher.getValorVoucher());
+				aCompra.setVoucher(voucher);
+				clienteAux.adicionarVoucher(voucher);
+
+			}
+			if (aCompra.getValorCompra() > 150) {
+				Voucher voucher = new Voucher();
+
+				voucher.setValorVoucher(0.15);
+				voucher.setCliente(clienteAux);
+				voucherRepo.save(voucher);
+				aCompra.setValorCompra(aCompra.getValorCompra() - voucher.getValorVoucher());
+				aCompra.setVoucher(voucher);
+				clienteAux.adicionarVoucher(voucher);
+
+			}
+
+			aCompra.setLivros(compraLivro);
+			aCompra.setCliente(clienteAux);
+			clienteAux.adicionarCompra(aCompra);
 			clienteRepo.save(clienteAux);
 			compraRepo.save(aCompra);
 
 			return true;
-		} else {
+		} else
+
+		{
 			return false;
 		}
 
+	}
+
+	public List<Compra> getComprasByClienteId(String aClienteId) {
+		Optional<Cliente> opcionalCliente = clienteRepo.findById(Long.parseLong(aClienteId));
+		Cliente cliente = opcionalCliente.get();
+		List<Compra> comprasCliente = new ArrayList<>();
+		for (Compra compras : cliente.getCompras()) {
+			comprasCliente.add(compras);
+		}
+
+		return comprasCliente;
 	}
 
 	public boolean VerificarCliente(Compra aCompra) {

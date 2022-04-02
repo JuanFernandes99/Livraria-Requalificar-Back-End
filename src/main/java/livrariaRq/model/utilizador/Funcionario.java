@@ -27,8 +27,6 @@ public class Funcionario {
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
 
-	// private List<Compra> compras = new ArrayList<Compra>();
-
 	public String getNome() {
 		return nome;
 	}
@@ -49,10 +47,6 @@ public class Funcionario {
 		return nickName;
 	}
 
-	/*
-	 * public List<Compra> getCompras() { return compras; }
-	 */
-
 	public void setNome(String aNome) {
 		nome = aNome;
 	}
@@ -68,9 +62,5 @@ public class Funcionario {
 	public void setNickName(String aNickName) {
 		nickName = aNickName;
 	}
-
-	/*
-	 * public void setCompras(List<Compra> aCompras) { compras = aCompras; }
-	 */
 
 }

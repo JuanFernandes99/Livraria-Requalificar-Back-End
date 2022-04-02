@@ -6,19 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import livrariaRq.model.livro.Autor;
-
 import livrariaRq.model.livro.Livro;
 import livrariaRq.repository.AutorRepository;
 import livrariaRq.repository.LivroRepository;
 
 @Service
-public class LivroAutorService {
+public class AutorLivroService {
 
 	private final LivroRepository livroRepo;
 	private final AutorRepository autorRepo;
 
 	@Autowired
-	public LivroAutorService(LivroRepository aLivroRepo, AutorRepository aAutorRepo) {
+	public AutorLivroService(LivroRepository aLivroRepo, AutorRepository aAutorRepo) {
 		livroRepo = aLivroRepo;
 		autorRepo = aAutorRepo;
 	}
@@ -32,16 +31,11 @@ public class LivroAutorService {
 			Livro livroAux = opcionalLivro.get();
 
 			Autor autorAux = opcionalAutor.get();
-			/*
-			for (Autor autores : livroAux.getAutores()) {
-				if (autores.getLivros() == (livroAux)) {
-					return "problema";
-				}
-			}*/
+
 			livroAux.adicionarAutor(autorAux);
 			autorAux.adicionarLivro(livroAux);
 
-			livroRepo.save(livroAux); // save pq estamos a adicionar novos dados
+			livroRepo.save(livroAux);
 			autorRepo.save(autorAux);
 
 			return "Sucesso ao adicionar o livro: " + livroAux.getTitulo() + " ao autor: " + autorAux.getNome();
