@@ -75,6 +75,7 @@ public class ClienteLivroCompraService {
 				voucher.setCliente(clienteAux);
 				// voucher.setCompra(aCompra);
 				voucherRepo.save(voucher);
+				aCompra.setValorCompra(aCompra.getValorCompra() - voucher.getValorVoucher());
 				aCompra.setVoucher(voucher);
 				clienteAux.adicionarVoucher(voucher);
 
@@ -86,6 +87,7 @@ public class ClienteLivroCompraService {
 				voucher.setCliente(clienteAux);
 				// voucher.setCompra(aCompra);
 				voucherRepo.save(voucher);
+				aCompra.setValorCompra(aCompra.getValorCompra() - voucher.getValorVoucher());
 				aCompra.setVoucher(voucher);
 				clienteAux.adicionarVoucher(voucher);
 
