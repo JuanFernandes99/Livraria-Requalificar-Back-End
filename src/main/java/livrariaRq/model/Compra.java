@@ -28,7 +28,6 @@ public class Compra {
 	private Long id;
 
 	private double valorCompra;
-	private int quantidadeVoucher;
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
@@ -59,10 +58,6 @@ public class Compra {
 		return valorCompra;
 	}
 
-	public int getQuantidadeVoucher() {
-		return quantidadeVoucher;
-	}
-
 	public Voucher getVoucher() {
 		return voucher;
 	}
@@ -77,10 +72,6 @@ public class Compra {
 
 	public void setValorCompra(double aValorCompra) {
 		valorCompra = aValorCompra;
-	}
-
-	public void setQuantidadeVoucher(int aQuantidadeVoucher) {
-		quantidadeVoucher = aQuantidadeVoucher;
 	}
 
 	public void setVoucher(Voucher aVoucher) {

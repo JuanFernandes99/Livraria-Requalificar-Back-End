@@ -39,6 +39,10 @@ public class ClienteLivroCompraService {
 
 		Cliente clienteAux = opcionalCliente.get();
 
+		Optional<Voucher> opcionalVoucher = voucherRepo.findById(aCompra.getVoucher().getId());
+
+		Voucher voucherAux = opcionalVoucher.get();
+
 		if (aCompra.getId() == null) {
 
 			List<Livro> compraLivro = new ArrayList<>();
@@ -86,8 +90,8 @@ public class ClienteLivroCompraService {
 
 			clienteRepo.save(clienteAux);
 			compraRepo.save(aCompra);
-
-			aCompra.getVoucher().setUtilizado(false);
+			voucherAux.setUtilizado(true);
+			voucherRepo.save(voucherAux);
 			return true;
 		} else {
 			return false;
