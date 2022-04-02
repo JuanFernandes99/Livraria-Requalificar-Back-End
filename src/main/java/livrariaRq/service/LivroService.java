@@ -74,7 +74,7 @@ public class LivroService {
 
 	public boolean verificarTamanhoIsbn(Livro aLivro) {
 
-		if ( aLivro.getIsbn().length() != 10 ) {
+		if (aLivro.getIsbn().length() != 10) {
 			return false;
 		}
 		return true;
@@ -89,6 +89,8 @@ public class LivroService {
 		}
 		return true;
 	}
+
+	// Função que verifica o ISBN pelas regras dele e verifica se é valido
 
 	/*
 	 * public boolean verificarValidacaoIsbn(Livro aLivro) { // 0201530821 ISBN

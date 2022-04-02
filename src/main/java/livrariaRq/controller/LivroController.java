@@ -30,6 +30,7 @@ public class LivroController {
 	@Autowired
 	public LivroController(LivroService aLivroService, LivroEditoraAutorService aLivroEditoraAutorService,
 			AutorEditoraService aAutorEditoraService) {
+
 		livroService = aLivroService;
 		livroEditoraAutorService = aLivroEditoraAutorService;
 		autorEditoraService = aAutorEditoraService;
@@ -64,6 +65,9 @@ public class LivroController {
 			srl.setMessage("O ISBN não pode ser inferior a 10 caracteres");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
+
+		// Função que verifica o ISBN pelas regras dele e verifica se é valido
+
 		/*
 		 * if (!livroService.verificarValidacaoIsbn(aWrapper.getLivro())) {
 		 * srl.setMessage("O ISBN não é valido"); return

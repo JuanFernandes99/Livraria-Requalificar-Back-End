@@ -32,7 +32,7 @@ public class Livro {
 	private String isbn; // String porque o valor pode começar em 0
 	private String sinopse;
 	private String edicao;
-	private String imagem; // Ainda não está feita a imagem
+	private String imagem;
 	private double preco;
 	private int quantidadeStock;
 	private int quantidadeComprada;
@@ -108,8 +108,16 @@ public class Livro {
 		return autores;
 	}
 
+	public List<Compra> getCompras() {
+		return compras;
+	}
+
 	public String getIsbn() {
 		return isbn;
+	}
+
+	public int getQuantidadeComprada() {
+		return quantidadeComprada;
 	}
 
 	public void setTitulo(String aTitulo) {
@@ -156,16 +164,8 @@ public class Livro {
 		isbn = aIsbn;
 	}
 
-	public List<Compra> getCompras() {
-		return compras;
-	}
-
 	public void setCompras(List<Compra> aCompras) {
 		compras = aCompras;
-	}
-
-	public int getQuantidadeComprada() {
-		return quantidadeComprada;
 	}
 
 	public void setQuantidadeComprada(int quantidadeComprada) {

@@ -11,17 +11,14 @@ import livrariaRq.model.Compra;
 import livrariaRq.model.Voucher;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.ClienteRepository;
-import livrariaRq.repository.VoucherRepository;
 
 @Service
-public class VoucherClienteService {
-	private final VoucherRepository voucherRepo;
+public class ClienteVoucherService {
 	private final ClienteRepository clienteRepo;
 
 	@Autowired
-	public VoucherClienteService(VoucherRepository aVoucherRepo, ClienteRepository aClienteRepo) {
+	public ClienteVoucherService(ClienteRepository aClienteRepo) {
 
-		voucherRepo = aVoucherRepo;
 		clienteRepo = aClienteRepo;
 	}
 

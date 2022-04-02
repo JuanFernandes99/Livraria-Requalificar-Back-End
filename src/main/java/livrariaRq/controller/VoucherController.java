@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import livrariaRq.dto.SimpleResponseVoucher;
 import livrariaRq.model.Voucher;
-import livrariaRq.service.VoucherClienteService;
+import livrariaRq.service.ClienteVoucherService;
 import livrariaRq.service.VoucherService;
 
 @CrossOrigin
@@ -22,12 +22,12 @@ import livrariaRq.service.VoucherService;
 public class VoucherController {
 
 	private final VoucherService voucherService;
-	private final VoucherClienteService voucherClienteService;
+	private final ClienteVoucherService clienteVoucherService;
 
 	@Autowired
-	public VoucherController(VoucherService aVoucherService, VoucherClienteService aVoucherClienteService) {
+	public VoucherController(VoucherService aVoucherService, ClienteVoucherService aVoucherClienteService) {
 		voucherService = aVoucherService;
-		voucherClienteService = aVoucherClienteService;
+		clienteVoucherService = aVoucherClienteService;
 	}
 
 	@CrossOrigin
@@ -55,7 +55,7 @@ public class VoucherController {
 	@GetMapping("/getVouchersCliente/{aId}")
 	public List<Voucher> getComprasCliente(@PathVariable String aId) {
 
-		return voucherClienteService.getVouchersByClienteId(aId);
+		return clienteVoucherService.getVouchersByClienteId(aId);
 	}
 
 }

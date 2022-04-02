@@ -34,7 +34,7 @@ public class Autor {
 	@JoinColumn(name = "Editora_id") // vai criar na tabela do autor , uma coluna com editora_id
 	private Editora editora; // ligação com a Editora
 
-	@ManyToMany(mappedBy = "autores") // aqui ligação com livros através da lista???
+	@ManyToMany(mappedBy = "autores")
 	@JsonIgnore
 	private List<Livro> livros = new ArrayList<>();
 

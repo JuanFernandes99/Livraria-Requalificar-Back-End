@@ -10,7 +10,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.ClienteRepository;
 
@@ -39,7 +38,7 @@ public class ClienteService {
 		clienteRepo.findAll().forEach(clientes::add);
 		return clientes;
 	}
-	
+
 	public Optional<Cliente> getClienteById(String aId) {
 		try {
 			Long id_long = parseLong(aId);
@@ -53,27 +52,14 @@ public class ClienteService {
 		}
 
 	}
-	
+
 	public boolean updateCliente(Cliente aCliente) {
-		if (aCliente.getId() == null || clienteRepo.findById(aCliente.getId()).isEmpty() || aCliente.getNome() != null
-				|| aCliente.getDataNascimento() != null) {
+		if (aCliente.getId() == null || clienteRepo.findById(aCliente.getId()).isEmpty()) {
 
 			return false;
 		}
 
 		Cliente clienteToUpdate = clienteRepo.findById(aCliente.getId()).get();
-
-		if (aCliente.getMorada() != null && !aCliente.getMorada().isBlank()) {
-			clienteToUpdate.setMorada(aCliente.getMorada());
-		}
-
-		if (aCliente.getEmail() != null && !aCliente.getEmail().isBlank()) {
-			clienteToUpdate.setEmail(aCliente.getEmail());
-		}
-		if (aCliente.getPalavraPasse() != null && !aCliente.getPalavraPasse().isBlank()) {
-			clienteToUpdate.setPalavraPasse(aCliente.getPalavraPasse());
-		}
-
 		clienteRepo.save(clienteToUpdate);
 
 		return true;

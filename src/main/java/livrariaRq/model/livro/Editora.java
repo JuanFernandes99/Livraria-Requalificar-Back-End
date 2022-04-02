@@ -67,6 +67,14 @@ public class Editora {
 		return autores;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public List<Livro> getLivros() {
+		return livros;
+	}
+
 	public void setNome(String aNome) {
 		nome = aNome;
 	}
@@ -79,16 +87,8 @@ public class Editora {
 		autores = aAutores;
 	}
 
-	public List<Livro> getLivros() {
-		return livros;
-	}
-
 	public void setLivros(List<Livro> aLivros) {
 		livros = aLivros;
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 }
