@@ -56,12 +56,12 @@ public class ClienteLivroCompraService {
 				}
 			}
 
-			if (clienteAux.getVouchers().isEmpty()) {
+			if (!clienteAux.getVouchers().isEmpty()) {
 
-				for (Voucher vouchers : clienteAux.getVouchers()) {
+				for (Voucher vouchers : aCompra.getCliente().getVouchers()) {
 
 					if (vouchers != (aCompra.getVoucher())) {
-						Optional<Voucher> opcionalVoucher = voucherRepo.findById(vouchers.getId());
+						Optional<Voucher> opcionalVoucher = voucherRepo.findById(aCompra.getVoucher().getId());
 
 						Voucher voucherAux = opcionalVoucher.get();
 
