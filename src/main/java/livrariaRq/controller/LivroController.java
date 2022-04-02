@@ -110,12 +110,12 @@ public class LivroController {
 			srl.setMessage("A editora nao existe");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-
+/*
 		if (!livroEditoraAutorService.autoresEditora(aLivro)) {
 			srl.setMessage("Os autores tem de pertencer  a mesma editora");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-
+*/
 		if (livroEditoraAutorService.addLivro(aLivro)) {
 			srl.setAsSuccess("Livro adicionado com sucesso");
 			srl.setLivros(livroService.getAllLivros());

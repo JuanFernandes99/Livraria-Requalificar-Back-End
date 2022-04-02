@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import livrariaRq.model.Compra;
+import livrariaRq.model.Voucher;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.ClienteRepository;
 import livrariaRq.repository.CompraRepository;
 import livrariaRq.repository.LivroRepository;
+import livrariaRq.repository.VoucherRepository;
 
 @Service
 public class ClienteLivroCompraService {
@@ -20,13 +22,15 @@ public class ClienteLivroCompraService {
 	private final CompraRepository compraRepo;
 	private final ClienteRepository clienteRepo;
 	private final LivroRepository livroRepo;
+	private final VoucherRepository voucherRepo;
 
 	@Autowired
 	public ClienteLivroCompraService(CompraRepository aCompraRepo, ClienteRepository aClienteRepo,
-			LivroRepository aLivroRepo) {
+			LivroRepository aLivroRepo, VoucherRepository aVoucherRepo) {
 		compraRepo = aCompraRepo;
 		clienteRepo = aClienteRepo;
 		livroRepo = aLivroRepo;
+		voucherRepo = aVoucherRepo;
 	}
 
 	public boolean adicionarCompra(Compra aCompra) {
@@ -52,21 +56,26 @@ public class ClienteLivroCompraService {
 				}
 			}
 
-<<<<<<< HEAD
-			if (!aCompra.getCliente().getVouchers().isEmpty()) {
-				Optional<Voucher> opcionalVoucher = voucherRepo.findById(aCompra.getVoucher().getId());
-				Voucher voucherAux = opcionalVoucher.get();
+			if (clienteAux.getVouchers().isEmpty()) {
 
-				voucherAux.setUtilizado(true);
-				System.out.print(voucherAux);
-				voucherRepo.save(voucherAux); // ?
+				for (Voucher vouchers : clienteAux.getVouchers()) {
+
+					if (vouchers != (aCompra.getVoucher())) {
+						Optional<Voucher> opcionalVoucher = voucherRepo.findById(vouchers.getId());
+
+						Voucher voucherAux = opcionalVoucher.get();
+
+						voucherAux.setUtilizado(true);
+						voucherRepo.save(vouchers);
+						clienteRepo.save(clienteAux);
+					}
+				}
 			}
 
 			if (aCompra.getValorCompra() > 50 && aCompra.getValorCompra() < 150) {
-
 				Voucher voucher = new Voucher();
-				voucher.setValorVoucher(0.05);
 
+				voucher.setValorVoucher(0.05);
 				voucher.setCliente(clienteAux);
 				// voucher.setCompra(aCompra);
 				voucherRepo.save(voucher);
@@ -74,7 +83,6 @@ public class ClienteLivroCompraService {
 				clienteAux.adicionarVoucher(voucher);
 
 			}
-
 			if (aCompra.getValorCompra() > 150) {
 				Voucher voucher = new Voucher();
 
@@ -89,18 +97,15 @@ public class ClienteLivroCompraService {
 
 			aCompra.setLivros(compraLivro);
 			aCompra.setCliente(clienteAux);
-
-=======
-			aCompra.setLivros(compraLivro);
->>>>>>> parent of 27b9c1b (good)
 			clienteAux.adicionarCompra(aCompra);
-			aCompra.setCliente(clienteAux);
 
 			clienteRepo.save(clienteAux);
 			compraRepo.save(aCompra);
 
 			return true;
-		} else {
+		} else
+
+		{
 			return false;
 		}
 
