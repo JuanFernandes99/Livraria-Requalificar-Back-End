@@ -39,10 +39,6 @@ public class ClienteLivroCompraService {
 
 		Cliente clienteAux = opcionalCliente.get();
 
-		Optional<Voucher> opcionalVoucher = voucherRepo.findById(aCompra.getVoucher().getId());
-
-		Voucher voucherAux = opcionalVoucher.get();
-
 		if (aCompra.getId() == null) {
 
 			List<Livro> compraLivro = new ArrayList<>();
@@ -60,10 +56,20 @@ public class ClienteLivroCompraService {
 				}
 			}
 
-			if (aCompra.getValorCompra() > 50 && aCompra.getValorCompra() < 150) {
-				Voucher voucher = new Voucher();
+			if (!aCompra.getCliente().getVouchers().isEmpty()) {
+				Optional<Voucher> opcionalVoucher = voucherRepo.findById(aCompra.getVoucher().getId());
+				Voucher voucherAux = opcionalVoucher.get();
 
+				voucherAux.setUtilizado(true);
+				System.out.print(voucherAux);
+				voucherRepo.save(voucherAux); // ?
+			}
+
+			if (aCompra.getValorCompra() > 50 && aCompra.getValorCompra() < 150) {
+
+				Voucher voucher = new Voucher();
 				voucher.setValorVoucher(0.05);
+
 				voucher.setCliente(clienteAux);
 				// voucher.setCompra(aCompra);
 				voucherRepo.save(voucher);
@@ -86,12 +92,12 @@ public class ClienteLivroCompraService {
 
 			aCompra.setLivros(compraLivro);
 			aCompra.setCliente(clienteAux);
+
 			clienteAux.adicionarCompra(aCompra);
 
 			clienteRepo.save(clienteAux);
 			compraRepo.save(aCompra);
-			voucherAux.setUtilizado(true);
-			voucherRepo.save(voucherAux);
+
 			return true;
 		} else {
 			return false;
