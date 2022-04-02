@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import livrariaRq.model.Compra;
+import livrariaRq.model.Voucher;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.ClienteRepository;
 import livrariaRq.repository.CompraRepository;
 import livrariaRq.repository.LivroRepository;
+import livrariaRq.repository.VoucherRepository;
 
 @Service
 public class ClienteLivroCompraService {
@@ -20,13 +22,15 @@ public class ClienteLivroCompraService {
 	private final CompraRepository compraRepo;
 	private final ClienteRepository clienteRepo;
 	private final LivroRepository livroRepo;
+	private final VoucherRepository voucherRepo;
 
 	@Autowired
 	public ClienteLivroCompraService(CompraRepository aCompraRepo, ClienteRepository aClienteRepo,
-			LivroRepository aLivroRepo) {
+			LivroRepository aLivroRepo, VoucherRepository aVoucherRepo) {
 		compraRepo = aCompraRepo;
 		clienteRepo = aClienteRepo;
 		livroRepo = aLivroRepo;
+		voucherRepo = aVoucherRepo;
 	}
 
 	public boolean adicionarCompra(Compra aCompra) {
@@ -52,13 +56,38 @@ public class ClienteLivroCompraService {
 				}
 			}
 
+			if (aCompra.getValorCompra() > 50 && aCompra.getValorCompra() < 150) {
+				Voucher voucher = new Voucher();
+
+				voucher.setValorVoucher(0.05);
+				voucher.setCliente(clienteAux);
+				// voucher.setCompra(aCompra);
+				voucherRepo.save(voucher);
+				aCompra.setVoucher(voucher);
+				clienteAux.adicionarVoucher(voucher);
+
+			}
+
+			if (aCompra.getValorCompra() > 150) {
+				Voucher voucher = new Voucher();
+
+				voucher.setValorVoucher(0.15);
+				voucher.setCliente(clienteAux);
+				// voucher.setCompra(aCompra);
+				voucherRepo.save(voucher);
+				aCompra.setVoucher(voucher);
+				clienteAux.adicionarVoucher(voucher);
+
+			}
+
 			aCompra.setLivros(compraLivro);
-			clienteAux.adicionarCompra(aCompra);
 			aCompra.setCliente(clienteAux);
+			clienteAux.adicionarCompra(aCompra);
 
 			clienteRepo.save(clienteAux);
 			compraRepo.save(aCompra);
 
+			aCompra.getVoucher().setUtilizado(false);
 			return true;
 		} else {
 			return false;
