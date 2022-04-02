@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import livrariaRq.model.Compra;
-import livrariaRq.model.Voucher;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.ClienteRepository;
 import livrariaRq.repository.CompraRepository;
 import livrariaRq.repository.LivroRepository;
-import livrariaRq.repository.VoucherRepository;
 
 @Service
 public class ClienteLivroCompraService {
@@ -22,15 +20,13 @@ public class ClienteLivroCompraService {
 	private final CompraRepository compraRepo;
 	private final ClienteRepository clienteRepo;
 	private final LivroRepository livroRepo;
-	private final VoucherRepository voucherRepo;
 
 	@Autowired
 	public ClienteLivroCompraService(CompraRepository aCompraRepo, ClienteRepository aClienteRepo,
-			LivroRepository aLivroRepo, VoucherRepository aVoucherRepo) {
+			LivroRepository aLivroRepo) {
 		compraRepo = aCompraRepo;
 		clienteRepo = aClienteRepo;
 		livroRepo = aLivroRepo;
-		voucherRepo = aVoucherRepo;
 	}
 
 	public boolean adicionarCompra(Compra aCompra) {
@@ -56,6 +52,7 @@ public class ClienteLivroCompraService {
 				}
 			}
 
+<<<<<<< HEAD
 			if (!aCompra.getCliente().getVouchers().isEmpty()) {
 				Optional<Voucher> opcionalVoucher = voucherRepo.findById(aCompra.getVoucher().getId());
 				Voucher voucherAux = opcionalVoucher.get();
@@ -93,7 +90,11 @@ public class ClienteLivroCompraService {
 			aCompra.setLivros(compraLivro);
 			aCompra.setCliente(clienteAux);
 
+=======
+			aCompra.setLivros(compraLivro);
+>>>>>>> parent of 27b9c1b (good)
 			clienteAux.adicionarCompra(aCompra);
+			aCompra.setCliente(clienteAux);
 
 			clienteRepo.save(clienteAux);
 			compraRepo.save(aCompra);

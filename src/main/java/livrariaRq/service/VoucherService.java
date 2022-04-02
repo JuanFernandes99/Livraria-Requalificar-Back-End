@@ -2,11 +2,14 @@ package livrariaRq.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import livrariaRq.model.Compra;
 import livrariaRq.model.Voucher;
+import livrariaRq.model.utilizador.Cliente;
 import livrariaRq.repository.ClienteRepository;
 import livrariaRq.repository.CompraRepository;
 import livrariaRq.repository.VoucherRepository;
@@ -27,8 +30,18 @@ public class VoucherService {
 
 	public boolean adicionarVoucher(Voucher aVoucher) {
 
+		Optional<Cliente> opcionalCliente = clienteRepo.findById(aVoucher.getCliente().getId());
+
+		Cliente clienteAux = opcionalCliente.get();
+
+		Optional<Compra> opcionalCompra = compraRepo.findById(aVoucher.getCompra().getId());
+
+		Compra compraAux = opcionalCompra.get();
+
 		if (aVoucher.getId() == null) {
 
+			clienteRepo.save(clienteAux);
+			compraRepo.save(compraAux);
 			voucherRepo.save(aVoucher);
 
 			return true;
