@@ -58,18 +58,14 @@ public class ClienteLivroCompraService {
 
 			if (!clienteAux.getVouchers().isEmpty()) {
 
-				for (Voucher vouchers : aCompra.getCliente().getVouchers()) {
+				Optional<Voucher> opcionalVoucher = voucherRepo.findById(aCompra.getVoucher().getId());
 
-					if (vouchers != (aCompra.getVoucher())) {
-						Optional<Voucher> opcionalVoucher = voucherRepo.findById(aCompra.getVoucher().getId());
+				Voucher voucherAux = opcionalVoucher.get();
 
-						Voucher voucherAux = opcionalVoucher.get();
+				voucherAux.setUtilizado(true);
+				voucherRepo.save(voucherAux);
+				clienteRepo.save(clienteAux);
 
-						voucherAux.setUtilizado(true);
-						voucherRepo.save(vouchers);
-						clienteRepo.save(clienteAux);
-					}
-				}
 			}
 
 			if (aCompra.getValorCompra() > 50 && aCompra.getValorCompra() < 150) {
@@ -98,7 +94,6 @@ public class ClienteLivroCompraService {
 			aCompra.setLivros(compraLivro);
 			aCompra.setCliente(clienteAux);
 			clienteAux.adicionarCompra(aCompra);
-
 			clienteRepo.save(clienteAux);
 			compraRepo.save(aCompra);
 
