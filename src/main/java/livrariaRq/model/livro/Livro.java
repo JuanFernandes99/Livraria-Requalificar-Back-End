@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -33,6 +34,9 @@ public class Livro {
 	private String sinopse;
 	private String edicao;
 	private String imagem;
+	@Lob
+	private byte[] image;
+
 	private double preco;
 	private int quantidadeStock;
 	private int quantidadeComprada;
@@ -62,6 +66,10 @@ public class Livro {
 
 	public void removerAutor(Autor aAutor) {
 		autores.remove(aAutor);
+	}
+
+	public byte[] getImage() {
+		return image;
 	}
 
 	public Long getId() {
@@ -126,6 +134,10 @@ public class Livro {
 
 	public void setPreco(double aPreco) {
 		preco = aPreco;
+	}
+
+	public void setImage(byte[] aImage) {
+		image = aImage;
 	}
 
 	public void setQuantidadeStock(int aQuantidadeStock) {

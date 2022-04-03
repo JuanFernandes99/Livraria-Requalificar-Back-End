@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import livrariaRq.dto.SimpleResponseLivro;
 import livrariaRq.model.livro.Livro;
@@ -38,9 +39,10 @@ public class LivroController {
 
 	@CrossOrigin
 	@PostMapping("/addLivro")
-	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro) {
+	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro, MultipartFile file) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
 
+		aLivro.setImage(file.getBytes());
 		if (aLivro.getTitulo() == null || aLivro.getTitulo().isBlank()) {
 			srl.setMessage("Tem de inserir um titulo");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);

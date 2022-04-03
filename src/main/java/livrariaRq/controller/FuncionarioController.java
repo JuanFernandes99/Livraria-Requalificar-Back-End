@@ -1,5 +1,6 @@
 package livrariaRq.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,8 @@ public class FuncionarioController {
 
 	@CrossOrigin
 	@PostMapping(path = "/autenticacaoFuncionario")
-	public ResponseEntity<SimpleResponse> autenticacaoFuncionario(@RequestBody Funcionario aFuncionario) {
+	public ResponseEntity<SimpleResponse> autenticacaoFuncionario(@RequestBody Funcionario aFuncionario)
+			throws NoSuchAlgorithmException {
 		SimpleResponseAutFuncionario srf = new SimpleResponseAutFuncionario();
 
 		if (!autenticacaoService.validacaoNickNameFuncionario(aFuncionario)) {

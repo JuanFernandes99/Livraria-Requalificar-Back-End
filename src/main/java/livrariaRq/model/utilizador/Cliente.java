@@ -1,5 +1,9 @@
 package livrariaRq.model.utilizador;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import livrariaRq.model.Compra;
@@ -32,7 +35,6 @@ public class Cliente {
 	private String palavraPasse;
 	private String email;
 
-	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
 
 	@OneToMany(mappedBy = "cliente")
@@ -41,6 +43,16 @@ public class Cliente {
 
 	@OneToMany(mappedBy = "cliente")
 	private List<Voucher> vouchers = new ArrayList<>();
+
+	public static String encriptPassword(String password) throws NoSuchAlgorithmException {
+		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+		try {
+			messageDigest.update(password.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return new BigInteger(1, messageDigest.digest()).toString(16);
+	}
 
 	public void adicionarCompra(Compra aCompra) {
 		compras.add(aCompra);

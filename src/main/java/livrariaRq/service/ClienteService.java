@@ -3,6 +3,7 @@ package livrariaRq.service;
 import static java.lang.Float.NaN;
 import static java.lang.Long.parseLong;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,12 @@ public class ClienteService {
 	public boolean addCliente(Cliente aCliente) {
 
 		if (aCliente.getId() == null) {
+			try {
+				aCliente.setPalavraPasse(Cliente.encriptPassword(aCliente.getPalavraPasse()));
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			clienteRepo.save(aCliente);
 			return true;
 		}
@@ -50,6 +57,20 @@ public class ClienteService {
 		} catch (Exception e) {
 			return null;
 		}
+
+	}
+
+	public boolean clienteExiste(Cliente aCliente) {
+		List<Cliente> clientes = new ArrayList<>();
+		clienteRepo.findAll().forEach(clientes::add);
+
+		for (Cliente cliente : clientes) {
+			if (cliente.getEmail().equals(aCliente.getEmail())) {
+				return false;
+			}
+		}
+
+		return false;
 
 	}
 

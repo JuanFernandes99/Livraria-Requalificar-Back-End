@@ -1,5 +1,6 @@
 package livrariaRq.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +20,12 @@ public class FuncionarioService {
 		funcionarioRepo = aFuncionarioRepo;
 	}
 
-	public boolean addFuncionario(Funcionario aFuncionario) {
+	public boolean addFuncionario(Funcionario aFuncionario) throws NoSuchAlgorithmException {
 
-		if (aFuncionario.getId() == null || aFuncionario.getNickName() == null
-				|| aFuncionario.getNickName().isBlank()) {
+		if (aFuncionario.getId() == null) {
 
 			aFuncionario.setNickName(aFuncionario.getNome() + String.valueOf(counter)); // Geração do nickname
+			aFuncionario.setPalavraPasse(Funcionario.encriptPassword(aFuncionario.getPalavraPasse()));
 			funcionarioRepo.save(aFuncionario);
 			counter++;
 			return true;

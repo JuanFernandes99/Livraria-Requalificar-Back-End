@@ -1,5 +1,7 @@
 package livrariaRq.controller;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +63,11 @@ public class ClienteController {
 
 			}
 
+			if (!clienteService.clienteExiste(aCliente)) {
+				src.setMessage("Este email já esta a ser utilizado! ");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+			}
+
 			if (clienteService.addCliente(aCliente)) {
 				src.setAsSuccess("Cliente adicionado com sucesso");
 				src.setClientes(clienteService.getAllClientes());
@@ -76,7 +83,8 @@ public class ClienteController {
 
 	@CrossOrigin
 	@PostMapping(path = "/autenticacaoCliente")
-	public ResponseEntity<SimpleResponse> autenticacaoCliente(@RequestBody Cliente aCliente) {
+	public ResponseEntity<SimpleResponse> autenticacaoCliente(@RequestBody Cliente aCliente)
+			throws NoSuchAlgorithmException {
 		SimpleResponseAutCliente src = new SimpleResponseAutCliente();
 
 		if (!autenticacaoService.validacaoEmailCliente(aCliente)) {

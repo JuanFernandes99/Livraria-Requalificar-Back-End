@@ -1,5 +1,9 @@
 package livrariaRq.model.utilizador;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -8,8 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "Funcionario")
@@ -24,8 +26,17 @@ public class Funcionario {
 	private String palavraPasse;
 	private String nickName;
 
-	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataNascimento;
+
+	public static String encriptPassword(String password) throws NoSuchAlgorithmException {
+		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+		try {
+			messageDigest.update(password.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return new BigInteger(1, messageDigest.digest()).toString(16);
+	}
 
 	public String getNome() {
 		return nome;
