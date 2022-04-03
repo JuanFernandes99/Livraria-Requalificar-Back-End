@@ -68,29 +68,31 @@ public class ClienteLivroCompraService {
 
 			}
 
+			Voucher voucher = new Voucher();
 			if (aCompra.getValorCompra() > 50 && aCompra.getValorCompra() < 150) {
-				Voucher voucher = new Voucher();
 
 				voucher.setValorVoucher(0.05);
 				voucher.setCliente(clienteAux);
 				voucherRepo.save(voucher);
-				aCompra.setValorCompra(aCompra.getValorCompra() - voucher.getValorVoucher());
 				aCompra.setVoucher(voucher);
 				clienteAux.adicionarVoucher(voucher);
 
 			}
 			if (aCompra.getValorCompra() > 150) {
-				Voucher voucher = new Voucher();
 
 				voucher.setValorVoucher(0.15);
 				voucher.setCliente(clienteAux);
 				voucherRepo.save(voucher);
-				aCompra.setValorCompra(aCompra.getValorCompra() - voucher.getValorVoucher());
+
 				aCompra.setVoucher(voucher);
 				clienteAux.adicionarVoucher(voucher);
 
 			}
 
+			if (aCompra.getVoucher() != null) {
+				aCompra.setValorCompra(
+						aCompra.getValorCompra() - (aCompra.getValorCompra() * voucher.getValorVoucher()));
+			}
 			aCompra.setLivros(compraLivro);
 			aCompra.setCliente(clienteAux);
 			clienteAux.adicionarCompra(aCompra);
