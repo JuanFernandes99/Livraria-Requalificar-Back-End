@@ -1,5 +1,6 @@
 package livrariaRq.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,12 @@ public class LivroController {
 	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro, MultipartFile file) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
 
-		aLivro.setImage(file.getBytes());
+		try {
+			aLivro.setImage(file.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (aLivro.getTitulo() == null || aLivro.getTitulo().isBlank()) {
 			srl.setMessage("Tem de inserir um titulo");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
