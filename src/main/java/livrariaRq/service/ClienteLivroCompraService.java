@@ -62,9 +62,21 @@ public class ClienteLivroCompraService {
 
 				Voucher voucherAux = opcionalVoucher.get();
 
+				aCompra.setValorCompra(
+						aCompra.getValorCompra() - (aCompra.getValorCompra() * voucherAux.getValorVoucher()));
+
 				voucherAux.setUtilizado(true);
 				voucherRepo.save(voucherAux);
 				clienteRepo.save(clienteAux);
+				compraRepo.save(aCompra);
+
+			} else {
+				aCompra.setValorCompra(aCompra.getValorCompra());
+				clienteAux.adicionarCompra(aCompra);
+				aCompra.setVoucher(null);
+
+				clienteRepo.save(clienteAux);
+				compraRepo.save(aCompra);
 
 			}
 
@@ -74,7 +86,6 @@ public class ClienteLivroCompraService {
 				voucher.setValorVoucher(0.05);
 				voucher.setCliente(clienteAux);
 				voucherRepo.save(voucher);
-				aCompra.setVoucher(voucher);
 				clienteAux.adicionarVoucher(voucher);
 
 			}
@@ -83,28 +94,18 @@ public class ClienteLivroCompraService {
 				voucher.setValorVoucher(0.15);
 				voucher.setCliente(clienteAux);
 				voucherRepo.save(voucher);
-
-				aCompra.setVoucher(voucher);
 				clienteAux.adicionarVoucher(voucher);
 
 			}
 
-			if (aCompra.getVoucher() != null) {
-				aCompra.setValorCompra(
-						aCompra.getValorCompra() - (aCompra.getValorCompra() * voucher.getValorVoucher()));
-			}
 			aCompra.setLivros(compraLivro);
 			aCompra.setCliente(clienteAux);
 			clienteAux.adicionarCompra(aCompra);
 			clienteRepo.save(clienteAux);
-			compraRepo.save(aCompra);
 
 			return true;
 		} else
-
-		{
 			return false;
-		}
 
 	}
 
