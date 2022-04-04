@@ -130,8 +130,8 @@ public class ClienteController {
 
 	@CrossOrigin
 	@PutMapping("/updateCliente")
-	public ResponseEntity<SimpleResponseCliente> updateCliente(@RequestBody Cliente aCliente) {
-		SimpleResponseCliente src = new SimpleResponseCliente();
+	public ResponseEntity<SimpleResponseAutCliente> updateCliente(@RequestBody Cliente aCliente) {
+		SimpleResponseAutCliente src = new SimpleResponseAutCliente();
 
 		if (aCliente.getMorada() == null || aCliente.getMorada().isBlank()) {
 			src.setMessage("Tem de inserir uma morada");
@@ -148,7 +148,7 @@ public class ClienteController {
 		}
 		if (clienteService.updateCliente(aCliente)) {
 			src.setAsSuccess("Cliente atualizado com sucesso");
-			src.setClientes(clienteService.getAllClientes());
+			src.setCliente(aCliente);
 			return ResponseEntity.status(HttpStatus.OK).body(src);
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);

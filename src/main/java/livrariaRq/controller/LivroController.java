@@ -1,6 +1,5 @@
 package livrariaRq.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import livrariaRq.dto.SimpleResponseLivro;
+import livrariaRq.dto.SimpleResponseLivros;
 import livrariaRq.model.livro.Livro;
 import livrariaRq.service.AutorEditoraService;
 import livrariaRq.service.LivroEditoraAutorService;
@@ -40,15 +39,9 @@ public class LivroController {
 
 	@CrossOrigin
 	@PostMapping("/addLivro")
-	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro, MultipartFile file) {
-		SimpleResponseLivro srl = new SimpleResponseLivro();
+	public ResponseEntity<SimpleResponseLivros> addLivro(@RequestBody Livro aLivro) {
+		SimpleResponseLivros srl = new SimpleResponseLivros();
 
-		try {
-			aLivro.setImage(file.getBytes());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		if (aLivro.getTitulo() == null || aLivro.getTitulo().isBlank()) {
 			srl.setMessage("Tem de inserir um titulo");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
@@ -139,8 +132,8 @@ public class LivroController {
 
 	@CrossOrigin
 	@GetMapping("/getAllLivros")
-	public ResponseEntity<SimpleResponseLivro> getAllLivros() {
-		SimpleResponseLivro srl = new SimpleResponseLivro();
+	public ResponseEntity<SimpleResponseLivros> getAllLivros() {
+		SimpleResponseLivros srl = new SimpleResponseLivros();
 
 		if (livroService.getAllLivros().isEmpty()) {
 			srl.setMessage("não tem livros registados na livraria");
@@ -241,7 +234,7 @@ public class LivroController {
 
 		if (livroService.updateLivro(aLivro)) {
 			srl.setAsSuccess("Livro atualizado com sucesso");
-			srl.setLivros(livroService.getAllLivros());
+			srl.setLivro(aLivro);
 			return ResponseEntity.status(HttpStatus.OK).body(srl);
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);

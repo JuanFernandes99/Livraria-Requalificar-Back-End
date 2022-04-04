@@ -11,12 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import livrariaRq.model.Compra;
@@ -34,15 +32,11 @@ public class Livro {
 	private String sinopse;
 	private String edicao;
 	private String imagem;
-	@Lob
-	private byte[] image;
-
 	private double preco;
 	private int quantidadeStock;
 	private int quantidadeComprada;
 	private int numeroPaginas;
 
-	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date dataLancamento;
 
 //	ligação entre editora e livro
@@ -66,10 +60,6 @@ public class Livro {
 
 	public void removerAutor(Autor aAutor) {
 		autores.remove(aAutor);
-	}
-
-	public byte[] getImage() {
-		return image;
 	}
 
 	public Long getId() {
@@ -134,10 +124,6 @@ public class Livro {
 
 	public void setPreco(double aPreco) {
 		preco = aPreco;
-	}
-
-	public void setImage(byte[] aImage) {
-		image = aImage;
 	}
 
 	public void setQuantidadeStock(int aQuantidadeStock) {
