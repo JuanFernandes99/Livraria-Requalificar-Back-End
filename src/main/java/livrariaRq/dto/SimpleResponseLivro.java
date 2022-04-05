@@ -1,16 +1,23 @@
 package livrariaRq.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import livrariaRq.model.livro.Livro;
 
 public class SimpleResponseLivro extends SimpleResponse {
-	private Livro livro;
+	List<Livro> livros;
 
-	public Livro getLivro() {
-		return livro;
+	public SimpleResponseLivro() {
+		livros = new ArrayList<Livro>();
 	}
 
-	public void setLivro(Livro aLivro) {
-		livro = aLivro;
+	public List<Livro> getLivros() {
+		return livros;
+	}
+
+	public void setLivros(List<Livro> aLivros) {
+		livros = aLivros;
 	}
 
 }

@@ -75,23 +75,13 @@ public class ClienteService {
 	}
 
 	public boolean updateCliente(Cliente aCliente) {
-
 		if (aCliente.getId() == null || clienteRepo.findById(aCliente.getId()).isEmpty()) {
 
 			return false;
 		}
 
 		Cliente clienteToUpdate = clienteRepo.findById(aCliente.getId()).get();
-		Cliente cliente = clienteToUpdate;
-		try {
-			aCliente.setPalavraPasse(Cliente.encriptPassword(aCliente.getPalavraPasse()));
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		aCliente.setNome(cliente.getNome());
-		aCliente.setDataNascimento(cliente.getDataNascimento());
-		clienteRepo.save(aCliente);
+		clienteRepo.save(clienteToUpdate);
 
 		return true;
 	}
