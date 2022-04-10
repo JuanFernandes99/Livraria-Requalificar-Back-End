@@ -7,6 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,18 @@ public class ClienteService {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean isValidEmailAddress(String aEmail) {
+		String regx = "^(.+)@(.+)$";
+		Pattern pattern = Pattern.compile(regx);
+		Matcher matcher = pattern.matcher(aEmail);
+		if (matcher.matches()) {
+			return true;
+
+		}
+		return false;
+
 	}
 
 	public List<Cliente> getAllClientes() {

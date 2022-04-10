@@ -62,6 +62,10 @@ public class ClienteController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 
 			}
+			if (!clienteService.isValidEmailAddress(aCliente.getEmail())) {
+				src.setMessage("E-mail inválido! ");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+			}
 
 			if (!clienteService.clienteExiste(aCliente)) {
 				src.setMessage("Este email já esta a ser utilizado! ");
@@ -139,6 +143,10 @@ public class ClienteController {
 		}
 		if (aCliente.getEmail() == null || aCliente.getEmail().isBlank()) {
 			src.setMessage("Tem de inserir um email");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
+		}
+		if (!clienteService.isValidEmailAddress(aCliente.getEmail())) {
+			src.setMessage("E-mail inválido! ");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(src);
 		}
 

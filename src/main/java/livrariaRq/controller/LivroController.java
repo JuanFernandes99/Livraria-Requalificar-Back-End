@@ -38,13 +38,9 @@ public class LivroController {
 
 	@CrossOrigin
 	@PostMapping(value = "/addLivro")
-
 	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro) {
 		SimpleResponseLivro srl = new SimpleResponseLivro();
-		/*
-		 * try { aLivro.setImage(file.getBytes()); } catch (IOException e) { // TODO
-		 * Auto-generated catch block e.printStackTrace(); }
-		 */
+
 		if (aLivro.getTitulo() == null || aLivro.getTitulo().isBlank()) {
 			srl.setMessage("Tem de inserir um titulo");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
@@ -111,6 +107,11 @@ public class LivroController {
 		}
 		if (aLivro.getEditora() == null) {
 			srl.setMessage("Tem de inserir uma edição do livro");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
+		}
+
+		if (aLivro.getImagem() == null || aLivro.getImagem().isBlank()) {
+			srl.setMessage("Tem de inserir uma imagem");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 

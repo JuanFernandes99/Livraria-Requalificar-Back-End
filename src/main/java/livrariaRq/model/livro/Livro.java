@@ -33,6 +33,9 @@ public class Livro {
 	private Long id;
 	private String titulo;
 	private String isbn; // String porque o valor pode começar em 0
+	@Lob
+	@Type(type = "org.hibernate.type.TextType")
+	@Column
 	private String sinopse;
 	private String edicao;
 	@Lob
