@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,9 +35,10 @@ public class Livro {
 	private String isbn; // String porque o valor pode começar em 0
 	private String sinopse;
 	private String edicao;
-	private String imagem;
 	@Lob
-	private byte[] image;
+	@Type(type = "org.hibernate.type.TextType")
+	@Column
+	private String imagem;
 
 	private double preco;
 	private int quantidadeStock;
@@ -66,10 +69,6 @@ public class Livro {
 
 	public void removerAutor(Autor aAutor) {
 		autores.remove(aAutor);
-	}
-
-	public byte[] getImage() {
-		return image;
 	}
 
 	public Long getId() {
@@ -134,10 +133,6 @@ public class Livro {
 
 	public void setPreco(double aPreco) {
 		preco = aPreco;
-	}
-
-	public void setImage(byte[] aImage) {
-		image = aImage;
 	}
 
 	public void setQuantidadeStock(int aQuantidadeStock) {

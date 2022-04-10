@@ -1,6 +1,5 @@
 package livrariaRq.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import livrariaRq.dto.SimpleResponseLivro;
 import livrariaRq.model.livro.Livro;
@@ -39,16 +37,14 @@ public class LivroController {
 	}
 
 	@CrossOrigin
-	@PostMapping("/addLivro")
-	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro, MultipartFile file) {
-		SimpleResponseLivro srl = new SimpleResponseLivro();
+	@PostMapping(value = "/addLivro")
 
-		try {
-			aLivro.setImage(file.getBytes());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public ResponseEntity<SimpleResponseLivro> addLivro(@RequestBody Livro aLivro) {
+		SimpleResponseLivro srl = new SimpleResponseLivro();
+		/*
+		 * try { aLivro.setImage(file.getBytes()); } catch (IOException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
 		if (aLivro.getTitulo() == null || aLivro.getTitulo().isBlank()) {
 			srl.setMessage("Tem de inserir um titulo");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
@@ -167,18 +163,18 @@ public class LivroController {
 			srl.setMessage("Tem de inserir um titulo");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
-
-		if (aLivro.getDataLancamento() == null) {
-			srl.setMessage("Tem de inserir uma data");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
-		}
+		/*
+		 * if (aLivro.getDataLancamento() == null) {
+		 * srl.setMessage("Tem de inserir uma data"); return
+		 * ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl); }
+		 */
 
 		if (aLivro.getIsbn() == null) {
 			srl.setMessage("Tem de inserir um ISBN");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}
 
-		if (!livroService.verificarIsbnExistente(aLivro)) {
+		if (!livroService.verificarIsbnExistenteStock(aLivro)) {
 			srl.setMessage("O ISBN digitado já existe na base de dados");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(srl);
 		}

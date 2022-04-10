@@ -80,6 +80,25 @@ public class LivroService {
 		return true;
 	}
 
+	public boolean verificarIsbnExistenteStock(Livro aLivro) {
+
+		Optional<Livro> livro = livroRepo.findById(aLivro.getId());
+
+		Livro livroAux = livro.get();
+		for (Livro livros : getAllLivros()) {
+			if (aLivro.getIsbn().equals(livros.getIsbn())) {
+				// feito para fazer o aumentar stock
+				if (aLivro.getIsbn().equals(livroAux.getIsbn())) {
+					return true;
+				} else {
+					return false;
+				}
+
+			}
+		}
+		return true;
+	}
+
 	public boolean verificarIsbnExistente(Livro aLivro) {
 
 		for (Livro livros : getAllLivros()) {
@@ -114,15 +133,19 @@ public class LivroService {
 			livroToUpdate.setTitulo(aLivro.getTitulo());
 		}
 
-		if (aLivro.getPreco() <= 0) {
+		if (aLivro.getIsbn() != null || !aLivro.getIsbn().isBlank()) {
+			livroToUpdate.setIsbn(aLivro.getIsbn());
+		}
+
+		if (aLivro.getPreco() >= 0) {
 			livroToUpdate.setPreco(aLivro.getPreco());
 		}
 
-		if (aLivro.getQuantidadeStock() <= 0) {
+		if (aLivro.getQuantidadeStock() >= 0) {
 			livroToUpdate.setQuantidadeStock(aLivro.getQuantidadeStock());
 		}
 
-		if (aLivro.getNumeroPaginas() <= 0) {
+		if (aLivro.getNumeroPaginas() >= 0) {
 			livroToUpdate.setNumeroPaginas(aLivro.getNumeroPaginas());
 		}
 
@@ -133,11 +156,10 @@ public class LivroService {
 		if (aLivro.getEdicao() != null || !aLivro.getEdicao().isBlank()) {
 			livroToUpdate.setEdicao(aLivro.getEdicao());
 		}
-
-		if (aLivro.getDataLancamento() != null) {
-			livroToUpdate.setDataLancamento(aLivro.getDataLancamento());
-		}
-
+		/*
+		 * if (aLivro.getDataLancamento() != null) {
+		 * livroToUpdate.setDataLancamento(aLivro.getDataLancamento()); }
+		 */
 		livroRepo.save(livroToUpdate);
 		return true;
 	}

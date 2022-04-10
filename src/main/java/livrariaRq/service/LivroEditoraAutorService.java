@@ -1,6 +1,7 @@
 package livrariaRq.service;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,10 @@ public class LivroEditoraAutorService {
 		autorRepo = aAutorRepo;
 	}
 
-	public boolean addLivro(Livro aLivro) {
+	public boolean addLivro(Livro aLivro /* , MultipartFile file */) {
+		// String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+		aLivro.setImagem(Base64.getEncoder().encodeToString(aLivro.getImagem().getBytes()));
 
 		Optional<Editora> editora = editoraRepo.findById(aLivro.getEditora().getId());
 
