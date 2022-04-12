@@ -34,7 +34,7 @@ public class Cliente {
 	private String morada;
 	private String palavraPasse;
 	private String email;
-
+	private String type = "cliente";
 	private Date dataNascimento;
 
 	@OneToMany(mappedBy = "cliente")
@@ -120,6 +120,14 @@ public class Cliente {
 
 	public void setVouchers(List<Voucher> aVouchers) {
 		vouchers = aVouchers;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

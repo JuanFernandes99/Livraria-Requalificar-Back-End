@@ -25,7 +25,7 @@ public class Funcionario {
 	private String nome;
 	private String palavraPasse;
 	private String nickName;
-
+	private String type = "funcionario";
 	private Date dataNascimento;
 
 	public static String encriptPassword(String password) throws NoSuchAlgorithmException {
@@ -72,6 +72,14 @@ public class Funcionario {
 
 	public void setNickName(String aNickName) {
 		nickName = aNickName;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

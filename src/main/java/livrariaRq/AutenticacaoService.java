@@ -56,6 +56,8 @@ public class AutenticacaoService {
 	}
 
 	public boolean autenticacaoCliente(Cliente aCliente) throws NoSuchAlgorithmException {
+
+		clienteRepo.save(aCliente);
 		List<Cliente> listaCliente = new ArrayList<>();
 
 		clienteRepo.findAll().forEach(listaCliente::add);
@@ -64,6 +66,7 @@ public class AutenticacaoService {
 			if (cliente.getPalavraPasse().equals(Cliente.encriptPassword(aCliente.getPalavraPasse()))
 					&& cliente.getEmail().equals(aCliente.getEmail())) {
 
+				clienteRepo.save(cliente);
 				return true;
 			}
 		}
