@@ -48,7 +48,7 @@ public class Livro {
 	private int quantidadeComprada;
 	private int numeroPaginas;
 
-	@JsonFormat(pattern = "dd-MM-yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date dataLancamento;
 
 //	ligação entre editora e livro

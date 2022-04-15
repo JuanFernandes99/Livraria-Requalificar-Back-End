@@ -43,6 +43,7 @@ public class LivroEditoraAutorService {
 		}
 
 		if (aLivro.getId() == null) {
+
 			aLivro.setAutores(autoresLivro);
 			aLivro.setEditora(editoraAux);
 			livroRepo.save(aLivro);
